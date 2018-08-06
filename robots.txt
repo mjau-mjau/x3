@@ -1,0 +1,7 @@
+# www.robotstxt.org
+
+User-agent: *
+Allow: /
+Disallow: /app/
+Disallow: /panel/
+Disallow: /content*/$
