@@ -13,6 +13,7 @@ class X3 {
 		// only add X3 IPTC if "use iptc"
   	if(X3Config::$config['back']['use_iptc']) $data .= self::iptc_data($iptc, '217', 'link', true)
 					. self::iptc_data($iptc, '218', 'link-target', false)
+					. self::iptc_data($iptc, '220', 'params', true)
 					. self::iptc_data($iptc, '219', 'hidden', false)
 					. self::iptc_data($iptc, '216', 'custom', false)
 					. self::iptc_data($iptc, '216', 'index', false);
@@ -137,12 +138,13 @@ class X3 {
 
   // get dirs
   public static function get_dirs($dir){
+  	if(basename($dir)[0] === '_') return;
   	$arr = array();
   	$dirs = glob($dir . '/*', GLOB_ONLYDIR|GLOB_NOSORT);
   	if(empty($dirs)) return $arr;
 		foreach($dirs as $dir){
 			$content_path = self::get_content_path($dir);
-			if($content_path === 'custom' || !$content_path/* || strpos(basename($dir), '_') === 0*/) continue;
+			if($content_path === 'custom' || !$content_path) continue;
 			$arr[$content_path]['url'] = preg_replace('/\d+?\./', '', $content_path);
 			foreach (self::get_dirs($dir) as $key => $value) {
 				$arr[$key] = $value;
@@ -219,21 +221,15 @@ class X3 {
 			// menu html
 	    $menu .= '<ul>';
 			foreach($dir_object as $dir => $val){
-				$menu_id = '_' . trim(preg_replace('/\_+/', '_', str_replace(str_split(' .,()[]/"“’\\\'!?#`~@-$%^&*+=:;<>{}'), '_', $val['content_path'])), '_');
+				$content_path = $val['content_path'];
+				$menu_id = '_' . trim(preg_replace('/\_+/', '_', str_replace(str_split(' .,()[]/"“’\\\'!?#`~@-$%^&*+=:;<>{}'), '_', $content_path)), '_');
 				$dir_escaped = htmlspecialchars($dir);
 				$name = basename($dir_escaped);
-				$menu .= '<li data-sort="' . $val['sort'] . '" data-custom="' . $val['custom'] . '" data-content-path="' . htmlspecialchars($val['content_path']) . '" data-dir="' . $dir_escaped . '" data-name="' . $name . '" id="' . $menu_id . '"><a href="#" data-href="' . $dir_escaped . '" rel="nofollow">' . $name . '</a>' . self::make_dir_tree($dir . '/*') . '</li>';
+				$submenu = $name[0] === '_' ? '' : self::make_dir_tree($dir . '/*');
+				$menu .= '<li data-sort="' . $val['sort'] . '" data-custom="' . $val['custom'] . '" data-content-path="' . htmlspecialchars($content_path) . '" data-dir="' . $dir_escaped . '" data-name="' . $name . '" id="' . $menu_id . '"><a href="#" data-href="' . $dir_escaped . '" rel="nofollow">' . $name . '</a>' . $submenu . '</li>';
 				self::add_data($dir);
 			}
 			$menu .= '</ul>';
-
-			/*$menu .= '<ul>';
-			$zindex = 0;
-			foreach($dirs as $dir){
-				$menu .= '<li data-sort="' . $zindex++ . '" data-content-path="' . self::get_content_path($dir) . '"><a href="#" data-href="' . $dir . '" rel="nofollow">' . basename($dir) . '</a>' . self::make_dir_tree($dir . '/*', $folders) . '</li>';
-				self::add_data($dir);
-			}
-			$menu .= '</ul>';*/
 		}
 		return $menu;
 	}

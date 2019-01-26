@@ -21,6 +21,7 @@
 {# Set crop ratio if defined #}
 {% if folders.crop.enabled %}
 	{% set crop_ratio = folders.crop.crop[1] / folders.crop.crop[0] * 100 %}
+	{% set data_crop = ' data-crop="' ~ folders.crop.crop[0] ~ ':' ~ folders.crop.crop[1] ~ '"' %}
 {% endif %}
 
 {# Set block-grid #}
@@ -189,7 +190,6 @@
     {% if preview_img == './app/public/images/default.png' %}
     	{% set imgInfo = [1280, 1280] %}
     	{% set image_ratio = 100 %}
-    	{% set default_preview_class = ' default-preview-image' %}
     {% else %}
 			{% set imgInfo = getimginfo(preview_img) %}
     	{% set image_ratio = crop_ratio|default(imgInfo[1]|default(3)/imgInfo[0]|default(2) * 100) %}
@@ -222,9 +222,9 @@
     {% endif %}
     {% set figure %}
     <figure>
-			<div class="img-link{{ default_preview_class }}">
+			<div class="img-link">
 				<div class="image-container" style="padding-bottom:{{ image_ratio }}%;">
-        	<img data-src="{{ preview_img_url|e }}" alt="{{ title|striptags|e('html') }}">
+        	<img data-src="{{ preview_img_url|e }}" data-width="{{ imgInfo[0] }}"{{ data_crop }} alt="{{ title|striptags|e('html') }}">
         </div>
 
         {% if folders.caption.enabled %}
@@ -245,7 +245,7 @@
 		{% endset %}
 
 		{# default+split layout #}
-		<section data-options="w:{{ imgInfo[0] }};h:{{ imgInfo[1] }}" id="folder-{{ child_id }}" aria-labelledby="title-{{ child_id }}" class="item{% if folders_split_view %} row{% endif %}">
+		<section data-width="{{ imgInfo[0] }}" data-height="{{ imgInfo[1] }}" id="folder-{{ child_id }}" aria-labelledby="title-{{ child_id }}" class="item{% if folders_split_view %} row{% endif %}">
 		{{ href_tag }}
 
 		{# SPLIT #}

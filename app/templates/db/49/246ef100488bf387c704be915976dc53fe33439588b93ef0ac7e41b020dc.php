@@ -276,9 +276,9 @@ class __TwigTemplate_db49246ef100488bf387c704be915976dc53fe33439588b93ef0ac7e41b
         echo (isset($context["data_geo"]) ? $context["data_geo"] : null);
         echo " id=\"image-";
         echo call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('attribute_friendly')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "slug"))), "1"));
-        echo "\" data-options=\"w:";
+        echo "\" data-width=\"";
         echo $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "width");
-        echo ";h:";
+        echo "\" data-height=\"";
         echo $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "height");
         echo "\" href=\"";
         echo (isset($context["image_page"]) ? $context["image_page"] : null);

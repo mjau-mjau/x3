@@ -135,8 +135,8 @@ Class PageData {
     		$page->protected = self::get_protected($page->url_path);
     	}
 
-    	# page.stacey_version
-	    $page->stacey_version = Stacey::$version;
+    	# page.x3_version
+	    $page->x3_version = X3::$version;
 
 	    # page.site_updated
 	    //if(!self::$site_updated) self::$site_updated = Helpers::site_last_modified();

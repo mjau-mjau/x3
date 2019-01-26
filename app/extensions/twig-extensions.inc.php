@@ -2,10 +2,10 @@
 require_once Config::$app_folder.'/parsers/Twig/ExtensionInterface.php';
 require_once Config::$app_folder.'/parsers/Twig/Extension.php';
 
-class Stacey_Twig_Extension extends Twig_Extension {
+class X3_Twig_Extension extends Twig_Extension {
 
   public function getName() {
-    return 'Stacey';
+    return 'X3';
   }
 
   public function getFilters() {

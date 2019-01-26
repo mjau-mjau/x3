@@ -23,8 +23,8 @@ if(version_compare(PHP_VERSION, '5.3.0', '<')){
 // vars
 $server_protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443 || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? "https://" : "http://";
 define('ABSOLUTE', (string)trim($server_protocol.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']),'/'));
-$x3_version = class_exists('Stacey') ? Stacey::$version : null;
-$x3_version_date = class_exists('Stacey') ? Stacey::$version_date : null;
+$x3_version = class_exists('X3') ? X3::$version : null;
+$x3_version_date = class_exists('X3') ? X3::$version_date : null;
 $x3_buster = $x3_version ? '?v=' . $x3_version : '';
 $posted = $_SERVER["REQUEST_METHOD"] == "POST" 
 	&& isset($_SERVER['HTTP_REFERER']) 
@@ -280,7 +280,7 @@ if($posted){
 	}
 
 
-	### CACHE INITIALIZATION ###
+	### INITIALIZATION ###			
 
 	# Check that cache exists
 	if(!mkdir_if_missing(Config::$cache_folder)){
@@ -316,57 +316,6 @@ if($posted){
 			}
 		}
 	}
-
-	# LEGACY (upgrade to X3 0.23) :: move image cache
-	/*if(file_exists('app/_cache/images/request') && 
-		 file_exists('app/_cache/images/rendered') && 
-		 file_exists('_cache/images/request') && 
-		 file_exists('_cache/images/rendered') && 
-		 is_writable('_cache/images/request') && 
-		 is_writable('_cache/images/rendered')){
-
-		// get old symlinks
-		$symlinks = glob('app/_cache/images/request/*', GLOB_NOSORT);
-		$symlinks_total = 0;
-		$symlinks_success = 0;
-		if($symlinks && count($symlinks)) {
-			foreach($symlinks as $symlink){
-				if(is_link($symlink)){
-					$symlinks_total ++;
-					$symlink_value = @readlink($symlink);
-
-					// is convertable
-					if($symlink_value && 
-						strpos($symlink_value, 'app/_cache/') !== false && 
-						($symlink_value[0] === '/' || $symlink_value[0] === '\\') && 
-						file_exists($symlink_value)){
-
-						// new image path
-						$new_image_path = '_cache/images/rendered/' . basename($symlink_value);
-
-						// new symlink value
-						$new_symlink_arr = explode('app/_cache/', $symlink_value);
-						$new_symlink_value = '../../../_cache/' . $new_symlink_arr[1];
-
-						// new symlink path
-						$new_symlink_path = '_cache/images/request/' . basename($symlink);
-
-						if(!file_exists($new_image_path) && 
-							!file_exists($new_symlink_path) && 
-							@copy($symlink_value, $new_image_path) && 
-							@symlink($new_symlink_value, $new_symlink_path)){
-								$symlinks_success ++;
-						}
-					}
-				}
-			}
-
-			// output
-			if($symlinks_total > 0 && $symlinks_success > 0){
-				$success .= addItem("success", 'Successfully migrated ' . $symlinks_success . ' image _cache requests', 'Successfully moved ' . $symlinks_success . ' resized images to <strong>/_cache/images/render</strong>, and converted ' . $symlinks_success . ' symlinks into <strong>/_cache/images/render</strong>.');
-			}
-		}
-	}*/
 
 	// LEGACY X3.23.0 :: Remove unused app/_cache
 	if(file_exists('app/_cache')){
@@ -519,7 +468,11 @@ if($posted){
 		$content_writeable = is_writeable($file_path . '/content');
 		if(!$content_writeable){
 			$warning .= addItem('warning', 'Content folder is not writeable', 'Your main <code>/content</code> folder is not writeable. You need to set write permissions on this folder if you want to use the X3 Panel to manage your website.');
-		}
+
+		// Add content/.htaccess
+		} /*else if($server_is_like_apache && !isset($_SERVER["X3_SERVER_CONFIG"]) && !file_exists('./content/.htaccess') && file_exists('./app/resources/deny.php.htaccess')){
+			if(@copy('./app/resources/deny.php.htaccess', './content/.htaccess')) $success .= addItem('success', '/content/.htaccess created', 'We have created a .htaccess file inside your content directory that blocks PHP execution. There should not exist PHP files in your content directory, but this is just an additional layer of security.');
+		}*/
 
 		// folders.json
 		if(!file_exists('./content/folders.json')){
@@ -612,7 +565,9 @@ if($posted){
 
 	# Recommend upgrading PHP 5.3
 	if(phpversion() < 5.4 && phpversion() >= 5.3) {
-		$warning .= addItem('warning', 'Deprecated PHP Version 5.3', 'Your server is running an old <strong>PHP version ' . phpversion() . '</strong>. Although X3 supports the PHP 5.3 branch, you should check in your hosting control panel if you can upgrade to a newer version of PHP (5.5+).<br><em>* Upgrading your PHP will ensure best compatibility, security and performance.</em>');
+		$warning .= addItem('warning', 'Deprecated PHP Version 5.3', 'Your server is running an old <strong>PHP version ' . phpversion() . '</strong>. Although X3 supports the PHP 5.3 branch, you should check in your hosting control panel if you can upgrade to a newer version of PHP, preferably latest PHP 7.x.<br><em>* Upgrading your PHP will ensure best compatibility, security and performance.</em>');
+	} else if(phpversion() <= 7){
+		$warning .= addItem('warning', 'PHP Version ' . phpversion(), 'Your server is running an older <strong>PHP version ' . phpversion() . '</strong>. Although X3 will still work fine, we recommend upgrading to latest <strong>PHP 7.x</strong> for best compatibility, security and performance. Normally, you can login to your hosting control panel and update the PHP version from your PHP settings.');
 	}
 
 	# Check database panel login

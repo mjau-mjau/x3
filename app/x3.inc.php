@@ -1,10 +1,10 @@
 <?php
 
 # X3
-Class Stacey {
+Class X3 {
 
-  static $version = '3.25.0';
-  static $version_date = 1533115801627;
+  static $version = '3.27.0';
+  static $version_date = 1548437082235;
   static $server_protocol = 'http://';
 
   var $route;
@@ -149,7 +149,7 @@ Class Stacey {
     $cache = new Cache($file_path, $template_file, $this->is_protected);
     # set any custom headers
     $this->set_content_type($template_file);
-    header('Generator: X' . Stacey::$version . ' / www.photo.gallery');
+    header('Generator: X' . X3::$version . ' / www.photo.gallery');
 
     // no-index, nofollow (none) for image landing pages?
     if(X3Config::$config["settings"]["image_noindex"] && basename($template_file) === 'file.html') header('X-Robots-Tag: noindex');
@@ -212,9 +212,9 @@ Class Stacey {
 
     	// Check equal links first
 	  	foreach ($x3_access as $key => $value) {
-	  		$keys = explode(",", $key);
+	  		$keys = explode(',', $key);
 	  		foreach ($keys as $url) {
-	  			$item = rtrim($url,"/*");
+          $item = str_replace('.', '_', rtrim($url, '/'));
 		  		if($item == $route){
 		  			$this->is_protected = 'recursive';
 		  			$this->setAuth($value, Page::template_type($template_file));
@@ -227,9 +227,9 @@ Class Stacey {
 			// Check recursive
 			if(!$broke) {
 				foreach ($x3_access as $key => $value) {
-		  		$keys = explode(",", $key);
+		  		$keys = explode(',', $key);
 		  		foreach ($keys as $url) {
-		  			$item = rtrim($url,"/*");
+            $item = str_replace('.', '_', rtrim($url, '/'));
 			  		if(substr($route, 0, strlen($item)) === $item){
 			  			$this->is_protected = 'recursive';
 			  			$this->setAuth($value, Page::template_type($template_file));
@@ -241,6 +241,7 @@ Class Stacey {
     }
 	}
 
+  // create page
   function create_page($file_path) {
 
     # return a 404 if a matching folder doesn't exist
@@ -411,6 +412,11 @@ Class Stacey {
   	# return 404 headers
     header('HTTP/1.0 404 Not Found');
     if(file_exists(Config::$content_folder.'/custom/404')) {
+
+      // check if file exits for mistaken pronto .json requests
+      $split = explode('.json', $_SERVER['REQUEST_URI']);
+      if(count($split) > 1 && file_exists($_SERVER["DOCUMENT_ROOT"] . $split[0])) header('file_exists: true');
+
       $this->route = 'custom/404';
       $this->create_page(Config::$content_folder.'/custom/404');
     } else {

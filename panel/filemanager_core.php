@@ -89,8 +89,8 @@ class filemanager_core extends Services_JSON
 		  		if(isset($redirect_path)){
 		  			if(!preg_match('/\/$/', $redirect_path) && !preg_match('/[\.\?\&][^\/]+$/', $redirect_path)) $redirect_path .= '/';
 		  			header('HTTP/1.1 301 Moved Permanently');
-	      		header('Location:'.$redirect_path);
-	      		return true;
+    	      		header('Location:'.$redirect_path);
+    	      		return true;
 		  		}
 	  		}
 	  	}
