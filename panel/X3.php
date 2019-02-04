@@ -138,7 +138,8 @@ class X3 {
 
   // get dirs
   public static function get_dirs($dir){
-  	if(basename($dir)[0] === '_') return;
+  	$basename = basename($dir);
+  	if($basename[0] === '_') return;
   	$arr = array();
   	$dirs = glob($dir . '/*', GLOB_ONLYDIR|GLOB_NOSORT);
   	if(empty($dirs)) return $arr;

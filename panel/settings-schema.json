@@ -1759,7 +1759,11 @@
             "flat_index_start": {
               "type": "integer",
               "minimum": 0
-            }
+            },
+            "flat_pin_levels": {
+              "type": "integer",
+              "minimum": 1
+            } 
           }
         }
       }
@@ -4091,20 +4095,24 @@
                         },
                         {
                           "key": "plugins.panorama.flat_tile_size",
-                          "title": "Tile size <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Tile size</h3><p>Tilesize value can normally be found the exported projects XML file.</p></div>"
+                          "title": "Tile size <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Tile size</h3><p>Tilesize value can normally be found the exported projects XML file.</p><p>tilesize can be assigned directly from a panorama's parameters:<br><code>tilesize=1024</code></p></div>"
                         },
                         {
                           "key": "plugins.panorama.flat_url_format",
-                          "title": "Url format <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Url format</h3><p>Url format can normally be extrapolated from the exported projects XML file. For example krpano url's like <code>l5/%0v/l5_%0v_%0h.jpg</code> would require an url format <code>l{z}/{y}/l{z}_{y}_{x}.jpg</code>, which is the default.</p></div>"
+                          "title": "Url format <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Url format</h3><p>Url format for flat panorama. If you are exporting from tools like KRPano or Pano2VR, you can normally copy-paste from <code>url</code> or <code>leveltileurl</code> from the <strong>pano.xml</strong> config file. X3 will convert formats like <code>l1/%0v/l5_%0v_%0h.jpg</code> into native format <code>l{z}/{y}/l{z}_{y}_{x}.jpg</code>, and will also extrapolate options <code>zero_padding</code> and <code>index_start</code> from the url_format.</p><p>url_format can be assigned directly from a panorama's parameters:<br><code>url_format=pano.tiles/l5_%0v_%0h.jpg</code></p></div>"
                         },
                         {
                           "key": "plugins.panorama.flat_zero_padding",
-                          "title": "Zero padding <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Zero padding</h3><p>The amount of ciphers used in the project's numbering structure padded by 0. For example <code>/03/l4_03_04.jpg</code> is padded by 2 ciphers, while <code>/003/l4_003_004.jpg</code> is padded by 3.</p></div>"
+                          "title": "Zero padding <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Zero padding</h3><p>The amount of ciphers used in the project's numbering structure padded by 0. For example <code>/03/l4_03_04.jpg</code> is padded by 2 ciphers, while <code>/003/l4_003_004.jpg</code> is padded by 3. This setting can normally be ignored if you are already using <code>url_format</code> or zero_padding is 0.</p><p>zero_padding can be assigned directly from a panorama's parameters:<br><code>zero_padding=1</code></p></div>"
                         },
                         {
                           "key": "plugins.panorama.flat_index_start",
-                          "title": "Index start <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Index start</h3><p>Some projects start count from 1 (krpano example <code>l1/01/l1_01_01.jpg</code>), while others start from 0 (pano2vr example <code>l_0/c_0/tile_0.jpg</code>).</p></div>"
-                        }
+                          "title": "Index start <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Index start</h3><p>Some projects start levels count from 1 (krpano example <code>l1/01/l1_01_01.jpg</code>), while others start from 0 (pano2vr example <code>l_0/c_0/tile_0.jpg</code>). This setting can normally be ignored if you are already using <code>url_format</code> or index_start is 0.</p><p>index_start can be assigned directly from a panorama's parameters:<br><code>index_start=1</code></p></div>"
+                        },
+                        {
+                          "key": "plugins.panorama.flat_pin_levels",
+                          "title": "Pin levels <a href=\"#\" class=\"show-help\"></a><div class=\"hidden\"><h3>Pin levels</h3><p>The number of levels to preload into panorama texture. Pinned levels will always remain in memory as fallback while loading higher level tiles, and will not be evicted. By default, TWO levels are preloaded.</p><p>Be careful with this setting. If you attempt to preload too many levels, you could force a visitor to start loading several 100 MB of files, which will be awfully slow obviously.</p><p>pin_levels can be assigned directly from a panorama's parameters:<br><code>pin_levels=3</code></p></div>"
+                        }   
                       ]
                     }
                   ]

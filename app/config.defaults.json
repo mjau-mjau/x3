@@ -376,8 +376,9 @@
             "autorotate_speed": 0.03,
             "flat_tile_size": 512,
             "flat_url_format": "l{z}/{y}/l{z}_{y}_{x}.jpg",
-            "flat_zero_padding": 2,
-            "flat_index_start": 1
+            "flat_zero_padding": 0,
+            "flat_index_start": 0,
+            "flat_pin_levels": 2
         }
     },
     "accounts": {

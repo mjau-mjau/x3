@@ -1752,14 +1752,14 @@
 	            {
 	              "type": "help",
 	              "htmlClass": "section-title",
-	              "helpvalue": "Grid Layout <a href=# class=show-help></a><div class=hidden><h3>Grid Layout</h3><p>Use the grid method to create robust grid layouts which can respond to different screen sizes. Unless your images are all the same aspect, you should use the <code>crop</code> setting to achieve a uniform layout. There are <em>two</em> ways to configure the grid layout:</p><h4>Set Amount</h4><p>Set a fixed amount of columns for your grid.</p><h4>Set Width</h4><p>Set a <em>target width</em> for columns in the grid. The amount of columns created, will depend on the horizontal space available (layout width and screen size). By using this setting, you will get a progressive amount of columns.</p></div>"
+	              "helpvalue": "Grid Layout <a href=# class=show-help></a><div class=hidden><h3>Grid Layout</h3><p>Use the grid method to create robust grid layouts which can respond to different screen sizes. Unless your images are all the same aspect, you should use the <code>crop</code> setting to achieve a uniform layout. There are <em>two</em> ways to configure the grid layout:</p><h4>Set column amount</h4><p>Set a fixed amount of columns for your grid.</p><h4>Set colomn width</h4><p>Set a <em>target width</em> for columns in the grid. The amount of columns created, will depend on the horizontal space available (layout width and screen size). By using this setting, you will get a progressive amount of columns.</p></div>"
 	            },
 	            {
 	              "key": "folders.grid.use_width",
 	              "type": "selectfieldset",
 	              "titleMap": {
-	              	"false": "Set Amount",
-					        "true": "Set Width"
+	              	"false": "Set column amount",
+					        "true": "Set column width"
 					      },
 	              "items": [
 	              	{
@@ -1828,14 +1828,14 @@
 	            {
 	              "type": "help",
 	              "htmlClass": "section-title",
-	              "helpvalue": "Columns Layout <a href=# class=show-help></a><div class=hidden><h3>Columns Layout</h3><p>Use the columns layout <a href=\"https://demo.photo.gallery/examples/folders/columns/\" target=\"_blank\">[Demo]</a> to create a vertical masonry-style layout which emphasizes portrait aspect images. This layout will scale images within the columns to allow an elegant layout which fills the space available. There are two ways to configure the columns layout:</p><h4>Set Amount</h4><p>Set the amount of columns.</p><h4>Set Width</h4><p><code>Recommended</code> This setting allows you to set a column target-width, which decides how many columns are able to fit into the layout. This setting is <em>recommended</em> because the amount of columns displaying will depend on the width of screen, making the layout responsive.</p></div>"
+	              "helpvalue": "Columns Layout <a href=# class=show-help></a><div class=hidden><h3>Columns Layout</h3><p>Use the columns layout <a href=\"https://demo.photo.gallery/examples/folders/columns/\" target=\"_blank\">[Demo]</a> to create a vertical masonry-style layout which emphasizes portrait aspect images. This layout will scale images within the columns to allow an elegant layout which fills the space available. There are two ways to configure the columns layout:</p><h4>Set column amount</h4><p>Set the amount of columns.</p><h4>Set column width</h4><p><code>Recommended</code> This setting allows you to set a column target-width, which decides how many columns are able to fit into the layout. This setting is <em>recommended</em> because the amount of columns displaying will depend on the width of screen, making the layout responsive.</p></div>"
 	            },
 	            {
 	              "key": "folders.columns.use_width",
 	              "type": "selectfieldset",
 	              "titleMap": {
-	              	"true": "Set Width",
-	              	"false": "Set Amount"
+	              	"true": "Set column width",
+	              	"false": "Set column amount"
 					      },
 	              "items": [
 	              	{
@@ -2146,14 +2146,14 @@
 		            {
 		              "type": "help",
 		              "htmlClass": "section-title",
-		              "helpvalue": "Grid Layout <a href=# class=show-help></a><div class=hidden><h3>Grid Layout</h3><p>Use the grid method to create robust grid layouts which can respond to different screen sizes. Unless your images are all the same aspect, you should use the <code>crop</code> setting to achieve a uniform layout. There are <em>two</em> ways to configure the grid layout:</p><h4>Set Amount</h4><p>Set a fixed amount of columns for your grid.</p><h4>Set Width</h4><p>Set a <em>target width</em> for columns in the grid. The amount of columns created will depend on the horizontal space available (gallery width and screen size). By using this setting, you will get a progressive amount of columns.</p></div>"
+		              "helpvalue": "Grid Layout <a href=# class=show-help></a><div class=hidden><h3>Grid Layout</h3><p>Use the grid method to create robust grid layouts which can respond to different screen sizes. Unless your images are all the same aspect, you should use the <code>crop</code> setting to achieve a uniform layout. There are <em>two</em> ways to configure the grid layout:</p><h4>Set column amount</h4><p>Set a fixed amount of columns for your grid.</p><h4>Set column width</h4><p>Set a <em>target width</em> for columns in the grid. The amount of columns created will depend on the horizontal space available (gallery width and screen size). By using this setting, you will get a progressive amount of columns.</p></div>"
 		            },
 		            {
 		              "key": "gallery.grid.use_width",
 		              "type": "selectfieldset",
 		              "titleMap": {
-		              	"false": "Set Amount",
-						        "true": "Set Width"
+		              	"false": "Set column amount",
+						        "true": "Set column width"
 						      },
 		              "items": [
 		              	{

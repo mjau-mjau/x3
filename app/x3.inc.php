@@ -3,8 +3,8 @@
 # X3
 Class X3 {
 
-  static $version = '3.27.0';
-  static $version_date = 1548437082235;
+  static $version = '3.27.1';
+  static $version_date = 1549297902166;
   static $server_protocol = 'http://';
 
   var $route;
@@ -214,7 +214,7 @@ Class X3 {
 	  	foreach ($x3_access as $key => $value) {
 	  		$keys = explode(',', $key);
 	  		foreach ($keys as $url) {
-          $item = str_replace('.', '_', rtrim($url, '/'));
+          $item = str_replace('.', '_', rtrim($url, '/*'));
 		  		if($item == $route){
 		  			$this->is_protected = 'recursive';
 		  			$this->setAuth($value, Page::template_type($template_file));
@@ -229,7 +229,7 @@ Class X3 {
 				foreach ($x3_access as $key => $value) {
 		  		$keys = explode(',', $key);
 		  		foreach ($keys as $url) {
-            $item = str_replace('.', '_', rtrim($url, '/'));
+            $item = str_replace('.', '_', rtrim($url, '/*'));
 			  		if(substr($route, 0, strlen($item)) === $item){
 			  			$this->is_protected = 'recursive';
 			  			$this->setAuth($value, Page::template_type($template_file));

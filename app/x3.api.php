@@ -64,8 +64,8 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 
 			// add to email arrays, sanitize and validate
 			$email_array = explode(',', $to_string);
-			$to_array = [];
-			$bcc_array = [];
+			$to_array = array();
+			$bcc_array = array();
 			foreach($email_array as $email_entry) {
 				$is_bcc = stripos($email_entry, 'bcc:') !== false;
 				if($is_bcc) $email_entry = str_ireplace('bcc:', '', $email_entry);
@@ -90,7 +90,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 
 			// get IP
 			function get_client_ip() {
-				$vars = ['HTTP_CF_CONNECTING_IP', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR'];
+				$vars = array('HTTP_CF_CONNECTING_IP', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR');
 				foreach ($vars as $var) {
 					if(isset($_SERVER[$var])) {
 						$ip = filter_var($_SERVER[$var], FILTER_VALIDATE_IP);
@@ -154,7 +154,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 			}
 
 			// ReplyTo
-			if($email) $mail->addReplyTo($email, ($name ? $name : '[NO NAME]'));
+			if($email) $mail->addReplyTo($email, ($name ? $name : ''));
 
 			// SUBJECT replace hardcoded
 			$subject = str_replace('%name%', ($name ? $name : '[NO NAME]'), $subject);

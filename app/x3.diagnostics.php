@@ -566,8 +566,8 @@ if($posted){
 	# Recommend upgrading PHP 5.3
 	if(phpversion() < 5.4 && phpversion() >= 5.3) {
 		$warning .= addItem('warning', 'Deprecated PHP Version 5.3', 'Your server is running an old <strong>PHP version ' . phpversion() . '</strong>. Although X3 supports the PHP 5.3 branch, you should check in your hosting control panel if you can upgrade to a newer version of PHP, preferably latest PHP 7.x.<br><em>* Upgrading your PHP will ensure best compatibility, security and performance.</em>');
-	} else if(phpversion() <= 7){
-		$warning .= addItem('warning', 'PHP Version ' . phpversion(), 'Your server is running an older <strong>PHP version ' . phpversion() . '</strong>. Although X3 will still work fine, we recommend upgrading to latest <strong>PHP 7.x</strong> for best compatibility, security and performance. Normally, you can login to your hosting control panel and update the PHP version from your PHP settings.');
+	} else if(phpversion() < 7){
+		$warning .= addItem('neutral', 'PHP Version ' . phpversion(), 'Your server is running an older <strong>PHP version ' . phpversion() . '</strong>. Although X3 will still work fine, we recommend upgrading to latest <strong>PHP 7.x</strong> for best compatibility, security and performance. Normally, you can login to your hosting control panel and update the PHP version from your PHP settings.');
 	}
 
 	# Check database panel login

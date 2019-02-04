@@ -26,18 +26,29 @@
 
 {# Set block-grid #}
 {% if folders.layout == "grid" %}
+
+	{# custom grid space style #}
+	{% if folders.grid.space > -1 %}
+		{% set ul_style = ' style="margin: 0 ' ~ (width == 'wide' ? folders.grid.space / 2 : - folders.grid.space / 4 ) ~ 'px"' %}
+		{% set li_style = ' style="padding: 0 ' ~ folders.grid.space / 2 ~ 'px ' ~ folders.grid.space ~ 'px"' %}
+	{% endif %}
+
+	{# use width #}
 	{% if folders.grid.use_width %}
-		{% set block_grid = ['3','2','1'] %}
+		{% set ul_open = '<ul class="items"' ~ ul_style ~ '>' %}
+
+	{# use amount #}
 	{% else %}
 		{% set block_grid = folders.grid.columns|split(",") %}
+		{% set columns_max = max(min(limit, assets.children_count|length), 3) %}
+		{% set small_grid = min(block_grid[2]|default(block_grid[1])|default(block_grid[0])|default('1'), columns_max) %}
+		{% set medium_grid = min(block_grid[1]|default(block_grid[0])|default('2'), columns_max) %}
+		{% set large_grid = min(block_grid[0]|default('3'), columns_max) %}
+		{% set ul_open = '<ul class="small-block-grid-' ~ small_grid ~ ' medium-block-grid-' ~ medium_grid ~ ' large-block-grid-' ~ large_grid ~ ' items"' ~ ul_style ~ '>' %}
 	{% endif %}
-	{% set columns_limit = min(limit, assets.children_count) %}
-	{% set small_grid = min(block_grid[2]|default(block_grid[1])|default(block_grid[0])|default('1'), columns_limit) %}
-	{% set medium_grid = min(block_grid[1]|default(block_grid[0])|default('2'), columns_limit) %}
-	{% set large_grid = min(block_grid[0]|default('3'), columns_limit) %}
 
-	{% set ul_open = '<ul class="small-block-grid-' ~ small_grid ~ ' medium-block-grid-' ~ medium_grid ~ ' large-block-grid-' ~ large_grid ~ ' items">' %}
-	{% set li_open = '<li>' %}
+	{# <ul><li> tags #}
+	{% set li_open = '<li' ~ li_style ~ '>' %}
 	{% set li_close = '</li>' %}
 	{% set ul_close = '</ul>' %}
 {% endif %}
