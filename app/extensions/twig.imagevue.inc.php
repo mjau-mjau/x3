@@ -348,7 +348,8 @@ class Imagevue_Twig_Extension extends Twig_Extension {
       $level_attributes = $type === 'krpano' ? array('tiledimagewidth', 'tiledimageheight') : array('width', 'height');
 
       // reverse
-      if($levels[0]['@attributes'][$level_attributes[0]] > end($levels)['@attributes'][$level_attributes[0]]) $levels = array_reverse($levels);
+      $end = end($levels);
+      if($levels[0]['@attributes'][$level_attributes[0]] > $end['@attributes'][$level_attributes[0]]) $levels = array_reverse($levels);
 
       // create levels output array
       $levels_output = array_map(function($level) use($level_attributes){

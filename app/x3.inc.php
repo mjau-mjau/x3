@@ -3,8 +3,8 @@
 # X3
 Class X3 {
 
-  static $version = '3.27.1';
-  static $version_date = 1549297902166;
+  static $version = '3.27.3';
+  static $version_date = 1550071111441;
   static $server_protocol = 'http://';
 
   var $route;

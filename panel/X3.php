@@ -7,30 +7,44 @@ class X3 {
 
 	// get iptc data
 	public static function get_iptc_data($iptc){
-  	$data = self::iptc_data($iptc, '005', 'title', true)
-					. self::iptc_data($iptc, '120', 'description', true);
+  	$data = self::iptc_data($iptc, '005', 'title')
+					. self::iptc_data($iptc, '120', 'description');
 
 		// only add X3 IPTC if "use iptc"
-  	if(X3Config::$config['back']['use_iptc']) $data .= self::iptc_data($iptc, '217', 'link', true)
-					. self::iptc_data($iptc, '218', 'link-target', false)
-					. self::iptc_data($iptc, '220', 'params', true)
-					. self::iptc_data($iptc, '219', 'hidden', false)
-					. self::iptc_data($iptc, '216', 'custom', false)
-					. self::iptc_data($iptc, '216', 'index', false);
+		if(X3Config::$config['back']['use_iptc']) {
+			$data .= self::iptc_data($iptc, '217', 'link')
+						. self::iptc_data($iptc, '220', 'params');
+
+			// link target
+			if(isset($iptc['2#218'][0]) && in_array($iptc['2#218'][0], array('auto','_self','_blank','popup','x3_popup'))) $data .= self::get_iptc_data_attribute('link-target', $iptc['2#218'][0]);
+
+			// hidden
+			if(isset($iptc["2#219"][0]) && $iptc["2#219"][0] == '1') $data .= self::get_iptc_data_attribute('hidden', '1');
+
+			// index/custom
+			if(isset($iptc["2#216"][0]) && is_numeric($iptc["2#216"][0])) {
+				$data .= self::get_iptc_data_attribute('custom', $iptc["2#216"][0]);
+				$data .= self::get_iptc_data_attribute('index', $iptc["2#216"][0]);
+			}
+		}
 
 		return $data;
   }
 
   // utf8 validate
   private static function utf8_validate($string){
-  	//return preg_match('!!u', $string) ? $string : mb_convert_encoding($string, 'UTF-8', 'pass');
-		return htmlspecialchars(preg_match('!!u', $string) ? $string : mb_convert_encoding($string, 'UTF-8', 'pass'), ENT_QUOTES);
+		return htmlspecialchars(@mb_detect_encoding($string, 'UTF-8', true) ? $string : @utf8_encode($string), ENT_QUOTES);
   }
 
   // iptc data string
-  private static function iptc_data($iptc, $val, $att, $utf8){
-  	if(!isset($iptc["2#" . $val][0]) || empty($iptc["2#" . $val][0])) return '';
-  	return ' data-' . $att . '="' . ($utf8 ? self::utf8_validate($iptc["2#" . $val][0]) : $iptc["2#" . $val][0]) . '"';
+  private static function iptc_data($iptc, $id, $name){
+  	if(!isset($iptc['2#' . $id][0]) || empty($iptc['2#' . $id][0])) return '';
+  	return self::get_iptc_data_attribute($name, self::utf8_validate($iptc['2#' . $id][0]));
+  }
+
+  //
+  private static function get_iptc_data_attribute($name, $val){
+  	return ' data-' . $name . '="' . $val . '"';
   }
 
 

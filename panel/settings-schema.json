@@ -4840,7 +4840,7 @@
 		        },
 		        {
 		          "key": "back.image_resizer.use_request_cache",
-		          "inlinetitle": "Symlink request cache <a href=# class=show-help></a><div class=hidden><h3>Symlink request cache</h3><p>When enabled, image cache requests are stored on server as symlinks for improved performance. Disable if your server is having problems with image symlink requests (hosts like Aruba and Microsoft IIS servers).</p></div>"
+		          "inlinetitle": "Symlink request cache <a href=# class=show-help></a><div class=hidden><h3>Symlink request cache</h3><p>When enabled, image cache requests are stored on server as symlinks for improved performance. Disable if your server is having problems with image symlink requests (hosts like Aruba).</p><p><em>* Symlink request cache is always disabled on <strong>Windows OS</strong>, because Windows only supports absolute symlink paths, and there are often errors with permissions.</em></p></div>"
 		        }
 		      ]
 		    },

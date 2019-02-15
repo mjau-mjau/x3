@@ -976,9 +976,13 @@ class filemanager_user_core extends Services_JSON
                 {
                     $check = substr($key, -2);
                     if( $check != ".." and $check != "/." ) {
-                        $_key = str_replace("../", "", $key);
+                        /*$_key = str_replace("../", "", $key);
                         $_key = str_replace("./", "", $_key);
-                        @$zip->addFile(realpath($key), $_key);
+                        @$zip->addFile(realpath($key), $_key);*/
+
+                        //
+                        $zip_relative = strpos($key, $parent) === 0 ? str_replace($parent, '', $key) : trim($key, './');
+                        @$zip->addFile(realpath($key), $zip_relative );
                     }
                 }
                 $zip->close();

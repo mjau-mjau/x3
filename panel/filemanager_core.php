@@ -847,20 +847,25 @@ class filemanager_core extends Services_JSON
 
 	public function create_zip($folderName,$zipFileName)
     {
-        $zip = new ZipArchive();
         if(is_dir($folderName))
         {
+            $zip = new ZipArchive();
             $zip_archive = $zip->open($zipFileName.".zip",ZIPARCHIVE::CREATE);
             if($zip_archive === true)
             {
+                $parent = dirname($folderName);
                 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folderName));
                 foreach ($iterator as $key => $value)
                 {
                     $check = substr($key, -2);
                     if( $check != ".." and $check != "/." ) {
-                        $_key = str_replace("../", "", $key);
+                        /*$_key = str_replace("../", "", $key);
                         $_key = str_replace("./", "", $_key);
-                        @$zip->addFile(realpath($key), $_key);
+                        @$zip->addFile(realpath($key), $_key);*/
+                        
+                        //
+                        $zip_relative = strpos($key, $parent) === 0 ? str_replace($parent, '', $key) : trim($key, './');
+                        @$zip->addFile(realpath($key), $zip_relative );
                     }
                 }
                 $zip->close();
