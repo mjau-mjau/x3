@@ -3,8 +3,8 @@
 # X3
 Class X3 {
 
-  static $version = '3.27.3';
-  static $version_date = 1550071111441;
+  static $version = '3.27.6';
+  static $version_date = 1551789126985;
   static $server_protocol = 'http://';
 
   var $route;
@@ -170,22 +170,28 @@ Class X3 {
 	// X3 Protect
 	function protect($template_file){
 
-		# strictly for demo password
+		# strictly for sample content
 		if($this->route === 'examples/features/password') {
 			$this->setAuth(array('username' => 'guest', 'password' => 'guest'), Page::template_type($template_file));
 			$this->is_protected = 'recursive';
 			return;
 		}
 
-		# require passwords config
-		include './config/protect.php';
+    // protect.json
+    if(file_exists('./config/protect.json')){
+      $protect = @file_get_contents('./config/protect.json');
+
+    // protect.php (legacy)
+    } else if(file_exists('./config/protect.php')){
+      require_once './config/protect.php';
+    }
 
 		# get object
 		global $protect_ob;
-    $protect_ob = json_decode($protect, true);
+    $protect_ob = isset($protect) && !empty($protect) ? @json_decode(trim($protect), true) : array();
 
     # Only continue if access is not empty
-    if(empty($protect_ob) || empty($protect_ob["access"])) return;
+    if(empty($protect_ob) || !isset($protect_ob["access"]) || empty($protect_ob["access"])) return;
 
     # get access object
     $x3_access = $protect_ob["access"];

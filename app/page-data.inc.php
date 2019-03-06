@@ -44,14 +44,14 @@ Class PageData {
     return $parent_path[0] == Config::$content_folder ? array() : $parent_path;
   }
 
-  // X3 get path protected from config/protect.php
+  // X3 get path protected from config/protect
   static function get_protected($route) {
 
   	# get protect object
   	global $protect_ob;
 
   	# Only continue if access is not empty
-    if(empty($protect_ob) || empty($protect_ob["access"])) {
+    if(empty($protect_ob) || !isset($protect_ob["access"]) || empty($protect_ob["access"])) {
     	self::$protect = false;
     	return;
     }

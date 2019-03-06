@@ -3,7 +3,7 @@
 
 {# GLOBAL VARS #}
 {% set folders = page.folders %}
-{% set assets = folder %}
+{#{% set assets = folder %}#}
 {% set items = folders.items|split(',') %}
 {% set limit = folders.limit %}
 {% if limit is empty or limit < 1 %}{% set limit = 99999 %}{% endif %}
@@ -24,6 +24,9 @@
 	{% set data_crop = ' data-crop="' ~ folders.crop.crop[0]|round ~ ':' ~ folders.crop.crop[1]|round ~ '"' %}
 {% endif %}
 
+{# Set sort #}
+{% set children = sortby(folder.children, page.folders.sortby, (page.folders.sort == 'desc' ? true : false)) %}
+
 {# Set block-grid #}
 {% if folders.layout == "grid" %}
 
@@ -39,8 +42,9 @@
 
 	{# use amount #}
 	{% else %}
-		{% set block_grid = folders.grid.columns|split(",") %}
-		{% set columns_max = max(min(limit, assets.children_count|length), 3) %}
+		{% set block_grid = folders.grid.columns|replace({' ': ''})|split(",") %}
+		{#{% set columns_max = max(min(limit, assets.children_count|length), 3) %}#}
+		{% set columns_max = max(min(limit, children|length), 3) %}
 		{% set small_grid = min(block_grid[2]|default(block_grid[1])|default(block_grid[0])|default('1'), columns_max) %}
 		{% set medium_grid = min(block_grid[1]|default(block_grid[0])|default('2'), columns_max) %}
 		{% set large_grid = min(block_grid[0]|default('3'), columns_max) %}
@@ -52,9 +56,6 @@
 	{% set li_close = '</li>' %}
 	{% set ul_close = '</ul>' %}
 {% endif %}
-
-{# Set sort #}
-{% set children = sortby(folder.children, page.folders.sortby, (page.folders.sort == 'desc' ? true : false)) %}
 
 {# Do folders loop #}
 {% if children|length > 0 %}

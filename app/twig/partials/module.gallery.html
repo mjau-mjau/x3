@@ -248,8 +248,7 @@
 
 		{# anchor classes #}
 		{% set anchor_class = 'item img-link item-link' %}
-		{% if page.popup.enabled and image_link is empty and settings.layout != "slideshow" %}
-		{#{% if page.popup.enabled and image_link is empty %}#}
+		{% if settings.clickable and page.popup.enabled and image_link is empty and settings.layout != "slideshow" %}
 			{% set anchor_class = anchor_class ~ ' x3-popup' %}
 		{% endif %}
 

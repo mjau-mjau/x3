@@ -239,18 +239,6 @@ class Imagevue_Twig_Extension extends Twig_Extension {
   }
 
   // Function: Check if file or folder exists
-  /*function exists($file) {
-  	if(!empty($file)) {
-      if(strpos($file,'content') === false) {
-        $file = Helpers::url_to_file_path($file);
-      }
-      $str = file_exists($file) ? true : false;
-    } else {
-      $str = false;
-    }
-    return $str;
-  }*/
-
   function exists($file) {
   	if(empty($file)) return false;
     if(strpos($file,'content') === false) $file = Helpers::url_to_file_path($file);
@@ -705,7 +693,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
 
     // audio default
     if(X3Config::$config["plugins"]["audioplayer"]["enabled"]){
-      $audio_default = glob('./content/custom/audio/*.mp3', GLOB_NOSORT);
+      $audio_default = glob('./content/custom/audio/*.mp3');
       if(!empty($audio_default)) $front["audio_default"] = array_map(function($audio_file){
         return basename($audio_file);
       }, $audio_default);
@@ -761,7 +749,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
 
     // audio folders
     if(X3Config::$config["plugins"]["audioplayer"]["enabled"] && X3Config::$config["plugins"]["audioplayer"]["folders"]){
-      $audio = Helpers::list_files($file_path, '/\.mp3$/i', false, false);
+      $audio = Helpers::list_files($file_path, '/\.mp3$/i', false);
       if(!empty($audio)) $json_page["audio"] = array_keys($audio);
     }
 

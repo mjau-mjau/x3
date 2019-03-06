@@ -4552,7 +4552,7 @@
         },
         {
           "key": "back.mail.to",
-          "title": "Recipient <a href=# class=show-help></a><div class=hidden><h3>Mail Recipient</h3><p>This is where incoming e-mails will be directed. Add your e-mail address here.</p><p><strong>Multiple Recipients</strong><br>Separate multiple recipients by commas. For example:</p><p><code>john@doe.com, peter@gmail.com</code></p></div>",
+          "title": "Recipient <a href=# class=show-help></a><div class=hidden><h3>Mail Recipient</h3><p>This is where incoming e-mails will be directed. Add your e-mail address here.</p><p><strong>Multiple Recipients</strong><br>Separate multiple recipients by commas. For example:</p><p><code>john@doe.com, peter@gmail.com</code></p><p><strong>BCC Recipients</strong><br>Include BCC (blind copy) recipients by prepending <code>BCC:</code> to the email address. For example:</p><p><code>john@doe.com, BCC:myself@gmail.com</code></p></div>",
           "placeholder": "you@youremail.com"
         },
         {

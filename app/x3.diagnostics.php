@@ -419,7 +419,7 @@ if($posted){
 			} else if(!isset($_GET["htaccess_patch"]) && is_writable('./.htaccess') && $has_mod_rewrite && !$mod_rewrite_working && (!$current_rewritebase || $current_rewritebase !== $rewrite_base) && @file_put_contents('.htaccess', PHP_EOL . PHP_EOL . '# Added by x3 diagnostics on ' . date('r') . PHP_EOL . 'RewriteBase ' . $rewrite_base . PHP_EOL, FILE_APPEND)){
 				get_rewrite_flags();
 				if($mod_rewrite_working){
-					$success .= addItem('success', 'Successfully added RewriteBase ' . $rewrite_base . 'We added the following line to your <strong>.htaccess</strong> file, which allows X3 <a href="http://httpd.apache.org/docs/current/mod/mod_rewrite.html" target="_blank">rewrite</a> rules to work properly:<br><br><code>RewriteBase ' . $rewrite_base . '</code>');
+					$success .= addItem('success', 'Successfully added RewriteBase ' . $rewrite_base, 'We added the following line to your <strong>.htaccess</strong> file, which allows X3 <a href="http://httpd.apache.org/docs/current/mod/mod_rewrite.html" target="_blank">rewrite</a> rules to work properly:<br><br><code>RewriteBase ' . $rewrite_base . '</code>');
 				} else {
 					$warning .= addItem('warning', 'Mod_rewrite not working as expected', 'Although we have successfully detected the <a href="http://httpd.apache.org/docs/current/mod/mod_rewrite.html" target="_blank">mod_rewrite</a> extension on your server, it does not seem to be working as expected. This extension is necessary in X3 for links to work, and for resized images to load. You may need to add the below to your root <strong>.htaccess</strong> file:<br><br><code>RewriteBase ' . $rewrite_base . '</code>' . patchHtaccesslink());
 				}
@@ -822,6 +822,12 @@ if($posted){
 		# VALUES
 		$info .= infoHeader('Values');
 
+		# server name
+		$info .= addInfo('Server name', getServerEnv('SERVER_NAME'), getServerEnv('SERVER_NAME') !== 'undefined' ? '' : false);
+
+		# Server Software
+		$info .= addInfo('Server software', getServerEnv('SERVER_SOFTWARE'), getServerEnv('SERVER_SOFTWARE') !== 'undefined' ? '' : false);
+
 		# PHP interface
 		$info .= addInfo('PHP Interface', empty($php_interface) ? 'undetectable' : $php_interface);
 
@@ -869,19 +875,19 @@ if($posted){
 		if(!empty($session_gc_maxlifetime)) $info .= addInfo('Session maxlifetime', $session_gc_maxlifetime, 'neutral');
 
 		# VARIABLES
-		$info .= infoHeader('Variables');
+		//$info .= infoHeader('Variables');
 
 		# Server Name
 		$info .= addInfo('SERVER_NAME', getServerEnv('SERVER_NAME'), getServerEnv('SERVER_NAME') !== 'undefined' ? '' : false);
 
 		# Document Root
-		$info .= addInfo('DOCUMENT_ROOT', getServerEnv('DOCUMENT_ROOT'), getServerEnv('DOCUMENT_ROOT') !== 'undefined' ? '' : false);
+		//$info .= addInfo('DOCUMENT_ROOT', getServerEnv('DOCUMENT_ROOT'), getServerEnv('DOCUMENT_ROOT') !== 'undefined' ? '' : false);
 
 		# Script Name
-		$info .= addInfo('SCRIPT_NAME', getServerEnv('SCRIPT_NAME'), getServerEnv('SCRIPT_NAME') !== 'undefined' ? '' : false);
+		//$info .= addInfo('SCRIPT_NAME', getServerEnv('SCRIPT_NAME'), getServerEnv('SCRIPT_NAME') !== 'undefined' ? '' : false);
 
 		# Script Filename
-		$info .= addInfo('SCRIPT_FILENAME', getServerEnv('SCRIPT_FILENAME'), getServerEnv('SCRIPT_FILENAME') !== 'undefined' ? '' : false);
+		//$info .= addInfo('SCRIPT_FILENAME', getServerEnv('SCRIPT_FILENAME'), getServerEnv('SCRIPT_FILENAME') !== 'undefined' ? '' : false);
 
 		# Server Software
 		$info .= addInfo('SERVER_SOFTWARE', getServerEnv('SERVER_SOFTWARE'), getServerEnv('SERVER_SOFTWARE') !== 'undefined' ? '' : false);

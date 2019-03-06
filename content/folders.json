@@ -63,8 +63,8 @@
     },
     "examples\/features\/password": {
         "url": "examples\/features\/password",
-        "hidden": true,
-        "index": 8
+        "index": 8,
+        "hidden": true
     },
     "examples\/features": {
         "url": "examples\/features",
