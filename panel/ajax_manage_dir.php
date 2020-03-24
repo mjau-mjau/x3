@@ -159,6 +159,33 @@ if ($core->isLogin()){
 
             if(isset($_POST["create_zip"]))
             {
+
+
+
+                /*
+                create_zip: selected,
+                this_place: here,
+                zip_name: zip_file_name
+
+                array(3) {
+                  ["create_zip"]=>
+                  array(2) {
+                    [0]=>
+                    string(13) "files-app.jpg"
+                    [1]=>
+                    string(4) "sub3"
+                  }
+                  ["this_place"]=>
+                  string(21) "../content/testo/four"
+                  ["zip_name"]=>
+                  string(2) "z4"
+                }
+                */
+                //var_dump($_POST);
+                //exit;
+
+
+
                 $dir = $_POST["this_place"];
                 if($dir != "../")
                     $dir .= "/";

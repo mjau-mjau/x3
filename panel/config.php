@@ -4,9 +4,9 @@
 
 // Get config
 require_once dirname(__DIR__) . "/app/x3.config.inc.php";
-X3Config::$config["x3_version"] = '3.27.6';
-X3Config::$config["x3_version_date"] = 1551789126985;
-X3Config::$config["x3_panel_version"] = '3.27.6';
+X3Config::$config["x3_version"] = '3.28.0';
+X3Config::$config["x3_version_date"] = 1585049744211;
+X3Config::$config["x3_panel_version"] = '3.28.0';
 $x3_panel_config = X3Config::$config["back"]["panel"];
 $x3_mail = X3Config::$config["back"]["mail"];
 
@@ -19,7 +19,6 @@ $x3_mail = X3Config::$config["back"]["mail"];
 
 // database login
 if($x3_panel_config["use_db"]) {
-
 	define("DB_HOST", $x3_panel_config["db_host"]); // Host address of mysql server
 	define("DB_USER", $x3_panel_config["db_user"]); // Username of your mysql server
 	define("DB_PASS", $x3_panel_config["db_pass"]); // Password of your user on mysql server
@@ -29,7 +28,8 @@ if($x3_panel_config["use_db"]) {
 } else {
 	define("SECRET_KEY", "mySecretKey");
 	define("USERNAME", $x3_panel_config["username"]);
-	define("PASSWORD", md5($x3_panel_config["password"]));
+	//define("PASSWORD", md5($x3_panel_config["password"]));
+    define("PASSWORD", $x3_panel_config["password"]);
 	define("FIRSTNAME", $x3_panel_config["first_name"]);
 	define("LASTNAME", $x3_panel_config["last_name"]);
 	define("EMAIL", $x3_panel_config["email"]);
@@ -40,7 +40,7 @@ if($x3_panel_config["use_db"]) {
 global $users;
 /*$users = array(
   "username1" => array(
-    "password" => md5("password1"),
+    "password" => ("password1"),
     "email" => "user1@domain.com",
     "firstname" => "Bob",
     "lastname" => "Dobalina",
@@ -50,7 +50,7 @@ global $users;
     "is_block" => 0
   ),
   "username2" => array(
-    "password" => md5("password2"),
+    "password" => ("password2"),
     "email" => "user2@domain.com",
     "firstname" => "mjau",
     "lastname" => "mjau",
@@ -91,11 +91,11 @@ define("ROOT_DIR_NAME", "../content");
 
 // Allow Extensions
 global $ALLOW_EXTENSIONS;
-$ALLOW_EXTENSIONS = array('rar','zip','txt','html','pdf','jpg','jpeg','png','gif','bmp','psd','flv','mp3','ogg','mp4','svg', 'webp', 'js', 'css', 'gpx', 'eot', 'ttf', 'woff', 'woff2', 'otf', 'xml');
+$ALLOW_EXTENSIONS = array('rar','zip','txt','html','pdf','jpg','jpeg','png','gif','bmp','psd','flv','mp3','ogg','mp4','svg', 'webp', 'js', 'css', 'gpx', 'eot', 'ttf', 'woff', 'woff2', 'otf', 'xml', 'mov', 'webm', 'm4v', 'ogv', 'ico', 'tiff');
 
 // Allow Uploader Extensions
 global $ALLOW_UPLOADER;
-$ALLOW_UPLOADER = array('rar','zip','txt','html','pdf','jpg','jpeg','png','gif','bmp','psd','flv','mp3','ogg','mp4','svg', 'webp', 'js', 'css', 'gpx', 'eot', 'ttf', 'woff', 'woff2', 'otf', 'xml');
+$ALLOW_UPLOADER = array('rar','zip','txt','html','pdf','jpg','jpeg','png','gif','bmp','psd','flv','mp3','ogg','mp4','svg', 'webp', 'js', 'css', 'gpx', 'eot', 'ttf', 'woff', 'woff2', 'otf', 'xml', 'mov', 'webm', 'm4v', 'ogv', 'ico', 'tiff');
 
 // Mime type of upload extensions
 global $MIME_TYPES;
@@ -125,7 +125,12 @@ $MIME_TYPES = array(
     "js" => array("application/javascript"),
     "css" => array("text/css"),
     "gpx" => array("application/gpx", "application/gpx+xml", "application/xml"),
-    "xml" => array("text/xml", "application/xml")
+    "xml" => array("text/xml", "application/xml"),
+    "webm" => array("video/webm", "audio/webm", "video/mp4"),
+    "m4v" => array("video/x-m4v"),
+    "ogv" => array("video/ogg"),
+    "ico" => array("image/x-icon"),
+    "tiff" => array("image/tiff")
 );
 
 // Hide AUTH page.

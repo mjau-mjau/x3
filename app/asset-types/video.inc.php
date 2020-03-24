@@ -2,7 +2,7 @@
 
 Class Video extends Asset {
 
-  static $identifiers = array('mov', 'mp4', 'm4v', 'swf');
+  static $identifiers = array('mov', 'mp4', 'm4v', 'webm', 'ogv');
 
   function __construct($file_path) {
     # create and store data required for this asset
@@ -16,6 +16,7 @@ Class Video extends Asset {
     else $dimensions = array('width' => '', 'height' => '');
     $this->data['width'] = $dimensions['width'];
     $this->data['height'] = $dimensions['height'];
+    $this->data['mime'] = mime_content_type($file_path);
   }
 
 }

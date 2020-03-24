@@ -50,9 +50,14 @@ class filemanager_core extends Services_JSON
         return !empty($basedir_str);
     }
 
+    // check_pass
+    private function check_pass($pass){
+        return phpversion() >= 5.5 && !password_needs_rehash(PASSWORD, PASSWORD_DEFAULT) ? password_verify($pass, PASSWORD) : PASSWORD == $pass;
+    }
+
     // is guest?
     public function is_guest(){
-        return X3Config::$config["back"]["panel"]["username"] === 'guest' && X3Config::$config["back"]["panel"]["password"] === 'guest' && !isset($_SESSION['filemanager_super']);
+        return USERNAME === 'guest' && !isset($_SESSION['filemanager_super']) && $this->check_pass('guest');
     }
 
     // enforce url setting
@@ -137,7 +142,7 @@ class filemanager_core extends Services_JSON
         if( !$this->db_use ) {
             if( defined( "USERNAME" ) and defined( "PASSWORD" ) ) {
                 if( USERNAME != "" and PASSWORD != md5( "" ) and PASSWORD != "" ) {
-                    if( USERNAME == $username and PASSWORD == $password ) {
+                    if(USERNAME == $username && $this->check_pass($password)) {
                         $this->role = "admin";
                         $_SESSION['filemanager_admin'] = md5( $username );
                         if($this->is_guest() && isset($_POST["super"]) && isset(X3Config::$config["back"]["panel"]["super"]) && $_POST["super"] === X3Config::$config["back"]["panel"]["super"]) $_SESSION['filemanager_super'] = true;
@@ -145,7 +150,7 @@ class filemanager_core extends Services_JSON
                     }
                     global $users;
                     if( isset( $users[$username] ) ) {
-                        if( $users[$username]["password"] == $password ) {
+                        if( $users[$username]["password"] == md5($password)) {
                             $this->role = "user";
                             $_SESSION['filemanager_user'] = md5( $username );
                             return true;
@@ -160,7 +165,7 @@ class filemanager_core extends Services_JSON
     private function create_none_db_auth_token( $username, $password )
     {
         $_SESSION["lift_filemanager_token"] = md5( time() . uniqid() . $username . $this->role );
-        $_SESSION["lift_filemanager_auth"] = $this->encode_this_session( $username.$this->secret1.$password.$this->secret2.$this->role );
+        $_SESSION["lift_filemanager_auth"] = $this->encode_this_session( $username.$this->secret1.PASSWORD.$this->secret2.$this->role );
         if( $this->role == "user" ) {
             $_SESSION["WHO_IS_IT_USER"] = $this->encode_this_session( $username );
         }
@@ -306,10 +311,10 @@ class filemanager_core extends Services_JSON
 
     public function login($username,$password)
     {
-        $password = md5($password);
         $return["status"] = false;
         $return["msg"] = "";
         if( $this->db_use ) {
+            $password = md5($password);
             $username = $this->encode_me($username);
             $select_query = "SELECT id,is_login,email,username,password,ck_id,luck_count,luck_time FROM filemanager_db WHERE username='$username' OR email='$username'";
             if($select = mysqli_query($GLOBALS["___mysqli_ston"], $select_query))
@@ -856,17 +861,15 @@ class filemanager_core extends Services_JSON
             {
                 $parent = dirname($folderName);
                 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folderName));
+                $arrx = array();
                 foreach ($iterator as $key => $value)
                 {
                     $check = substr($key, -2);
                     if( $check != ".." and $check != "/." ) {
-                        /*$_key = str_replace("../", "", $key);
-                        $_key = str_replace("./", "", $_key);
-                        @$zip->addFile(realpath($key), $_key);*/
-                        
                         //
-                        $zip_relative = strpos($key, $parent) === 0 ? str_replace($parent, '', $key) : trim($key, './');
-                        @$zip->addFile(realpath($key), $zip_relative );
+                        if(basename($key) === 'page.json') continue;
+                        $zip_relative = strpos($key, $parent) === 0 ? str_replace($parent, '', $key) : $key;
+                        @$zip->addFile(realpath($key), trim($zip_relative, './'));
                     }
                 }
                 $zip->close();

@@ -119,6 +119,9 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 			}
 		}
 
+		// remove password (encrypted or not)
+		if(isset($clone['back']['panel']['password'])) unset($clone['back']['panel']['password']);
+
 		// echo
 		echo json_encode($clone);
 
@@ -188,6 +191,20 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 			// Save user config (only differences from default)
 			$default = json_decode(file_get_contents($config_default), TRUE);
 			$user = X3::json_decode($_POST['settings']);
+
+			// encrypt password, if set, php >= 5.5 && pass != admin
+			$new_pass = isset($user['back']['panel']['password']) ? $user['back']['panel']['password'] : false;
+
+			// new pass is set, encrypt
+			if(!empty($new_pass)){
+				if(phpversion() >= 5.5 && $new_pass !== 'admin') $user['back']['panel']['password'] = password_hash($new_pass, PASSWORD_DEFAULT);
+
+			// retain old pass
+			} else {
+				$user['back']['panel']['password'] = X3Config::$config['back']['panel']['password'];
+			}
+
+			// store diff only
 			$diff = (object)arrayRecursiveDiff($user, $default);
 
 			if(isset($diff->toolbar['items'])) $diff->toolbar['items'] = preg_replace(array('/,\r\n    }/', '/,\r\n  ]/'), array("\r\n    }", "\r\n  ]"), $diff->toolbar['items']); // minify and fix oprhan commas for toolbar items string
@@ -231,12 +248,7 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 
 		if(isset($_POST['files']) && !empty($_POST['files']) && is_array($_POST['files'])){
 
-			// PHP 7.3 bug https://bugs.php.net/bug.php?id=77546
-			/*if(version_compare(PHP_VERSION, '7.3') >= 0 && version_compare(PHP_VERSION, '7.3.3') < 0) {
-				echo '{ "success": false, "error": "<strong>IPTC save blocked</strong> PHP 7.3 has a bug which corrupts images when using the iptcembed() function <a href=\"https://bugs.php.net/bug.php?id=77546\" target=\"_blank\">[read more]</a>" }';
-
-			// set iptc success
-			} else */if(set_iptc($_POST['files'])){
+			if(set_iptc($_POST['files'])){
 
 				// touch
 				if(!$core->touchme()){

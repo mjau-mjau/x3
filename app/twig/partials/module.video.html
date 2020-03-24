@@ -44,7 +44,7 @@
 			<h6 class="date">{{time_tag}}</h6>
 		{% elseif item == 'preview' %}
 			<video width="100%" preload="metadata" class="x3-style-frame" controls{% if page.settings.prevent_context %} controlsList="nodownload"{% endif %}>
-				<source src="{{ assetspath ~ (gallery.file_path ~ "/" ~ video.file_name)|trim(".") }}" type="video/mp4">
+				<source src="{{ assetspath ~ (gallery.file_path ~ "/" ~ video.file_name)|trim(".") }}" type="{{ video.mime|default('video/mp4') }}">
 			</video>
 		{% endif %}
 	{% endfor %}

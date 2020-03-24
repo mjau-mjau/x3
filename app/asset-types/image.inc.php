@@ -2,7 +2,7 @@
 
 Class Image extends Asset {
 
-  static $identifiers = array('jpg', 'jpeg', 'gif', 'png');
+  static $identifiers = array('jpg', 'jpeg', 'gif', 'png', 'webp');
 
   function __construct($file_path) {
   	# create and store additional data required for this asset
@@ -16,7 +16,7 @@ Class Image extends Asset {
 
     # Get image exif
 		$ext = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
-    if(extension_loaded('exif') && ($ext === 'jpg' || $ext === 'jpeg' || $ext === 'png')) {
+    if(extension_loaded('exif') && in_array($ext, array('jpg', 'jpeg', 'png', 'webp'))) {
     	$image = new KEHA76_Exif_Reader();
     	$exif = $image->getDetails($file_path);
 
@@ -58,7 +58,9 @@ Class Image extends Asset {
       # asset.description
       if(isset($iptc["2#120"][0])) $this->data['description'] = $this->utf8_validate($iptc["2#120"][0]);
       # asset.keywords
-      //if(isset($iptc["2#025"][0])) $this->data['keywords'] = $this->utf8_validate($iptc["2#025"][0]);
+      // if(isset($iptc["2#025"][0])) $this->data['keywords'] = $this->utf8_validate($iptc["2#025"][0]);
+      # asset.copyright
+      // if(isset($iptc["2#116"][0])) $this->data['copyright'] = $this->utf8_validate($iptc["2#116"][0]);
 
       // only apply the following IPTC values if "use iptc"
       if(X3Config::$config['back']['use_iptc']) {

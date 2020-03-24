@@ -19,13 +19,6 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 	// get action
 	$action = $_POST['action'];
 
-	// Audio player (added to twig)
-	/*if($action === 'audio') {
-		header('Content-Type: application/json');
-		chdir('../content/custom/audio');
-		$files = glob('*.mp3');
-		echo json_encode($files, JSON_FORCE_OBJECT);*/
-
 	// get cache time for auto-cache
 	if($action === 'get_cache_time'){
 		$file = '../content/auto-cache.json';

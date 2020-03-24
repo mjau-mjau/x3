@@ -1,6 +1,6 @@
 <html>
-{% set page_title_stripped = page_title|striptags|e('html')|trim %}
-{% set page_description_stripped = page_description|striptags|e('html')|trim %}
+{% set meta_page_title = page.seo.title|default(page_title)|striptags|e('html')|trim %}
+{% set meta_page_description = page.seo.description|default(page_description)|striptags|e('html')|trim %}
 <head>
 
 {# Global site tag (gtag.js) - Google Analytics #}
@@ -16,11 +16,9 @@ gtag('config', '{{ page.accounts.google_analytics }}');
 
   {# Default Meta tags #}
   <meta charset="utf-8">
-  <title>{{ page_title_stripped }}</title>
-  {% if not page_description is empty %}
-  <meta name="description" content="{{ page_description_stripped }}">
-  {% endif %}
-
+  <title>{{ meta_page_title }}</title>
+  {% if meta_page_description %}<meta name="description" content="{{ meta_page_description }}">{% endif %}
+  {% if page.seo.keywords %}<meta name="keywords" content="{{ page.seo.keywords|trim }}">{% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="canonical" href="{{ absolutepath_page }}">
 
@@ -38,8 +36,8 @@ gtag('config', '{{ page.accounts.google_analytics }}');
   {% if not page.accounts.twitter_username is empty %}<meta name="twitter:site" content="@{{ page.accounts.twitter_username }}">{% endif %}
 
   {# Open Graph data #}
-  <meta property="og:title" content="{{ page_title_stripped }}">
-  {% if not page_description is empty %}<meta property="og:description" content="{{ page_description_stripped }}">{% endif %}
+  <meta property="og:title" content="{{ meta_page_title }}">
+  {% if meta_page_description %}<meta property="og:description" content="{{ meta_page_description }}">{% endif %}
   <meta property="og:url" content="{{ absolutepath_page }}">
   <meta property="og:type" content="website">
   <meta property="og:updated_time" content="{{ page.updated }}">
@@ -124,6 +122,7 @@ function cssFail(){
 {% if page.style.layout.wide %}{% set wide = 'wide' %}{% endif %}
 {% set data_layout = (page.include.body ~ ' ' ~ page.body ~ ' ' ~ layout ~ ' ' ~ page.style.skin.skin ~ ' ' ~ fixed ~ ' ' ~ wide ~ ' ' ~ page.style.skin.clear ~ ' x3-' ~ page.template_name ~ ' slug-' ~ page.slug|attribute_friendly|default('index') ~ ' page-' ~ page.permalink|trim('/')|attribute_friendly|default('index'))|cleanData %}
 
+{# body #}
 <body class="fa-loading initializing {{ data_layout }}" data-include="{{ page.include.body|cleanData }}">
 <div class="x3-loader" title="loading"></div>
 <div class="sb-site-container">

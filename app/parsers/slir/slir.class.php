@@ -857,7 +857,7 @@ class SLIR
 			// PNG needs a compression level of 0 (no compression) through 9
 			$this->rendered->quality		= round(10 - ($this->rendered->quality / 10));
 		}
-		else if ($this->source->isJPEG())
+		else if ($this->source->isJPEG() || $this->source->isWEBP())
 		{
 				$this->rendered->progressive	= ($this->request->progressive !== NULL)
 					? $this->request->progressive : SLIRConfig::$defaultProgressiveJPEG;

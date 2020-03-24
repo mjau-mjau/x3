@@ -4,6 +4,11 @@
     "description": null,
     "date": null,
     "image": null,
+    "seo": {
+        "title": null,
+        "description": null,
+        "keywords": null
+    },
     "link": {
     	"url": null,
     	"target": "auto",
@@ -511,7 +516,7 @@
 		  "image_resizer": {
 		  	"default_quality": 90,
     		"copy_icc_profile": false,
-    		"use_request_cache": true
+    		"use_request_cache": false
 		  },
 		  "enforce_url": null,
 		  "use_iptc": true

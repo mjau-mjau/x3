@@ -317,7 +317,6 @@ class Imagevue_Twig_Extension extends Twig_Extension {
     if(empty($type) || ($type !== 'krpano' && $type !== 'panorama')) return;
 
     // convert
-    //$pano_data = json_decode(json_encode($xml, JSON_NUMERIC_CHECK),TRUE);
     $pano = @self::xml2array($xml);
     if(!$pano) return;
 
@@ -325,34 +324,69 @@ class Imagevue_Twig_Extension extends Twig_Extension {
     $ob = array();
 
     // tile size
-    $tilesize = $type === 'krpano' ? @$pano['image']['@attributes']['tilesize'] : @$pano['input']['@attributes']['leveltilesize'];
+    $tilesize = false;
+    $krpano_flat = $type === 'krpano' ? @$pano['image']['flat'] : false;
+    if($type === 'krpano'){
+      // krpano flat scheit
+      if($krpano_flat){
+        $multi_res = @$krpano_flat['@attributes']['multires'];
+        if(!empty($multi_res)){
+          $multi_res_arr = explode(',', $multi_res);
+          if(is_numeric($multi_res_arr[0])) $tilesize = intval($multi_res_arr[0]);
+        }
+      } else {
+        $tilesize = @$pano['image']['@attributes']['tilesize'];
+      }
+    } else {
+      $tilesize = @$pano['input']['@attributes']['leveltilesize'];
+    }
     if($tilesize) $ob['tilesize'] = $tilesize;
 
+    // tile size
+    //$tilesize = $type === 'krpano' ? @$pano['image']['@attributes']['tilesize'] : @$pano['input']['@attributes']['leveltilesize'];
+    //if($tilesize) $ob['tilesize'] = $tilesize;
+
+
     // width / height
-    $levels = $type === 'krpano' ? @$pano['image']['level'] : @$pano['input']['level'];
-    if($levels && !empty($levels) && is_array($levels)) {
 
-      // type
-      $level_attributes = $type === 'krpano' ? array('tiledimagewidth', 'tiledimageheight') : array('width', 'height');
+    // krpano flat scheit
+    if(isset($multi_res_arr)){
+      array_shift($multi_res_arr);
+      $levels_output = array_map(function($el) {
+        $arr = explode('x', $el);
+        if(count($arr) === 2) return array('width' => $arr[0], 'height' => $arr[1]);
+      }, $multi_res_arr);
+      if(count($levels_output) === count($multi_res_arr)) $ob['levels'] = $levels_output;
 
-      // reverse
-      $end = end($levels);
-      if($levels[0]['@attributes'][$level_attributes[0]] > $end['@attributes'][$level_attributes[0]]) $levels = array_reverse($levels);
+    } else {
+      $levels = $type === 'krpano' ? @$pano['image']['level'] : @$pano['input']['level'];
+      if($levels && !empty($levels) && is_array($levels)) {
 
-      // create levels output array
-      $levels_output = array_map(function($level) use($level_attributes){
-        $level_width = @$level['@attributes'][$level_attributes[0]];
-        $level_height = @$level['@attributes'][$level_attributes[1]];
-        if($level_width && $level_height) return array('width' => $level_width, 'height' => $level_height);
-      }, $levels);
+        // type
+        $level_attributes = $type === 'krpano' ? array('tiledimagewidth', 'tiledimageheight') : array('width', 'height');
 
-      // add to ob
-      if(count($levels_output) === count($levels)) $ob['levels'] = $levels_output;
+        // reverse
+        $end = end($levels);
+        if($levels[0]['@attributes'][$level_attributes[0]] > $end['@attributes'][$level_attributes[0]]) $levels = array_reverse($levels);
+
+        // create levels output array
+        $levels_output = array_map(function($level) use($level_attributes){
+          $level_width = @$level['@attributes'][$level_attributes[0]];
+          $level_height = @$level['@attributes'][$level_attributes[1]];
+          if($level_width && $level_height) return array('width' => $level_width, 'height' => $level_height);
+        }, $levels);
+
+        // add to ob
+        if(count($levels_output) === count($levels)) $ob['levels'] = $levels_output;
+      }
     }
 
     // url_format
-    $url_format = $type === 'krpano' ? @$levels[0]['cylinder']['@attributes']['url'] : @$pano['input']['@attributes']['leveltileurl'];
+    $url_format = $type === 'krpano' ? ($krpano_flat ? @$krpano_flat['@attributes']['url'] : @$levels[0]['cylinder']['@attributes']['url']) : @$pano['input']['@attributes']['leveltileurl'];
     if($url_format) $ob['url_format'] = $url_format;
+
+    // blatantly set index_start if krpano_flat
+    if($krpano_flat) $ob['index_start'] = 1;
 
     // tool
     $ob['xml_app'] = $type === 'krpano' ? $type : 'pano2vr';

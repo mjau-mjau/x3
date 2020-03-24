@@ -106,8 +106,8 @@ error_reporting(-1);
 <title>X3 Database Connection checker</title>
 <meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<link href="<?php echo $css_path ?>app/public/css/diagnostics.css?v=3.27.0" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<link href="<?php echo $css_path ?>app/public/css/diagnostics.css?v=3.28.0" rel="stylesheet" type="text/css">
 <style><!--
 .x3-diagnostics-wrapper {
 	max-width: 500px;

@@ -70,6 +70,11 @@ class filemanager_user_core extends Services_JSON
         return !empty($basedir_str);
     }
 
+    // check_pass
+    /*private function check_pass($pass){
+        return phpversion() >= 5.5 && !password_needs_rehash(PASSWORD, PASSWORD_DEFAULT) ? password_verify($pass, PASSWORD) : PASSWORD == $pass;
+    }*/
+
     public function touchme_error(){
 			return '{ "error": "Oops, can\'t write to /content" }';
 		}
@@ -131,7 +136,7 @@ class filemanager_user_core extends Services_JSON
     private function create_none_db_auth_token( $username, $password )
     {
         $_SESSION["lift_filemanager_token"] = md5( time() . uniqid() . $username . $this->role );
-        $_SESSION["lift_filemanager_auth"] = $this->encode_this_session( $username.$this->secret1.$password.$this->secret2.$this->role );
+        $_SESSION["lift_filemanager_auth"] = $this->encode_this_session( $username.$this->secret1.PASSWORD.$this->secret2.$this->role );
         if( $this->role == "user" ) {
             $_SESSION["WHO_IS_IT_USER"] = $this->encode_this_session( $username );
         }
@@ -383,10 +388,10 @@ class filemanager_user_core extends Services_JSON
 
     public function login($username,$password)
     {
-        $password = md5($password);
         $return["status"] = false;
         $return["msg"] = "";
         if( $this->db_use ) {
+            $password = md5($password);
             $username = $this->encode_me($username);
             $select_query = "SELECT id,is_login,email,username,password,luck_count,luck_time,activation_key FROM  filemanager_users WHERE username='$username' OR email='$username'";
             if($select = mysqli_query($GLOBALS["___mysqli_ston"], $select_query))

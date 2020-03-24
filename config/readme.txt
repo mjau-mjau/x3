@@ -9,7 +9,7 @@ config.user.json
 This file gets created once you edit settings from the X3 panel. It only stores differences from the default X3 configuration, and does not get overwritten when you upgrade X3.
 
 
-protect.php
+protect.json
 ----------------
 This file gets created once you add page/folder passwords from the X3 panel.
 

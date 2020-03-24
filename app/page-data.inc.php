@@ -226,7 +226,7 @@ Class PageData {
     	}
 
     	// get page images
-    	$page_images = Helpers::list_files($page->file_path, '/^' . self::$hide . '(?:[^.\n]*\.)*(?<!^preview\.|^thumb\.)(?:jpe?g|png|gif)$/i', false);
+    	$page_images = Helpers::list_files($page->file_path, '/^' . self::$hide . '(?:[^.\n]*\.)*(?<!^preview\.|^thumb\.)(?:jpe?g|png|gif|webp)$/i', false);
 
     	// filter hidden if not current page (for images count). Current page images are filtered in twig.extensions sortby()
     	if(!$current_page && !empty($page_images)){
@@ -237,42 +237,12 @@ Class PageData {
     	}
     	$page->images = $page_images;
 
-    	// get from IPTC too slow!
-  		/*$page_images = array_filter($page->data['images'], function($img){
-  			$img_data = @getimagesize($img, $info);
-  			if(isset($info["APP13"])) {
-		      $iptc = iptcparse($info["APP13"]);
-		      return !isset($iptc["2#219"][0]) || empty($iptc["2#219"][0]);
-		      //if(isset($iptc["2#219"][0])) $this->data['hidden'] = !empty($iptc["2#219"][0]);
-		    }
-		  	return true;
-		  	//if(isset($page->data[$img])) var_dump($page->data[$img]);
-		  	var_dump($img);
-		  	return true;//!isset($page->data[$img]['hidden']) || empty($page->data[$img]['hidden']);
-		  });*/
-
 		  # page.video
-    	if($current_page || self::$is_site) $page->video = Helpers::list_files($page->file_path, '/^' . self::$hide . '(?:[^.\n]*\.)*(?:mov|mp4|m4v)$/i', false);
+    	if($current_page || self::$is_site) $page->video = Helpers::list_files($page->file_path, '/^' . self::$hide . '(?:[^.\n]*\.)*(?:mov|mp4|m4v|webm|ogv)$/i', false);
     }
-
-    # page.swf, page.html, page.doc, page.pdf, page.mp3, etc.
-    # create a variable for each file type included within the page's folder (excluding .yml files)
-    // required for mp3!
-    /*$assets = self::get_file_types($page->file_path);
-    foreach($assets as $asset_type => $asset_files) {
-      $page->$asset_type = $asset_files;
-    }*/
-  	//}
   }
 
-  # What's this?
-  /*static function preparse_text($text) {
-    $content = preg_replace_callback('/:\s*(\n)?\+{3,}([\S\s]*?)\+{3,}/', create_function('$match',
-      'return ": |\n  ".preg_replace("/\n/", "\n  ", $match[2]);'
-    ), $text);
-    return $content;
-  }*/
-
+  //
   static function create_textfile_vars($page, $content = false, $current_page = false) {
 
   	# Parent template file

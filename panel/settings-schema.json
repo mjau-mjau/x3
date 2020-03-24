@@ -1885,9 +1885,12 @@
               "type": "string",
               "title": "Panel Language",
               "enum": [
+                "Chinese",
                 "English",
                 "French",
-                "German"
+                "German",
+                "Polish",
+                "Russian"
               ]
             },
             "editor": {
@@ -4659,7 +4662,7 @@
                 },
                 {
                   "type": "help",
-                  "helpvalue": "When changing <strong>username</strong> or <strong>password</strong>, you will automatically log out. Be sure to remember your new login details before clicking <em>save</em>."
+                  "helpvalue": "When changing <strong>username</strong> or <strong>password</strong>, you will automatically log out."
                 },
                 {
                   "key": "back.panel.username",
@@ -4668,6 +4671,7 @@
                 {
                   "key": "back.panel.password",
                   "type": "password",
+                  "title": "New Password",
                   "placeholder": "password"
                 },
                 {
