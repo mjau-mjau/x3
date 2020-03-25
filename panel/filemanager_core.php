@@ -57,7 +57,7 @@ class filemanager_core extends Services_JSON
 
     // is guest?
     public function is_guest(){
-        return USERNAME === 'guest' && !isset($_SESSION['filemanager_super']) && $this->check_pass('guest');
+        return defined("USERNAME") && USERNAME === 'guest' && !isset($_SESSION['filemanager_super']) && $this->check_pass('guest');
     }
 
     // enforce url setting
