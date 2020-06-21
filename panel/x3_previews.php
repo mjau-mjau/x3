@@ -49,12 +49,12 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 	  		$image = str_replace('../content/', '', $image);
 	  		$path = strpos($image, '/') === false ? $dir . '/' . $image : '../content/' . $image;
 	  		$img_link = '<a href="' . htmlspecialchars($path) . '" target="_blank">' . $image . '</a>';
-	  		$src = '<img src="' . str_replace('../content/', '../render/w200-c1:1-q90/', htmlspecialchars($path)) . '" />';
+	  		$src = '<img src="' . str_replace('../content/', '../render/w200-c1.1/', htmlspecialchars($path)) . '" />';
 	  	}
 
 	  	if(!$image || $class === 'error'){
 	  		$img_default = 'Default <a href="' . htmlspecialchars(self::$image_default) . '" target="_blank">' . str_replace(array('../content/', '../app'), array('', '/app'), self::$image_default) . '</a> will be used.';
-	  		$src_default = '<img src="' . str_replace(array('../content/', 'images/default.png'), array('../render/w200-c1:1-q90/', 'images/default-small.png'), htmlspecialchars(self::$image_default)) . '" />';
+	  		$src_default = '<img src="' . str_replace(array('../content/', 'images/default.png'), array('../render/w200-c1.1/', 'images/default-small.png'), htmlspecialchars(self::$image_default)) . '" />';
 	  	}
 
 

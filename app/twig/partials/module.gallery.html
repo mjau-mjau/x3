@@ -24,7 +24,7 @@
 {# set crop ratio if defined #}
 {% if settings.crop.enabled and settings.layout != "justified" and settings.layout != "columns" %}
 	{% set crop_ratio = settings.crop.crop[1] / settings.crop.crop[0] * 100 %}
-	{% set data_crop = ' data-crop="' ~ settings.crop.crop[0]|round ~ ':' ~ settings.crop.crop[1]|round ~ '"' %}
+	{% set data_crop = ' data-crop="' ~ settings.crop.crop[0]|round ~ '.' ~ settings.crop.crop[1]|round ~ '"' %}
 {% endif %}
 
 {# split #}
@@ -166,9 +166,10 @@
 	{% endif %}
 
 	{# image title #}
-	{% set title = getDefault(image.title, settings.image.title, settings.image.title_include)|striptags('<a><span><em><i><b><strong><small><s><mark>')|replace({'{file_name}': name_no_ext, '{file_name_ext}': image.file_name, '{path}': folder_path, '{image_path}': folder_path ~ image.file_name, '{{files}}': assetspath ~ '/content/custom/files'})|default(image.name) %}
-	{% if geo %}{% set title = title|replace({'{latitude}': image.exif.latitude, '{longitude}': image.exif.longitude, '{map_embed_src}': map_embed_src, '{map_link_src}': map_link_src, '{map_button_popup}': map_button_popup, '{map_link_popup}': map_link_popup, '{map_button}': map_button, '{map_link}': map_link}) %}{% endif %}
-	{% set title_pseudo = title|replace({'<a': '<span', '</a>': '</span>', ' href=': ' data-href=', ' target=': ' data-target='}) %}
+	{% set title = getDefault(image.title, settings.image.title, settings.image.title_include)|striptags('<a><span><em><i><b><strong><small><s><mark>')|replace({'{file_name}': name_no_ext, '{file_name_ext}': image.file_name, '{path}': folder_path, '{image_path}': folder_path ~ image.file_name, '{{files}}': assetspath ~ '/content/custom/files'}) %}
+	{% set title_name = title|default(image.name) %}
+	{% if title and geo %}{% set title = title|replace({'{latitude}': image.exif.latitude, '{longitude}': image.exif.longitude, '{map_embed_src}': map_embed_src, '{map_link_src}': map_link_src, '{map_button_popup}': map_button_popup, '{map_link_popup}': map_link_popup, '{map_button}': map_button, '{map_link}': map_link}) %}{% endif %}
+	{% set title_pseudo = title_name|replace({'<a': '<span', '</a>': '</span>', ' href=': ' data-href=', ' target=': ' data-target='}) %}
 
 	{# image description #}
 	{% set image_description = getDefault(image.description, settings.image.description, settings.image.description_include) %}
@@ -200,7 +201,7 @@
 		{% set tooltip_items = settings.tooltip.items|split(',') %}
 		{% set link_title_content %}
 		{% for item in tooltip_items %}
-			{% if item == 'title' %}<span class="title">{{ title }}</span>
+			{% if item == 'title' %}<span class="title">{{ title_name }}</span>
 			{% elseif item == 'date' %}{{time_tag}}
 			{% elseif item == 'description' and description is not empty %}<span class="description">{{ description }}</span>{% endif %}
 		{% endfor %}
@@ -214,7 +215,7 @@
 	{% if settings.layout != "slideshow" %}
 	<figure>
 			<div class="image-container" style="padding-bottom:{{ image_ratio }}%;">
-				<img data-src="{{ url_escaped }}" data-width="{{ image.width }}"{{ data_crop }} alt="{{ title|striptags|e('html') }}" itemprop="thumbnail">
+				<img data-src="{{ url_escaped }}" data-width="{{ image.width }}"{{ data_crop }} alt="{{ title_name|striptags|e('html') }}" itemprop="thumbnail">
 			</div>
 
 		{# If captions enabled #}
@@ -270,7 +271,7 @@
 		{% set data_is_link = image_link ? ' data-is-link="true"' : '' %}
 
 		{# anchor #}
-		<{{link_tag}} class="{{ anchor_class }}"{{ data_exif }}{{ data_geo }} data-width="{{ image.width }}" data-height="{{ image.height }}" data-image="{{ url_escaped }}" data-title="{{ title|e('html') }}" data-description="{{ description|e('html') }}" data-date="{{ date_formatted }}"{{ data_is_link }} href="{{ link_href|e }}"{{link_target}} id="image-{{ image.id|default(loop.index) }}"{{ link_title }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"{{ nofollow }}{{ data_pano }}>
+		<{{link_tag}} class="{{ anchor_class }}"{{ data_exif }}{{ data_geo }} data-width="{{ image.width }}" data-height="{{ image.height }}" data-image="{{ url_escaped }}" data-title="{{ title|e('html') }}" data-name="{{ image.name }}" data-description="{{ description|e('html') }}" data-date="{{ date_formatted }}"{{ data_is_link }} href="{{ link_href|e }}"{{link_target}} id="image-{{ image.id|default(loop.index) }}"{{ link_title }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"{{ nofollow }}{{ data_pano }}>
 
 		{# Lets just set anchor text if slideshow #}
 		{% if settings.layout != "slideshow" %}

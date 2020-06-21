@@ -7,11 +7,11 @@
 class SLIRConfig {
 
 	public static $browserCacheTTL = 315360000; // 10 years = 365 * 24 * 60 * 60 * 10
-	public static $useRequestCache = FALSE;
 	public static $copyEXIF	= FALSE;
 	public static $maxMemoryToAllocate = 100;
 	public static $defaultQuality	= 90;
 	public static $defaultCropper	= SLIR::CROP_CLASS_CENTERED;
+	//public static $defaultCropper	= SLIR::CROP_CLASS_SMART;
 	public static $defaultProgressiveJPEG	= TRUE;
 	public static $logErrors = TRUE;
 	public static $errorImages = TRUE;
@@ -50,9 +50,6 @@ class SLIRConfig {
 					// copy ICC color profile
 					if(isset($user_config["back"]["image_resizer"]["copy_icc_profile"]) && 
 						is_bool($user_config["back"]["image_resizer"]["copy_icc_profile"])) self::$copyICCProfile = $user_config["back"]["image_resizer"]["copy_icc_profile"];
-
-					// use request cache
-					if(isset($user_config["back"]["image_resizer"]["use_request_cache"])) self::$useRequestCache = $user_config["back"]["image_resizer"]["use_request_cache"];
 				}
 			}
 		}

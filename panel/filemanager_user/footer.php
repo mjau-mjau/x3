@@ -17,41 +17,41 @@ if ($core->isLogin() and $core->is_block == 0 and $core->role == "user"){
 </div>
 
 <!-- Javascript -->
-<script src="https://cdn.jsdelivr.net/npm/blueimp-tmpl@3.13.0/js/tmpl.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-tmpl@3.17.0/js/tmpl.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/keymaster@1.6.2/keymaster.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/autosize@4.0.2/dist/autosize.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/scrolltofixed@1.0.6/jquery-scrolltofixed.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-load-image@2.26.0/js/load-image.all.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-canvas-to-blob@3.17.0/js/canvas-to-blob.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-load-image@5.12.0/js/load-image.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-canvas-to-blob@3.27.0/js/canvas-to-blob.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-ui@1.12.1/ui/widget.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/js/jquery.fileupload.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/js/jquery.fileupload-process.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/js/jquery.fileupload-image.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/js/jquery.fileupload-audio.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/js/jquery.fileupload-video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/js/jquery.fileupload-validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/js/jquery.fileupload-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/js/jquery.fileupload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/js/jquery.fileupload-process.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/js/jquery.fileupload-image.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/js/jquery.fileupload-audio.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/js/jquery.fileupload-video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/js/jquery.fileupload-validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/js/jquery.fileupload-ui.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/underscore@1.9.2/underscore.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/ace.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/underscore@1.10.2/underscore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.11/src-noconflict/ace.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.0.1/velocity.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.0.1/velocity.ui.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.2/dist/photoswipe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.2/dist/photoswipe-ui-default.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/js/standalone/selectize.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-hoverintent@1.10.1/jquery.hoverIntent.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-contextmenu@1.0.0/bootstrap-contextmenu.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-growl-ifightcrime@1.1.0/jquery.bootstrap-growl.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/z-schema@4.2.2/dist/ZSchema-browser-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/z-schema@4.2.3/dist/ZSchema-browser-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-throttle-debounce@1.0.0/jquery.ba-throttle-debounce.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/codemirror@5.52.0/lib/codemirror.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/codemirror@5.52.0/mode/xml/xml.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.53.0/lib/codemirror.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.53.0/mode/xml/xml.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
-<?php if(preg_match('~MSIE|Internet Explorer~i', $_SERVER['HTTP_USER_AGENT']) || preg_match('~Trident/7.0(; Touch)?; rv:11.0~',$_SERVER['HTTP_USER_AGENT'])): ?><script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js"></script><?php endif; ?>
-<script src="https://cdn.jsdelivr.net/npm/yall-js@3.1.7/dist/yall.min.js"></script>
+<?php if(preg_match('~MSIE|Internet Explorer~i', $_SERVER['HTTP_USER_AGENT']) || preg_match('~Trident/7.0(; Touch)?; rv:11.0~',$_SERVER['HTTP_USER_AGENT'])): ?><script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.10.0/intersection-observer.js"></script><?php endif; ?>
+<script src="https://cdn.jsdelivr.net/npm/yall-js@3.2.0/dist/yall.min.js"></script>
 
 <?php
 $summernote_lang = false;
@@ -101,10 +101,10 @@ if(array_key_exists($language_key, $language_array)) {
 
 <!-- non-critical CSS -->
 <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.2/dist/photoswipe.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.2/dist/default-skin/default-skin.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/css/jquery.fileupload.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.8.0/css/jquery.fileupload-ui.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/css/jquery.fileupload.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/css/jquery.fileupload-ui.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.bootstrap3.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.css" rel="stylesheet" />

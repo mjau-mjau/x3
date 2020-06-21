@@ -36,7 +36,28 @@ function get_file_url() {
         substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
 }
 
+// check  image orientation before rotation
+function check_orientation($path, $ext) {
 
+    // proceed if extension is image
+    if(empty($ext) || !in_array($ext, ['png', 'jpg', 'jpeg']) || !function_exists('exif_read_data') || !file_exists($path) || !is_writable($path)) return false;
+
+    // Get all the exif data from the file
+    $exif = @exif_read_data($path);
+
+    // If we dont get any exif data at all, then we may as well stop now
+    if(empty($exif) || !is_array($exif)) return false;
+
+    // get $orientation
+    $orientation = isset($exif['Orientation']) ? (int)$exif['Orientation'] : (isset($exif['orientation']) ? (int)$exif['orientation'] : 0);
+    if($orientation < 2 || $orientation > 8) return false;
+
+    // proceed
+    require(__DIR__ . DIRECTORY_SEPARATOR . 'x3.image-orientation.php');
+    fix_orientation($orientation, $path, $ext, X3Config::$config["back"]["panel"]["upload_resize"]["quality"]);
+}
+
+//
 if ($core->isLogin())
 {   
     // exit if guest
@@ -84,7 +105,6 @@ if ($core->isLogin())
             $extension = end($temp);
             $extension = strtolower($extension);*/
 
-
             // extension
             $extension = strtolower(pathinfo($_FILES["datafile"]["name"], PATHINFO_EXTENSION));
 
@@ -111,12 +131,10 @@ if ($core->isLogin())
                             //$name = $_FILES["datafile"]["name"];
                             $name = str_replace('%22', '"', $_FILES["datafile"]["name"]);
 
-                            // PHP orientation
-                            if(X3Config::$config["back"]["panel"]["upload_resize"]["orientation"] === 'server'){
-                            	require_once('x3.image-orientation.php');
-                            	fix_orientation($_FILES["datafile"]["tmp_name"], $extension, X3Config::$config["back"]["panel"]["upload_resize"]["quality"]);
-                            }
+                            // PHP image orientation (if not oriented by resizer)
+                            check_orientation($_FILES["datafile"]["tmp_name"], $extension);
 
+                            //
                             if (file_exists($_POST["uploadDir"] . $_FILES["datafile"]["name"]))
                             {
                                 $name = set_new_name_for_file($_POST["uploadDir"], $name);

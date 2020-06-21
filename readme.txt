@@ -1,4 +1,4 @@
-# Imagevue X3.28.0
+# Photo Gallery X3.29.0
 
 
 
@@ -40,7 +40,7 @@ LINKS
 ==================
 
 # X3 Documentation
-https://docs.photo.gallery/
+https://www.photo.gallery/docs/
 
 # X3 Support Forums
 https://forum.photo.gallery
@@ -53,7 +53,6 @@ https://www.photo.gallery/downloads/
 
 # Official X3 Demo Gallery
 https://demo.photo.gallery
-https://demo.photo.gallery/
 
 # A list of several websites running imagevue X3
 https://www.photo.gallery/showcase/

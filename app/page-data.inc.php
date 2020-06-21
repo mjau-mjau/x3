@@ -126,7 +126,6 @@ Class PageData {
 	    $page->current_year = date('Y');
 
 	    # X3 get page protected
-    	//$page->protected = self::get_protected(Helpers::modrewrite_parse($page->url_path));
     	if($page->is_protected){
     		$page->protected = $page->is_protected;
     	} else if($page->url_path === 'examples/features/password') {
@@ -139,14 +138,7 @@ Class PageData {
 	    $page->x3_version = X3::$version;
 
 	    # page.site_updated
-	    //if(!self::$site_updated) self::$site_updated = Helpers::site_last_modified();
-	    //$page->site_updated = self::$site_updated;
       $page->site_updated = Helpers::site_last_modified();
-
-    	# page.siblings_count
-	    //$page->siblings_count = strval(count($page->data['siblings_and_self']));
-
-	    # page.index
 
 	    # page.template_name
 	    $page->data['template_name'] = $page->template_name;

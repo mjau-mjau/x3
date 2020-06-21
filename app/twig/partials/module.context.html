@@ -63,7 +63,7 @@
 	{# Crop #}
 	{% if context.crop.enabled %}
 		{% set crop_ratio = context.crop.crop[1] / context.crop.crop[0] * 100 %}
-		{% set data_crop = ' data-crop="' ~ context.crop.crop[0] ~ ':' ~ context.crop.crop[1] ~ '"' %}
+		{% set data_crop = ' data-crop="' ~ context.crop.crop[0] ~ '.' ~ context.crop.crop[1] ~ '"' %}
 	{% endif %}
 
 	{# preview url #}

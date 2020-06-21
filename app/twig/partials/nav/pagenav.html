@@ -1,0 +1,32 @@
+{% spaceless %}
+
+{% if page.settings.pagenav and page.slug is not empty
+ and (page.plugins.pagenav.hide_has_children is empty or page.children_count == 0)
+ and (page.plugins.pagenav.hide_root is empty or page.permalink|split('/')|length > 2) %}
+
+{# get siblings #}
+{% set siblings = get_adjacent_siblings(page.file_path) %}
+{% if siblings and (siblings.prev or siblings.next) %}
+
+{# get parent folder and append / unless == / #}
+{% set href_base = rootpath_page|dirname %}
+{% if href_base|last != '/' %}{% set href_base = href_base ~ '/' %}{% endif %}
+
+{# start pagenav element #}
+<div class="pagenav pagenav-static">
+
+	{% if siblings.prev %}
+		{% set href_prev = href_base ~ siblings.prev.slug ~ '/' %}
+		<a href="{{ href_prev|e }}" class="pagenav-link pagenav-prev"{% if siblings.prev.title %} title="{{ siblings.prev.title|e }}"{% endif %}><span class="pagenav-text">{{ siblings.prev.label }}</span></a>
+	{% endif %}
+
+	{% if siblings.next %}
+		{% set href_next = href_base ~ siblings.next.slug ~ '/' %}
+		<a href="{{ href_next|e }}" class="pagenav-link pagenav-next"{% if siblings.next.title %} title="{{ siblings.next.title|e }}"{% endif %}><span class="pagenav-text">{{ siblings.next.label }}</span></a>
+	{% endif %}
+
+</div>
+{% endif %}
+{% endif %}
+
+{% endspaceless %}

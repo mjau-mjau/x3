@@ -1,5 +1,3 @@
-{% include 'partials/nav/article-nav.html' with {'page': page } %}
-
 {# Vars #}
 {% set layout = page.layout %}
 {% set items = layout.items|split(',') %}
@@ -42,8 +40,6 @@
 	{% include container with {'module': module, 'default':true, 'class':'images' } %}
 
 	{# Gallery #}
-	{#{% elseif module == 'gallery' and (gallery.images|length > 0 or page.gallery.embed or gallery.video|length > 0) %}#}
-	{#{% elseif module == 'gallery' and (gallery_images|length > 0 or page.gallery.embed or gallery.video|length > 0) %}#}
 	{% elseif module == 'gallery' and (gallery_images|length > 0 or page.gallery.embed or gallery_videos|length > 0) %}
 		{% include container with {'module': module, 'default':true, 'class':'images' } %}
 
@@ -53,3 +49,6 @@
 	{% endif %}
 
 {% endfor %}
+
+{# pagenav #}
+{% include 'partials/nav/pagenav.html' with {'page': page } %}

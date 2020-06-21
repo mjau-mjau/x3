@@ -3,7 +3,7 @@
 # X3
 Class X3 {
 
-  static $version = '3.28.0';
+  static $version = '3.29.0';
   static $version_date = 1585049744210;
   static $server_protocol = 'http://';
 
@@ -151,8 +151,8 @@ Class X3 {
     $this->set_content_type($template_file);
     header('Generator: X' . X3::$version . ' / www.photo.gallery');
 
-    // no-index, nofollow (none) for image landing pages?
-    if(X3Config::$config["settings"]["image_noindex"] && basename($template_file) === 'file.html') header('X-Robots-Tag: noindex');
+    // no-index, nofollow (none) for image landing pages
+    if(X3Config::$config['settings']['image_noindex'] && basename($template_file) === 'file.html') header('X-Robots-Tag: noindex');
 
     # if etag is still fresh, return 304 and don't render anything
     if(!$this->etag_expired($cache)) return;
@@ -172,78 +172,45 @@ Class X3 {
 
 		# strictly for sample content
 		if($this->route === 'examples/features/password') {
-			$this->setAuth(array('username' => 'guest', 'password' => 'guest'), Page::template_type($template_file));
+			$this->setAuth(array('username' => 'guest', 'password' => 'guest'), $template_file);
 			$this->is_protected = 'recursive';
 			return;
 		}
 
     // protect.json
-    if(file_exists('./config/protect.json')){
-      $protect = @file_get_contents('./config/protect.json');
-
-    // protect.php (legacy)
-    } else if(file_exists('./config/protect.php')){
-      require_once './config/protect.php';
-    }
-
-		# get object
-		global $protect_ob;
-    $protect_ob = isset($protect) && !empty($protect) ? @json_decode(trim($protect), true) : array();
-
-    # Only continue if access is not empty
-    if(empty($protect_ob) || !isset($protect_ob["access"]) || empty($protect_ob["access"])) return;
+    $protect = file_exists('./config/protect.json') ? @file_get_contents('./config/protect.json') : false;
+    global $protect_ob;
+    $protect_ob = empty($protect) ? array() : @json_decode(trim($protect), true);
+    if(empty($protect_ob) || !isset($protect_ob['access']) || empty($protect_ob['access'])) return;
 
     # get access object
-    $x3_access = $protect_ob["access"];
+    $x3_access = $protect_ob['access'];
 
-    // Collapse grouped access links
+    // Flatten grouped access links
     foreach ($x3_access as $key => $value) {
-    	if(substr_count($key, ',') > 0){
-    		$keys = explode(",", $key);
-    		foreach ($keys as $url) {
-    			if(!array_key_exists($url, $x3_access)) $x3_access[$url] = $value;
-    		}
-    		unset($x3_access[$key]);
-    	}
+      $keys = explode(',', $key);
+      if(count($keys) < 2) continue;
+      foreach ($keys as $url) { // set or merge
+        $exists = isset($x3_access[$url]);
+        $x3_access[$url] = $exists ? array_replace($value, $x3_access[$url]) : $value;
+        if($exists && isset($value['users'])) $x3_access[$url]['users'] = array_unique(array_merge($x3_access[$url]['users'], $value['users']));
+      }
+      unset($x3_access[$key]);
     }
 
     // Sort by amount of slashes (folder deep on top)
     uksort($x3_access, function($a, $b){
-    	return (substr_count($a,'/') < substr_count($b,'/')) ? 1 : -1;
+      return substr_count($a,'/') < substr_count($b,'/') ? 1 : -1;
 		});
 
-    if(!empty($x3_access)){
-    	$broke = false;
-    	$route = $this->route;
-
-    	// Check equal links first
-	  	foreach ($x3_access as $key => $value) {
-	  		$keys = explode(',', $key);
-	  		foreach ($keys as $url) {
-          $item = str_replace('.', '_', rtrim($url, '/*'));
-		  		if($item == $route){
-		  			$this->is_protected = 'recursive';
-		  			$this->setAuth($value, Page::template_type($template_file));
-		  			$broke = true;
-		  			break 2;
-		  		}
-	  		}
-			}
-
-			// Check recursive
-			if(!$broke) {
-				foreach ($x3_access as $key => $value) {
-		  		$keys = explode(',', $key);
-		  		foreach ($keys as $url) {
-            $item = str_replace('.', '_', rtrim($url, '/*'));
-			  		if(substr($route, 0, strlen($item)) === $item){
-			  			$this->is_protected = 'recursive';
-			  			$this->setAuth($value, Page::template_type($template_file));
-			  			break 2;
-			  		}
-		  		}
-				}
-			}
+    // loop access, and find first matching path, if exists
+    foreach ($x3_access as $key => $value) {
+      $item = str_replace('.', '_', rtrim($key, '/*'));
+      if($this->route === $item || substr($this->route, 0, strlen($item)) === $item){
+        $this->is_protected = 'recursive';
+        $this->setAuth($value, $template_file);
+        break;
+      }
     }
 	}
 
@@ -278,12 +245,10 @@ Class X3 {
   }
 
   // X3 set auth
-  function setAuth($value, $template){
+  function setAuth($value, $template_file){
+    if(empty($value) || (!isset($value['password']) && !isset($value['users']))) return;
   	include "./app/auth.inc.php";
-  	$username = empty($value["username"]) ? null : $value["username"];
-		$password = empty($value["password"]) ? null : $value["password"];
-		$users = empty($value["users"]) ? null : $value["users"];
-		if(!empty($password) || !empty($users)) new BasicAuth($username, $password, $users, $template);
+		new BasicAuth($value, Page::template_type($template_file));
   }
 
   // X3 Service routes

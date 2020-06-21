@@ -250,9 +250,14 @@ class Iptc
         // detect if image is corrupt before writing
         if(version_compare(PHP_VERSION, '7.3') >= 0 && version_compare(PHP_VERSION, '7.3.3') < 0 && !@getimagesizefromstring($content)) return;
 
+        // reference date from iptc (legacy reference_date) or mtime
+        $reference_date = $this->fetch(Iptc::REFERENCE_DATE) ?: filemtime($this->_filename);
+
         // unlink and put new file
         @unlink($this->_filename);
-        return file_put_contents($this->_filename, $content) !== false;
+        $success = file_put_contents($this->_filename, $content) !== false;
+        if($success) touch($this->_filename, $reference_date);
+        return $success;
     }
 
     /**

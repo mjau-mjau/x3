@@ -15,7 +15,6 @@ if ($core->isLogin())
 
         $allowedExts = $core->get_allow_uploads();
         $allowedExts = implode(", ", $allowedExts);
-        $resizer_orientation = X3Config::$config["back"]["panel"]["upload_resize"]["orientation"];
 ?>
 
 <!-- NEW UPLOADER -->
@@ -135,7 +134,7 @@ if ($core->isLogin())
                         <span class="preview">
                             {% if (file.thumbnailUrl) { %}
                                 <a href="{%=file.url%}" target="_blank"{% if (file.width) { %} class="popup" data-width="{%=file.width%}" data-height="{%=file.height%}"{% } %} data-name="{%=file.name%}" data-filesize="{%=o.formatFileSize(file.size)%}" rel="up1">
-                                	<img src="{%=file.thumbnailUrl.replace('/content/','/render/w'+thumbsize+'-c1:1-q90/')%}">
+                                	<img src="{%=file.thumbnailUrl.replace('/content/','/render/w'+thumbsize+'-c1.1/')%}">
                                 </a>
                             {% } %}
                         </span>
@@ -173,8 +172,7 @@ if ($core->isLogin())
             		"img_resize_height": <?php echo IMG_RESIZE_HEIGHT; ?>,
             		"img_resize_quality": <?php echo IMG_RESIZE_QUALITY; ?>,
             		"path": 'upload.php',
-            		"acceptFileTypes": /(\.|\/)(<?php echo implode("|",$core->get_allow_uploads()) ?>)$/i,
-            		"orientation": <?php echo ($resizer_orientation === true || $resizer_orientation === 'resizer' ? 'true' : 'false'); ?>
+            		"acceptFileTypes": /(\.|\/)(<?php echo implode("|",$core->get_allow_uploads()) ?>)$/i
             	});
             });
 

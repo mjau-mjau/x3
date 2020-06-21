@@ -1,15 +1,15 @@
 {
     "index": {
         "url": "index",
-        "index": 3
+        "index": 5
     },
     "galleries": {
         "url": "galleries",
-        "index": 4
+        "index": 6
     },
     "examples": {
         "url": "examples",
-        "index": 5
+        "index": 7
     },
     "examples\/assets": {
         "url": "examples\/assets",
@@ -18,7 +18,7 @@
     },
     "contact": {
         "url": "contact",
-        "index": 6
+        "index": 8
     },
     "galleries\/landscapes": {
         "url": "galleries\/landscapes",

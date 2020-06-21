@@ -45,6 +45,28 @@ function little_name_filter($name)
     return $newName;
 }
 
+// check  image orientation before rotation
+function check_orientation($path, $ext) {
+
+    // proceed if extension is image
+    if(empty($ext) || !in_array($ext, ['png', 'jpg', 'jpeg']) || !function_exists('exif_read_data') || !file_exists($path) || !is_writable($path)) return false;
+
+    // Get all the exif data from the file
+    $exif = @exif_read_data($path);
+
+    // If we dont get any exif data at all, then we may as well stop now
+    if(empty($exif) || !is_array($exif)) return false;
+
+    // get $orientation
+    $orientation = isset($exif['Orientation']) ? (int)$exif['Orientation'] : (isset($exif['orientation']) ? (int)$exif['orientation'] : 0);
+    if($orientation < 2 || $orientation > 8) return false;
+
+    // proceed
+    require(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'x3.image-orientation.php');
+    fix_orientation($orientation, $path, $ext, X3Config::$config["back"]["panel"]["upload_resize"]["quality"]);
+}
+
+//
 if ($core->isLogin())
 {
     if( isset( $_GET["action"] ) and $_GET["action"] == "delete_file" and isset( $_GET["delete_file_dir"] ) and isset( $_GET["delete_file_path"] ) ) {
@@ -133,12 +155,10 @@ if ($core->isLogin())
                             //$name = $_FILES["datafile"]["name"];
                             $name = str_replace('%22', '"', $_FILES["datafile"]["name"]);
 
-                            // PHP orientation
-                            if(X3Config::$config["back"]["panel"]["upload_resize"]["orientation"] === 'server'){
-                            	require_once('../x3.image-orientation.php');
-                            	fix_orientation($_FILES["datafile"]["tmp_name"], $extension, X3Config::$config["back"]["panel"]["upload_resize"]["quality"]);
-                            }
+                            // PHP image orientation (if not oriented by resizer)
+                            check_orientation($_FILES["datafile"]["tmp_name"], $extension);
 
+                            //
                             if (file_exists($_POST["uploadDir"] . $_FILES["datafile"]["name"]))
                             {
                                 $name = set_new_name_for_file($_POST["uploadDir"], $name);

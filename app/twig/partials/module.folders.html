@@ -21,7 +21,7 @@
 {# Set crop ratio if defined #}
 {% if folders.crop.enabled and folders.layout != "justified" and folders.layout != "columns" %}
 	{% set crop_ratio = folders.crop.crop[1] / folders.crop.crop[0] * 100 %}
-	{% set data_crop = ' data-crop="' ~ folders.crop.crop[0]|round ~ ':' ~ folders.crop.crop[1]|round ~ '"' %}
+	{% set data_crop = ' data-crop="' ~ folders.crop.crop[0]|round ~ '.' ~ folders.crop.crop[1]|round ~ '"' %}
 {% endif %}
 
 {# Set sort #}

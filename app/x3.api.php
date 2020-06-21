@@ -32,14 +32,23 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 	// X3 mailer
 	} else if($action === 'email'){
 
+		// json response
+		function json_response($success = false, $msg = false, $debug = false){
+			header('content-type: application/json; charset=utf-8');
+			$arr = array('success' => $success);
+			if($msg) $arr['msg'] = $msg;
+			if($debug) $arr['debug'] = $debug;
+			exit(json_encode($arr));
+		}
+
 		// Get email (input)
 		$email = isset($_POST['email']) ? $_POST['email'] : (isset($_POST['Email']) ? $_POST['Email'] : false);
 
 		// Make sure fields are populated correctly
 		if(empty($_POST['honey1']) 
-			&& $_POST['honey2'] == "googooforgaga" 
+			&& $_POST['honey2'] == 'googooforgaga' 
 			&& (!$email || filter_var($email, FILTER_VALIDATE_EMAIL)) 
-			&& filter_var($_POST['page'], FILTER_VALIDATE_URL)
+			&& !empty($_POST['page'])
 			) {
 
 			// Get config
@@ -50,10 +59,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 			$to_string = isset($_POST['recipient']) && !empty($_POST['recipient']) ? $_POST['recipient'] : (isset($settings['to']) && !empty($settings['to']) ? $settings['to'] : false);
 
 			// continue only if to_string is set
-			if(empty($to_string)) {
-				echo 'No email recipients specified';
-				return false;
-			}
+			if(empty($to_string)) json_response(false, 'No email recipients specified.');
 
 			// add to email arrays, sanitize and validate
 			$email_array = explode(',', $to_string);
@@ -76,10 +82,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 			if(empty($to_array) && !empty($bcc_array)) array_push($to_array, array_shift($bcc_array));
 
 			// continue only if $to_array still contains emails after filtering
-			if(empty($to_array)) {
-				echo 'No valid email recipients specified';
-				return false;
-			}
+			if(empty($to_array)) json_response(false, 'No valid email recipients specified.');
 
 			// get IP
 			function get_client_ip() {
@@ -164,6 +167,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 			$custom = array_filter_key($_POST, function($a) use ($ignore){
 				return !in_array($a, $ignore);
 			});
+			if(isset($custom['page'])) $custom['page'] = urldecode($custom['page']);
 			foreach ($custom as $key => $value) {
 				$val = nl2br(strip_tags(trim($value)));
 				if(!empty($val)){
@@ -188,28 +192,45 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 			// SMTP
 			if($settings['use_smtp']) {
 				$mail->isSMTP();
+
+				// host
 				$mail->Host = $settings['host'] ?: 'smtp.gmail.com';
+
+				// auth
 				$smtp_auth = $settings['SMTPAuth'] ? true : false;
 				$mail->SMTPAuth = $smtp_auth;
 				if($smtp_auth){
 					$mail->Username = trim($settings['username']);
 					$mail->Password = trim($settings['password']);
 				}
-				$mail->SMTPSecure = $settings['SMTPSecure'] ?: 'tls'; // tls, ssl or empty
+
+				 // secure
+				$insecure = $settings['SMTPSecure'] == 'none';
+				if($insecure) $mail->SMTPAutoTLS = false;
+				if(!$insecure) $mail->SMTPSecure = $settings['SMTPSecure'];
+				if(!$settings['verify_peer']) $mail->SMTPOptions = array('ssl' => array(
+	        'verify_peer' => false,
+	        'verify_peer_name' => false,
+	        'allow_self_signed' => true
+			  ));
 				$mail->Port = $settings['port'] ?: 587; // 25|587|465
-				$mail->SMTPDebug = ($settings['debug'] ? 3 : 0); // 0|1|2|3
+
+				// debug
+				$mail->SMTPDebug = 3;//($settings['debug'] ? 3 : 0); // 0|1|2|3
+				$mail->Debugoutput = 'echo'; // echo, because it goes into console, not HTML output
 			}
 
-			// SEND!
-			if(!$mail->send()) {
-				echo 'Message could not be sent.';
-				echo 'Mailer Error: ' . $mail->ErrorInfo;
-			} else {
-				echo 'true';
-			}
+			// send
+			ob_start();
+			$success = $mail->send();
+			$debug = $success ? false : ob_get_contents();
+			ob_end_clean();
+
+			// respond
+			json_response($success, $success ? $settings['response_text'] : $mail->ErrorInfo, $debug);
 
 		} else {
-			echo 'xtruex';
+			json_response(true, 'honey');
 		}
 	}
 }

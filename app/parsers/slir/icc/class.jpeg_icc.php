@@ -3,7 +3,7 @@
  * PHP JPEG ICC profile manipulator class
  *
  * @author Richard Toth aka risko (risko@risko.org)
- * @version 0.1
+ * @version 0.2
  */
 class JPEG_ICC
 {
@@ -85,7 +85,7 @@ class JPEG_ICC
 					//echo "APP2 ";
 					$size = $this->getJPEGSegmentSize($f, $pos);
 					//echo "Size: $size\n";
-
+					
 					if ($this->getJPEGSegmentContainsICC($f, $pos, $size))
 					{
 						//echo "+ ICC Profile: YES\n";
@@ -154,6 +154,11 @@ class JPEG_ICC
 		return false;
     }
 
+	/**
+	 * Save previously loaded ICC profile into JPEG file.
+	 *
+	 * @param		string		JPEG file name
+	 */
     public function SaveToJPEG($fname)
     {
 		if ($this->icc_profile == '') throw new Exception("No profile loaded.\n");
@@ -262,7 +267,7 @@ class JPEG_ICC
 	 * Set Rendering Intent of the profile.
 	 *
 	 * Possilbe values are ICC_RI_PERCEPTUAL, ICC_RI_RELATIVE_COLORIMETRIC, ICC_RI_SATURATION or ICC_RI_ABSOLUTE_COLORIMETRIC.
-	 *
+	 * 
 	 * @param		int		rendering intent
 	 */
 	private function setRenderingIntent($newRI)
@@ -367,7 +372,7 @@ class JPEG_ICC
 	private function getChunk($chunk_no)
 	{
 		if ($chunk_no > $this->icc_chunks) return '';
-
+		
 		$max_chunk_size = self::MAX_BYTES_IN_MARKER - self::ICC_HEADER_LEN;
 		$from = ($chunk_no - 1) * $max_chunk_size;
 		$bytes = ($chunk_no < $this->icc_chunks) ? $max_chunk_size : $this->icc_size % $max_chunk_size;
@@ -375,6 +380,11 @@ class JPEG_ICC
 		return substr($this->icc_profile, $from, $bytes);
 	}
 
+	/**
+	 * Prepare all data needed to be inserted into JPEG file to add ICC profile.
+	 *
+	 * @return		string
+	 */
 	private function prepareJPEGProfileData()
 	{
 		$data = '';
@@ -505,7 +515,7 @@ class JPEG_ICC
 			{
 				case 0xd8: // SOI
 					$pos += 2;
-
+					
 					$p_data = $this->prepareJPEGProfileData();
 					if ($p_data != '')
 					{

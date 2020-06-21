@@ -11,10 +11,6 @@
           "type": "string",
           "title": "Google Analytics"
         },
-        "google_publisher": {
-          "type": "string",
-          "title": "Google Publisher"
-        },
         "google_site_verification": {
           "type": "string",
           "title": "Google Webmaster Site Verification"
@@ -273,6 +269,12 @@
           "title": "Caption Items",
           "properties": {
             "title": {
+              "type": "boolean"
+            },
+            "title_from_name": {
+              "type": "boolean"
+            },
+            "filename": {
               "type": "boolean"
             },
             "description": {
@@ -1576,7 +1578,18 @@
 		        },
 		        "hide_has_children": {
 		          "type": "boolean"
-		        }
+		        },
+            "position": {
+              "type": "string",
+              "enum": [
+                "fixed",
+                "fixed-bottom",
+                "bottom"
+              ]
+            },
+            "autohide": {
+              "type": "boolean"
+            }
       		}
       	},
       	"cookie_consent":{
@@ -1847,38 +1860,25 @@
             },
             "upload_resize": {
               "type": "object",
-              "title": "Upload Resizer",
               "properties": {
                 "enabled": {
-                  "type": "boolean",
-                  "title": "Upload resizer"
+                  "type": "boolean"
                 },
                 "width": {
                   "type": "integer",
-                  "title": "Resize to width",
                   "minimum": 100,
                   "maximum": 4800
                 },
                 "height": {
                   "type": "integer",
-                  "title": "Resize to height",
                   "minimum": 100,
                   "maximum": 4800
                 },
                 "quality": {
                   "type": "integer",
-                  "title": "JPG compression",
                   "minimum": 0,
                   "maximum": 100
-                },
-                "orientation": {
-		              "type": "string",
-		              "enum": [
-				            "resizer",
-				            "server",
-				            "no"
-				          ]
-		            }
+                }
               }
             },
             "language": {
@@ -1929,6 +1929,9 @@
             "template": {
               "type": "string"
             },
+            "response_text": {
+              "type": "string"
+            },
             "use_smtp": {
               "type": "boolean"
             },
@@ -1947,18 +1950,18 @@
             "SMTPSecure": {
               "type": "string",
               "enum": [
-                "",
+                "none",
                 "tls",
                 "ssl"
               ]
+            },
+            "verify_peer": {
+              "type": "boolean"
             },
             "port": {
               "type": "number",
               "minimum": 0,
               "maximum": 10000
-            },
-            "debug": {
-              "type": "boolean"
             }
           }
         },
@@ -1970,11 +1973,25 @@
               "minimum": 1,
               "maximum": 100
             },
+            "sharpen": {
+              "type": "boolean"
+            },
+            "smart_crop": {
+              "type": "boolean"
+            },
+            "progressive": {
+              "type": "boolean"
+            },
             "copy_icc_profile": {
               "type": "boolean"
             },
-            "use_request_cache": {
-              "type": "boolean"
+            "allowed_width": {
+              "type": "string"
+            },
+            "max_memory": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1024
             }
           }
         },
@@ -2267,21 +2284,31 @@
 	            {
 	              "key": "popup.caption.title",
 	              "title": "Caption Items",
-	              "inlinetitle": "Title <a href=# class=show-help></a><div class=hidden><h3>Show title in caption</h3><p>Include image title in the caption. If you have not set a specific caption for the image, the image name (without extension) will be used.</p></div>"
+	              "inlinetitle": "Title <a href=# class=show-help></a><div class=hidden><h3>Title</h3><p>Show image title in popup caption.</p></div>",
+                "toggleNext": 1
 	            },
+              {
+                "key": "popup.caption.title_from_name",
+                "inlinetitle": "Create title from filename if empty title<a href=# class=show-help></a><div class=hidden><h3>Title from filename</h3><p>When enabled and image title is empty, it will get created from filename instead. In this case filename <code>happy-days.jpg</code> will become title <code>Happy days</code>.</p><p>If disabled, title will only appear if the image has a title.</p></div>"
+
+              },
+              {
+                "key": "popup.caption.filename",
+                "inlinetitle": "Filename <a href=# class=show-help></a><div class=hidden><h3>Filename</h3><p>Show filename in popup caption.</p></div>"
+              },
 	            {
 	              "key": "popup.caption.description",
-	              "inlinetitle": "Description <a href=# class=show-help></a><div class=hidden><h3>Show description in caption</h3><p>Include image description in the caption.</p><p><em>* Only applies if your image has been assigned a description.</em></p></div>",
+	              "inlinetitle": "Description <a href=# class=show-help></a><div class=hidden><h3>Description</h3><p>Show image description in popup caption.</p><p><em>* Only applies if your image has been assigned a description.</em></p></div>",
 	              "notitle": true
 	            },
 	            {
 	              "key": "popup.caption.date",
-	              "inlinetitle": "Date <a href=# class=show-help></a><div class=hidden><h3>Show date in caption</h3><p>Include image date in the caption.</p><p><em>* Image EXIF date will be used if available. Otherwise, server creation date will be used.</em></p></div>",
+	              "inlinetitle": "Date <a href=# class=show-help></a><div class=hidden><h3>Date</h3><p>Show image date in popup caption.</p><p><em>* Image EXIF date will be used if available. Otherwise, server creation date will be used.</em></p></div>",
 	              "notitle": true
 	            },
 	            {
 	              "key": "popup.caption.exif",
-	              "inlinetitle": "EXIF <a href=# class=show-help></a><div class=hidden><h3>Show EXIF in caption</h3><p>Display <a href=\"http://www.makeuseof.com/tag/exif-photo-data-find-understand/\" target=\"_blank\">image EXIF</a> meta data in the popup caption.</p><p><em>* EXIF data will only display if your image has EXIF meta data available.</em></p></div>",
+	              "inlinetitle": "EXIF <a href=# class=show-help></a><div class=hidden><h3>EXIF</h3><p>Show <a href=\"http://www.makeuseof.com/tag/exif-photo-data-find-understand/\" target=\"_blank\">image EXIF</a> meta data in popup caption.</p><p><em>* EXIF data will only display if your image has EXIF meta data available.</em></p></div>",
                 "toggleNext": 1,
 	              "notitle": true
 	            },
@@ -2292,7 +2319,7 @@
               },
 	            {
 	              "key": "popup.caption.download",
-	              "inlinetitle": "Download button <a href=# class=show-help></a><div class=hidden><h3>Download button in caption</h3><p>Adds a convenient download button directly to caption, making it easy for your visitors to download the image.</p></div>",
+	              "inlinetitle": "Download button <a href=# class=show-help></a><div class=hidden><h3>Download button</h3><p>Adds a convenient download button directly to caption, making it easy for your visitors to download the image.</p></div>",
 	              "toggleNext": 1
 	            },
 	            {
@@ -2302,7 +2329,7 @@
               {
                 "key": "popup.caption.map",
                 "htmlClass": "x3-pro-only",
-                "inlinetitle": "Map button <span class=\"x3-not-pro\"></span><a href=# class=show-help></a><div class=hidden><h3>Map button in caption</h3><p>Adds a map button directly to caption if the image contains GPS location data <a href=\"https://demo.photo.gallery/examples/features/exif/#&gid=1&pid=kinsarvik-church\" target=\"_blank\">[demo]</a>.</p></div>",
+                "inlinetitle": "Map button <span class=\"x3-not-pro\"></span><a href=# class=show-help></a><div class=hidden><h3>Map button</h3><p>Adds a map button directly to caption if the image contains GPS location data <a href=\"https://demo.photo.gallery/examples/features/exif/#&gid=1&pid=kinsarvik-church\" target=\"_blank\">[demo]</a>.</p></div>",
                 "toggleNext": 1
               },
               {
@@ -3726,7 +3753,7 @@
 	            "items": [
 	              {
 	                "type": "help",
-	                "helpvalue": "Use the <a href=# class='text-help'>Fotomoto Plugin</a> to add e-commerce to your website. <a href=\"https://demo.photo.gallery/examples/plugins/fotomoto/\" target=\"_blank\">[demo]</a><div class=hidden><h2>Fotomoto Plugin</h2><p>Integrate <a href=\"http://www.fotomoto.com/\" target=\"_blank\">Fotomoto</a> e-commerce seamlessly into your X3 website with this plugin.</p><div class=\"embed-responsive embed-responsive-16by9 fa fa-play\" style=\"background:#EEE; font-size: 4em; text-align:center; cursor:pointer; line-height:5.5em; display: block;\" onclick=\"$(this).append('<iframe src=https://www.youtube.com/embed/DDG83B_ZFug frameborder=0 allowfullscreen></iframe>')\"></div><h3>Instructions</h3><ol><li>Create a <a href=\"http://www.fotomoto.com/\" target=\"_blank\">Fotomoto</a> account.</li><li>Enable X3 Fotomoto plugin.</li><li>Add your Fotomoto Store ID.</li><li>Done!</li></ol><p><em>* Prices and product management is done from your Fotomoto Dashboard.</em></p></div>"
+	                "helpvalue": "Use the <a href=\"https://www.photo.gallery/docs/plugins/fotomoto/\" target=\"_blank\">Fotomoto Plugin</a> to add e-commerce to your website <a href=\"https://demo.photo.gallery/examples/plugins/fotomoto/\" target=\"_blank\">[see demo]</a>."
 	              },
 	              {
 		              "key": "plugins.fotomoto.enabled",
@@ -3868,7 +3895,7 @@
               "items": [
                 {
                   "type": "help",
-                  "helpvalue": "Global settings for the <a href=\"#\" class=\"text-help\" data-help=\"panorama\">X3 panorama plugin</a>. The panorama plugin must be enabled for each page from Page Settings &rsaquo; Plugins &rsaquo; Panorama.<br><span class=\"x3-not-pro\"></span>"
+                  "helpvalue": "Global settings for the <a href=\"https://www.photo.gallery/docs/plugins/panorama/\" target=\"_blank\">X3 Panorama plugin</a> <a href=\"https://demo.photo.gallery/examples/plugins/panorama/\" target=\"_blank\">[demo]</a>. The panorama plugin must be enabled for each page from Page Settings &rsaquo; Plugins &rsaquo; Panorama.<br><span class=\"x3-not-pro\"></span>"
                 },
                 {
                   "type": "section",
@@ -4130,21 +4157,40 @@
 	            "items": [
 	              {
 	                "type": "help",
-	                "helpvalue": "<a href=# class='text-help'>Page Navigation</a> allows visitors to navigate between sibling pages. <div class=hidden><h2>Page Navigation</h2><p>This option adds arrow controls on both sides of screen, which allow visitors to easily navigate between sibling pages. A page must have sibling pages in the same folder for the controls to display.</p><p><em>* Page navigation does not display for the index home page.</em></p></div>"
+	                "helpvalue": "<a href=# class=\"text-help\">Page navigation</a> allows visitors to navigate between sibling pages. <div class=hidden><h2>Page navigation</h2><p>When enabled, arrow controls will appear in fixed position on the sides of the screen, allowing visitors to easily navigate between sibling pages. A page must have sibling pages (other pages in the same parent) for the controls to appear. On devices without mouse pointer (mobile), the buttons will appear at the bottom of page.</p></div>"
 	              },
 		            {
 		              "key": "settings.pagenav",
 				          "inlinetitle": "Enabled",
-				          "toggleNext": 2
+				          "toggleNext": 3
 		            },
 		            {
 		              "key": "plugins.pagenav.hide_root",
-		              "inlinetitle": "Hide for root level pages <a href=# class=show-help></a><div class=hidden><h3>Hide for root level pages</h3><p>Hides page navigation for root-level pages.</p></p>The idea is that page navigation is for navigating between <em>related</em> pages. Often, pages on root-level are unique, while pages inside subfolders are related. Therefore, page navigation is hidden for root-level pages by default.</p></div>"
+		              "inlinetitle": "Hide for root pages <a href=# class=show-help></a><div class=hidden><h3>Hide for root pages</h3><p>Hides page navigation controls on root level pages. Root pages are often unique, and navigating between them might not make sense. Disable this option if you want to display page navigation controls on root level pages.</p></div>"
 		            },
 		            {
 		              "key": "plugins.pagenav.hide_has_children",
-		              "inlinetitle": "Hide for pages with child pages <a href=# class=show-help></a><div class=hidden><h3>Hide for pages with child pages</h3><p>Hides page navigation for pages that have child pages.</p></p>Often, pages that contain child pages are not related to their sibling pages and should not display page navigation.</p></div>"
-		            }
+		              "inlinetitle": "Hide for pages with child pages <a href=# class=show-help></a><div class=hidden><h3>Hide for pages with child pages</h3><p>Hides page navigation controls for pages that have child pages. Pages that contain child pages are often unique, and navigating between them might not make sense. Disable this option if you want to display page navigation controls on pages that contain child pages.</p></div>"
+		            },
+                {
+                  "type": "section",
+                  "items": [
+                    {
+                      "key": "plugins.pagenav.position",
+                      "type": "radios",
+                      "title": "Position <a href=# class=show-help></a><div class=hidden><h3>Position</h3><p>By default, page navigation controls will display in fixed position on the sides of the screen, appearing on mouse move and mouse hover. Since this behavior is limited to devices with mouse pointer, page navigation will instead display at bottom of page on touch devices. <em>Options:</em></p><p><strong>Fixed</strong> <code>mouse</code><br>Arrow buttons will display in fixed position on sides of screen on devices with mouse pointer, while page navigation will be disabled on touch devices.</p><p><strong>Fixed</strong> <code>mouse</code> + <strong>Bottom</strong> <code>touch</code> <em>* default</em><br>Arrow buttons will display in fixed position on sides of screen on devices with mouse pointer, and will display at bottom of page on touch devices.</p><p><strong>Bottom</strong><br>Page navigation buttons will appear at bottom of page on all devices.</p></div>",
+                      "titleMap": {
+                        "fixed": "Fixed <small class=\"text-muted\">[mouse only]</small>",
+                        "fixed-bottom": "Fixed <small class=\"text-muted\">[mouse]</small> + Bottom <small class=\"text-muted\">[touch]</small>",
+                        "bottom": "Bottom"
+                      }
+                    },
+                    {
+                      "key": "plugins.pagenav.autohide",
+                      "inlinetitle": "Fixed position autohide <a href=# class=show-help></a><div class=hidden><h3>Fixed position autohide</h3><p>Fixed position arrow controls will hide and appear on mouse movement.</p></div>"
+                    }
+                  ]
+                }
 	            ]
             },
             {
@@ -4463,7 +4509,7 @@
         },
         {
           "key": "back.custom.css",
-          "title": "Custom CSS <span>[CSS]</span> <a href=# class=show-help></a><div class=hidden><h3>Custom CSS</h3><p>Add your custom CSS here, available globally in your X3 website. You can override X3 styles, or add your own classes to be used in your content or applied to layouts.</p><p><em>* Don't include </em><code>&lt;style&gt;&lt;/style&gt;</code><em> tags, as they will be applied automatically.</em></p></div>",
+          "title": "Custom CSS <span>[CSS]</span> <a href=# class=show-help></a><div class=hidden><h3>Custom CSS</h3><p>Include custom CSS styles here. You can override existing styles or add your own classes. If you want to include CSS for a single page only, go to <em>page settings &rsaquo; Page &rsaquo; Advanced &rsaquo; Page CSS</em>.</p><p><em>* Don't include </em><code>&lt;style&gt;&lt;/style&gt;</code><em> tags, as they will be applied automatically.</em></p></div>",
           "type": "ace",
           "aceMode": "css",
           "aceTheme": "tomorrow_night",
@@ -4487,7 +4533,7 @@
         },
         {
           "key": "back.custom.contact_widget",
-          "title": "Contact Form Widget <span>[html]</span><a href=# class=show-help></a><div class=hidden><h3>Contact Form, Mega Menu</h3><p>Customize the contact form for the topbar mega menu. You can edit the <code>placeholder</code> attribute texts, and the <code>button</code> text, but you should keep the rest.</p><p><em>* The fields with 'honey' are included to prevent spam, and should not be removed.</em></p></div>",
+          "title": "Contact Form Widget <span>[html]</span><a href=# class=show-help></a><div class=hidden><h3>Contact Form, Mega Menu</h3><p>Customize the contact form for the topbar mega menu. You can edit the <code>placeholder</code> attribute texts, and the <code>button</code> text, but you should keep the rest.</p></div>",
           "type": "ace",
           "aceMode": "html",
           "aceTheme": "tomorrow_night",
@@ -4508,10 +4554,6 @@
           "key": "accounts.google_analytics",
           "title": "Google Analytics Tracking ID<a href=# class=show-help></a><div class=hidden><h3>Google Analytics Tracking ID</h3><p>Add your <strong>tracking ID</strong> if you want to track statistics with <a href=\"http://www.google.com/analytics/\" target=\"_blank\">Google Analytics</a>.<br><a href=\"https://support.google.com/analytics/answer/7476135#trackingID\" target=\"_blank\">How to find your tracking ID</a></p><p><strong>PS!</strong> Only add the tracking ID, which will typically be in a format like <code>UA-12345678-1</code>. Do not try to implement the full javascript tracking code snippet, as X3 already does this.</p></div>",
           "placeholder": "UA-12345678-1"
-        },
-        {
-          "key": "accounts.google_publisher",
-          "title": "Google Publisher ID <a href=# class=show-help></a><div class=hidden><h3>Google Publisher ID</h3><p>If you have a Google + business page, you can link it to your X3 website by adding the link. Click <a href=\"http://stackoverflow.com/questions/15087225/getting-google-business-page-id-based-on-vanity-url\" target=\"_blank\">here</a> to find out how to get your Google + business page ID.</p></div>"
         },
         {
           "key": "accounts.google_site_verification",
@@ -4578,56 +4620,64 @@
           "placeholder": "<strong>From:</strong> %name% <a href=\"mailto:%email%\">%email%</a>\n<br>\n<br>\n<strong>Message</strong>\n<br>\n%message%"
         },
         {
+          "key": "back.mail.response_text",
+          "title": "Form response text<a href=# class=show-help></a><div class=hidden><h3>Form response text</h3><p>Message to display after successfully submitting a form. When left empty (default), only a green checkbox will appear. You can use html tags.</p><p>If you want to set a different response text for different forms, you can instead use the <code>data-response</code> attribute in the contact form html element. For example:</p><pre><code>&lt;form data-abide class=\"contactform\" data-response=\"We will get in touch with you shortly!\"&gt; ...</code></pre></div>",
+          "type": "textarea",
+          "placeholder": "Thanks! We will get in touch with you shortly."
+        },
+        {
+          "key": "back.mail.use_smtp",
+          "inlinetitle": "Use SMTP <a href=# class=show-help></a><div class=hidden><h3>Use SMTP</h3><p>Sometimes, your host may not support a localhost mailer, in which case you may need to setup SMTP instead. SMTP allows you to send emails from a proper SMTP email service.</p></div>",
+          "toggleNext": 4
+        },
+        {
+          "key": "back.mail.host",
+          "title": "Hostname <a href=# class=show-help></a><div class=hidden><h3>SMTP Hostname</h3><p>Add your SMTP hostname here.</p></div>",
+          "placeholder": "smtp.gmail.com",
+          "htmlClass": "mailtest-host"
+        },
+        {
           "type": "section",
-          "htmlClass": "zebra2",
           "items": [
-            {
-              "key": "back.mail.use_smtp",
-              "inlinetitle": "Use SMTP <a href=# class=show-help></a><div class=hidden><h3>Use SMTP</h3><p>Sometimes, your host may not support a localhost mailer, in which case you may need to setup SMTP instead. SMTP allows you to send emails from a proper SMTP email service.</p></div>",
-              "toggleNext": 7
-            },
-            {
-              "key": "back.mail.host",
-              "title": "SMTP Hostname <a href=# class=show-help></a><div class=hidden><h3>SMTP Hostname</h3><p>Add your SMTP hostname here.</p></div>",
-              "placeholder": "smtp.gmail.com",
-              "htmlClass": "mailtest-host"
-            },
             {
               "key": "back.mail.SMTPAuth",
               "inlinetitle": "SMTP Authorize <a href=# class=show-help></a><div class=hidden><h3>SMTP Authorize</h3><p>Enable if your SMTP host requires authorization. Almost all hosts require authorization.</p></div>",
-              "notitle": true
+              "notitle": true,
+              "toggleNext": 2
             },
             {
               "key": "back.mail.username",
-              "title": "SMTP Username <a href=# class=show-help></a><div class=hidden><h3>SMTP Username</h3><p>Add your SMTP username here.</p></div>",
+              "title": "Username <a href=# class=show-help></a><div class=hidden><h3>SMTP Username</h3><p>Add your SMTP username here.</p></div>",
               "placeholder": "username",
               "htmlClass": "mailtest-username"
             },
             {
               "key": "back.mail.password",
-              "title": "SMTP Password <a href=# class=show-help></a><div class=hidden><h3>SMTP Password</h3><p>Add your SMTP password here.</p></div>",
+              "title": "Password <a href=# class=show-help></a><div class=hidden><h3>SMTP Password</h3><p>Add your SMTP password here.</p></div>",
               "placeholder": "password",
               "type": "password",
               "htmlClass": "mailtest-password"
-            },
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "items": [
             {
               "key": "back.mail.SMTPSecure",
               "title": "SMTP Secure <a href=# class=show-help></a><div class=hidden><h3>SMTP Secure Protocol</h3><p>Set your SMTP secure protocol here.</p></div>",
               "type": "radiobuttons",
-              "activeClass": "btn-primary",
-              "titleMap": {
-                "": "none"
-              }
+              "activeClass": "btn-primary"
+            },
+            {
+              "key": "back.mail.verify_peer",
+              "inlinetitle": "Verify SSL certificate <a href=# class=show-help></a><div class=hidden><h3>Verify SSL certificate</h3><p>By default, SSL certificates always require verification. Disable this option if your SMTP server has an outdated or self-signed SSL certificate, causing a certificate verification error. Read more in <a href=\"https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#certificate-verification-failure\" target=\"_blank\">PHPMailer wiki <i class=\"fa fa-external-link\"></i></a></p></div>",
+              "notitle": true
             },
             {
               "key": "back.mail.port",
-              "title": "SMTP Port <span>[normally 25, 587 or 465]</span> <a href=# class=show-help></a><div class=hidden><h3>SMTP Port</h3><p>Set SMTP port here, normally 25, 587 or 465.</p></div>",
+              "title": "Port <span>[normally 25, 587 or 465]</span> <a href=# class=show-help></a><div class=hidden><h3>SMTP Port</h3><p>Set SMTP port here, normally 25, 587 or 465.</p></div>",
               "htmlClass": "mailtest-port"
-            },
-            {
-              "key": "back.mail.debug",
-              "inlinetitle": "Debug SMTP <a href=# class=show-help></a><div class=hidden><h3>Debug SMTP</h3><p>Enable this option if you are having problems getting SMTP to work. It allows us to view SMTP diagnostics from browser developer tools.</p></div>",
-              "notitle": true
             }
           ]
         }
@@ -4729,11 +4779,11 @@
         },
         {
           "type": "section",
-          "htmlClass": "help-title group-bgz",
+          "htmlClass": "help-title",
           "items": [
             {
               "type": "help",
-              "helpvalue": "Uploader <a href=# class=show-help></a><div class=hidden><h3>Upload Resizer</h3><p>Default settings for resizing images as they are being uploaded. If you disable the upload resizer, original uploaded images will not be resized. This feature is recommended to make sure original images are resized to a web-friendly format, as it is dysfunctional for the website to force 5000px 4MB images.</em><p><em>* Images will often scale down additionally for certain layouts and/or devices, so the resize just sets the maximum 'large' image size.</em></p></p><h4>Manual Resizing</h4><p>You can disable the upload resizer if you are manually resizing images to a web-friendly format prior to upload from your application of choice. In fact, manual resizing is recommended if you are familiar with the process already, because it offers better quality control. A general <em>web-friendly</em> format for original images, may be between 1280-2000px long side with 85-95 JPG compression, but it all depends on your requirements. For a good balance, we recommend 1600 px long-side, at compression-level 95, for high-quality images at acceptable file-size.</p><h4>Resize to Width and Height</h4><p>The resize to width- and height fields, represents the bounding box of what your images will be resized within. For example, a <code>4752 x 3168</code> px lanscape-aspect image will resize to width-limit <code>1600 x 1067</code>, while a <code>3168 x 4752</code> portrait-aspect image, will resize to height-limit <code>1067 x 1600</code>. Original aspect ratios will always be kept intact.</p><h4>Compression</h4><p>JPG images are highly compressed with minimal 'loss', which means the quality degrades to a certain degree. However, if you leave a high-quality compression (90-95), you won't normally be able to detect any loss of quality with the naked eye.</p></div>"
+              "helpvalue": "Uploader <a href=# class=show-help></a><div class=hidden><h3>Upload Resizer</h3><p>Default settings for resizing images as they are uploaded. If you disable the upload resizer, you should be resizing images before upload. <a href=\"https://www.photo.gallery/blog/image-size-quality-photo-gallery-websites/\" target=\"_blank\">Read more</a> about optimal size and quality settings.</p><h4>Width and height</h4><p>The width and height options represent the bounding box of what your images will be resized within. Images will scale within the resize dimensions, while keeping original aspect.</p><h4>Quality</h4><p>Sets the JPG quality level when resizing images on upload. For an optimal balance between file size and quality, you should consider values between 70 and 80.</p></div>"
             },
             {
               "key": "back.panel.upload_resize.enabled",
@@ -4743,24 +4793,21 @@
             },
             {
               "type": "help",
-              "helpvalue": "Below are default resize configuration values. If you have specifically changed values directly from the upload interface, those values will be prioritized."
+              "helpvalue": "Default uploader resize options. <a href=\"https://www.photo.gallery/blog/image-size-quality-photo-gallery-websites/\" target=\"_blank\">Read more</a> about optimal size and quality."
             },
             {
               "key": "back.panel.upload_resize.width",
+              "title": "Width",
               "step": 10
             },
             {
               "key": "back.panel.upload_resize.height",
+              "title": "Height",
               "step": 10
             },
             {
-              "key": "back.panel.upload_resize.quality"
-            },
-            {
-            	"key": "back.panel.upload_resize.orientation",
-            	"title": "Auto Image Orientation<a href=# class=show-help></a><div class=hidden><h3>Auto Image Orientation</h3><p>Although most cameras rotate images to the correct orientation as they are taken, some cameras and smartphones do not. Instead, they store the image orientation as a value in the image's EXIF meta data. While desktop applications and cameras are capable of reading this data and displaying the images in correct orientation, web browsers unfortunately are not. Therefore, images that are not physically rotated to the correct orientation, should be corrected on upload.<br><br><code>resizer</code><br>The most effective option, is to allow the uploader image resizer to auto-correct orientation before uploading the image. The advantage is that there is no loss of quality while rotating the image, as it is handled in the same process that resizes the image.<br><br><em>* This method requires the resizer to be ENABLED</em><br><em>* Since the upload resizer is browser-based, it cannot write the corrected EXIF value back to the image. This is mostly harmless, as images will display correctly in the website, but if someone downloads the image, the EXIF orientation value will be incorrect.</em><br><br><code>server</code><br>This option will auto-correct image orientation on server after upload, and will also set the correct EXIF rotation meta tag in the image.<br><br><em>* This method involves re-compressing the JPG image as it is rotated on server, incurring a slight quality degradation on the image (mostly unnoticeable).</em><br><em>* This method requires that your server has sufficient memory available to rotate full size images. If this is not the case, you will get an error on upload.</em><br><br><code>no</code><br>No automatic image orientation will occur.</p></div>",
-            	"type": "radiobuttons",
-		          "activeClass": "btn-primary"
+              "key": "back.panel.upload_resize.quality",
+              "title": "Quality"
             }
           ]
         },
@@ -4835,17 +4882,32 @@
             },
 		        {
 		          "key": "back.image_resizer.default_quality",
-		          "title": "JPG Quality <a href=# class=show-help></a><div class=hidden><h3>JPG Quality</h3><p>Set JPG quality level for resized images. Default <em>90</em> is normally sufficient, especially since images are scaled down in the browser, twice as much on retina devices.</p><p>High value = High quality / low compression / large file size<br>Low value = low quality / high compression / small file size</p><p><span class=\"label label-warning\" style=\"font-size: .9em; border-radius: 2px;\">Use with caution!</span><br>Use this setting with caution! Every time you change compression level, all images will have to re-process and re-cache on server (per request).</p><p><em>* This setting does not affect original full-size images.</em></p></div>",
-		          "step": 1
+		          "title": "Image quality <span>[0 - 100]</span><a href=# class=show-help></a><div class=hidden><h3>Image quality</h3><p>Sets JPG quality level (0 - 100) for resized images. Default quality 85 strikes a good balance between file size and quality for resized images.</p><p><em>* This setting will not affect already-cached images.</em></p></div>"
 		        },
+            {
+              "key": "back.image_resizer.sharpen",
+              "inlinetitle": "Sharpen images<a href=# class=show-help></a><div class=hidden><h3>Sharpen</h3><p>Resized images tend to be slightly unsharp. Automatically sharpening images after resize, will often produce clearer and better results.</p><p><em>* This setting does not affect images that are cropped but not resized.<br>* This setting will not affect already-cached images.</em></p></div>"
+            },
+            {
+              "key": "back.image_resizer.smart_crop",
+              "inlinetitle": "Smart crop<a href=# class=show-help></a><div class=hidden><h3>Smart crop</h3><p>When enabled, images will crop to \"interesting\" areas of an image (for example faces). Smart crop is slightly slower than center-crop, because the resizer has to scan the image for areas of entropy (chaos) to calculate the crop focus area. However, it will not affect performance once images are cached. When disabled, images will be standard center-cropped.</p><p><em><br>* This setting only affects cropped images.<br>* Although results are usually better, smart crop may produce unexpected results in some images.<br>* This setting will not affect already-cached images.</em></p></div>"
+            },
+            {
+              "key": "back.image_resizer.progressive",
+              "inlinetitle": "Progressive images<a href=# class=show-help></a><div class=hidden><h3>Progressive images</h3><p>When enabled, the resizer will output <a href=\"https://www.liquidweb.com/kb/what-is-a-progressive-jpeg/\" target=\"_blank\">progressive</a> images. We recommend disabling progressive images, since resized images will mostly remain hidden in X3 until they are entirely loaded anyway. Furthermore, progressive images require more CPU on the device they are being viewed from, because they have to render on screen for each progressive scan.</p><p><em>* This setting will not affect already-cached images.</em></p></div>"
+            },
 		        {
 		          "key": "back.image_resizer.copy_icc_profile",
-		          "inlinetitle": "Copy ICC color profile when resizing images <a href=# class=show-help></a><div class=hidden><h3>Copy ICC color profile</h3><p>Enable this setting to copy ICC color profiles when resizing images.</p><p>This setting is disabled by default, because it requires additional processing in the resizer script. Images <em>should</em> already be saved in the default sRGB color space, and embedded color profiles aren't supported by all browsers anyway. Enable this setting if you are uploading images with specific embedded color profiles.</p></div>"
+		          "inlinetitle": "Copy ICC color profile<a href=# class=show-help></a><div class=hidden><h3>Copy ICC color profile</h3><p>Enable this setting to copy ICC color profiles into resized images.</p><p>This option is disabled by default, because it slows down the resize process. Besides, images should be converted to sRGB before you upload them, since embedded color profiles are only supported in some browsers. Read more:</p><p><a href=\"https://om4.com.au/client/preparing-images-color-profiles-srgb-adobe-rgb/\" target=\"_blank\">preparing-images-color-profiles-srgb-adobe-rgb</a><br><a href=\"https://colorvaleactions.com/blogs/tips/setting-your-profile-to-srgb\" target=\"_blank\">setting-your-profile-to-srgb</a></p><p><em>* Enable this option only if you are uploading images with embedded color profiles.<br>* This setting will not affect already-cached images.</em></p></div>"
 		        },
-		        {
-		          "key": "back.image_resizer.use_request_cache",
-		          "inlinetitle": "Symlink request cache <a href=# class=show-help></a><div class=hidden><h3>Symlink request cache</h3><p>When enabled, image cache requests are stored on server as symlinks for improved performance. Disable if your server is having problems with image symlink requests (hosts like Aruba).</p><p><em>* Symlink request cache is always disabled on <strong>Windows OS</strong>, because Windows only supports absolute symlink paths, and there are often errors with permissions.</em></p></div>"
-		        }
+            {
+              "key": "back.image_resizer.allowed_width",
+              "title": "Allowed request widths<a href=# class=show-help></a><div class=hidden><h3>Allowed request widths</h3><p>Use this option to allow <em>additional</em> request widths for the X3 resizer. The following requests widths are <em>already</em> allowed and used by X3:</p><p><code>100, 200, 320, 480, 640, 800, 1024, 1280, 1600</code></p><p>You would only need this option of you are requesting resize widths in your custom html content that are not already allowed. For example, if you want to load images resized at 600 or 800 px width, you would add <code>600, 800</code>. You can then use these widths in resizer url's, for example <code>/render/w600/path/image.jpg</code></p><p>The point of limiting request widths, is to prevent your server from processing unauthorized requests, causing resizing and caching of images that are not used.</p></div>"
+            },
+            {
+              "key": "back.image_resizer.max_memory",
+              "title": "Max memory limit <span>MB</span><a href=# class=show-help></a><div class=hidden><h3>Max memory limit</h3><p>Sets the maximum memory that can be assigned for resizing images. This setting only applies if your default memory limit is lower than the memory required to resize a specific image. In this case, X3 will temporarily increase the memory limit, allowing the image to resize without errors. If your default PHP memory limit is already higher than this value, it will have no effect. You can find your default memory limit in <a href=\"../?diagnostics\" target=\"_blank\">diagnostics</a>.</p><p>Default <code>128M</code> memory limit should sufficient to resize images up to 5000 px.</p></div>"
+            }
 		      ]
 		    },
         {
@@ -4877,7 +4939,7 @@
         },
         {
           "key": "settings.cdn_core",
-          "title": "Use CDN <span>[Content Delivery Network]</span><a href=# class=show-help></a><div class=hidden><h3>Use CDN</h3><p>When enabled, Javascript and CSS files will load from CDN (content delivery network) for best performance. X3 uses <a href=https://aws.amazon.com/cloudfront/ target=\"_blank\">Amazon Cloudfront</a> for core X3 JS/CSS files and <a href=https://www.jsdelivr.com/ target=\"_blank\">jsDelivr</a> for common plugins and libraries. This feature is strongly recommended, and should not be disabled unless you have good reason.</p><p>When disabled, Javascript and CSS files will load from your own X3 website.</p></div>",
+          "title": "Use CDN <span>[Content Delivery Network]</span><a href=# class=show-help></a><div class=hidden><h3>Use CDN</h3><p>When enabled, Javascript and CSS files will be served from <a href=https://www.jsdelivr.com/ target=\"_blank\">JSDelivr CDN</a> (content delivery network) for best speed and performance. This feature is strongly recommended, and should not be disabled unless you have good reason.</p><p>When disabled, Javascript and CSS files will load from your own server.</p><p><em>* CDN option does not affect your pages or images, which will always load from your own server.</em></p></div>",
           "inlinetitle": "Enabled"
         },
         {

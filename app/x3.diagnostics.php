@@ -39,7 +39,6 @@ if($posted){
 	$link_path = dirname($_SERVER['PHP_SELF']) == '/' ? '' : dirname($_SERVER['PHP_SELF']);
 	$custom_dir_path = './content/custom';
 	$rewrite_base = dirname($_SERVER["SCRIPT_NAME"]);
-	$cache_folders = array('pages','images/rendered','images/request');
 	$critical = (string)"";
 	$success = (string)"";
 	$warning = (string)"";
@@ -87,7 +86,7 @@ if($posted){
 	function addItem($status, $title, $description){
 		$str = '<div class="x3-diagnostics-item x3-diagnostics-' . $status . '">';
 		if(!empty($title)) $str .= '<strong>' . $title . '</strong>';
-		$str .= '<div class=x3-diagnostics-description>' . $description . '</div></div>';
+		$str .= '<div class="x3-diagnostics-description">' . $description . '</div></div>';
 		return $str;
 	}
 
@@ -100,6 +99,8 @@ if($posted){
 			foreach($files as $file) {
 				if($file->isDir()) {
 					@rmdir($file->getRealPath());
+				} else if($file->isLink()){
+					@unlink($file->getPathname());
 				} else {
 					@unlink($file->getRealPath());
 				}
@@ -115,7 +116,7 @@ if($posted){
 			global $success;
 			$created = @mkdir($path, 0777, true);
 			if($created) {
-				$success .= addItem('success', 'Directory Created', 'We have successfully added the <code>' . trim($path, '.') . '</code> directory.');
+				$success .= addItem('success', 'Directory Created', 'Successfully added the <code>' . trim($path, '.') . '</code> directory.');
 				return true;
 			}
 			return false;
@@ -136,6 +137,7 @@ if($posted){
 	function httpFileExists($file){
 		if(function_exists('get_headers')){
 			$headers = @get_headers($file);
+			if(empty($headers)) return true; // can't check :(
 			return stripos($headers[0], '404 not found') === false && stripos($headers[0], '500 internal server error') === false ? true : false;
 		} else {
 			return true;
@@ -299,37 +301,79 @@ if($posted){
 		if(!is_writable(Config::$cache_folder)){
 			$critical .= addItem('danger', 'Cache folder not writeable', 'You need to set write permissions on the <code>_cache</code> directory. This folder needs to be writeable so that X3 can save resized images and cache pages.');
 
-		# Check that cache is writeable
-		} else {
+		# make _cache/pages
+		} else if(!mkdir_if_missing(Config::$cache_folder.'/pages')){
+			$critical .= addItem('danger', 'Can\'t create cache folder', 'Can\'t create <code>_cache/pages</code> either because of <code>safe_mode</code> or permissions.');
 
-			// loop _cache/* folder-passwords
-			foreach ($cache_folders as &$value) {
+		# make sure _cache/pages is writeable
+		} else if(!is_writable(Config::$cache_folder.'/pages')){
+			$critical .= addItem('danger', 'Cache folder not writeable', 'Folder <code>_cache/pages</code> is not writeable. This folder needs to have write permissions so that X3 can cache pages.');
+		}
+	}
 
-				// Create cache folders if they don't exist
-				if(!mkdir_if_missing(Config::$cache_folder.'/'.$value)){
-					$critical .= addItem('danger', 'Can\'t create cache folder', 'Can\'t create <code>' . trim(Config::$cache_folder, '.') . '/' . $value . '</code> either because of <code>safe_mode</code> or permissions.');
+	// LEGACY X3.29.0
+	if($x3_version && version_compare($x3_version, '3.29.0') >= 0){
 
-				// if created or already exist, check writeable
-				} else if(!is_writable(Config::$cache_folder.'/'.$value)){
-					$critical .= addItem('danger', 'Cache folder not writeable', 'Folder <code>' . trim(Config::$cache_folder, '.') . '/' . $value . '</code> is not writeable. This folder needs to have write permissions so that X3 can cache pages and resized images.');
+		// LEGACY X3.29.0 :: remove ./_cache/images/request dir
+		if(file_exists('./_cache/images/request') && !deleteDirectory('./_cache/images/request')) $warning .= addItem('warning', 'Delete directory', 'Please delete the <code>./_cache/images/request</code> directory by FTP, as it is no longer in use.');
+
+		// LEGACY X3.29.0 :: /render/ dir
+		if(!mkdir_if_missing('./render')) {
+			$critical .= addItem('danger', 'Missing render dir', 'Can\'t create <code>./render</code> directory. Make sure your X3 directory is writeable.');
+		} else if(!is_writable('./render')) {
+			$critical .= addItem('danger', 'Directory not writeable', 'The <code>./render</code> directory is not writeable. This directory needs to be writeable so that X3 can store resized images.');
+		}
+
+		// LEGACY X3.29.0 :: rendered dir (convert cache)
+		$lc_dir = realpath('./_cache/images/rendered');
+		if($lc_dir){
+			$lc_items = glob($lc_dir . DIRECTORY_SEPARATOR . '*', GLOB_NOSORT);
+			$lc_items_deleted = 0;
+			if(!empty($lc_items)) foreach ($lc_items as $lc_item) {
+				$lc_item_age = time() - fileatime($lc_item); // seconds since last accessed
+				if($lc_item_age > 2628000 && unlink($lc_item)) $lc_items_deleted ++; // last access time more than 1 month
+			}
+
+			// remaining
+			$lc_items_remaining = count($lc_items) - $lc_items_deleted;
+
+			// valid cache items remanin (newer than 1 month)
+			if($lc_items_remaining){
+				$success .= addItem('success', 'Convert legacy cache enabled', 'We detected that the outdated <code>_cache/images/rendered</code> dir has <strong>' . $lc_items_remaining . '</strong> potentially valid cache files. This dir will be kept for migrating cache into the new <code>render</code> dir, until it is empty or until all cache files have expired. If you want to disable legacy cache conversion, feel free to delete the <code>_cache/images/rendered</code> dir by FTP.');
+				if($lc_items_deleted) $success .= addItem('success', $lc_items_deleted . ' legacy cache files deleted', 'Deleted ' . $lc_items_deleted . ' image cache files from the <code>_cache/images/rendered</code> dir, because they had not been accessed for more than 1 month, and therefore safely considered expired.');
+				
+			// delete dir if empty
+			} else if(rmdir($lc_dir)) {
+				$success .= addItem('success', 'Legacy cache dir deleted', 'The outdated <code>_cache/images/rendered</code> dir has now been deleted because it ' . ($lc_items_deleted ? ' contained <strong>' . $lc_items_deleted .'</strong> expired cache files that had not been accessed for more than 1 month.' : 'was empty.'));
+			}
+		}
+
+		// legacy X3.29.0 :: convert protect.php to protect.json + delete empty
+		$protect_json_exists = file_exists('./config/protect.json');
+		$protect_json = $protect_json_exists ? @file_get_contents('./config/protect.json') : false;
+		$protect_ob = !empty($protect_json) ? @json_decode($protect_json, true) : false;
+		if(file_exists('./config/protect.php')) {
+			if(!$protect_json_exists){
+				include './config/protect.php';
+				$protect = !isset($protect) || empty($protect) || !is_string($protect) ? false : trim($protect);
+				if(!empty($protect)) {
+					$protect_ob = @json_decode($protect, true);
+					if(!empty($protect_ob)){
+						$protect_json = phpversion() < 5.4 ? @json_encode($protect_ob) : @json_encode($protect_ob, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+						$protect_json_exists = @file_put_contents('./config/protect.json', $protect_json);
+						if($protect_json_exists) $success .= addItem('success', 'Migrated to protect.json', 'Data from config/protect.php has been migrated to config/protect.json');
+					}
 				}
 			}
+			if(@unlink('./config/protect.php')) $success .= addItem('success', 'Deleted protect.php', 'Deleted outdated file config/protect.php, which is no longer used.');
 		}
 	}
 
 	// LEGACY X3.23.0 :: Remove unused app/_cache
-	if(file_exists('app/_cache')){
-		deleteDirectory('app/_cache/images/request');
-		if(deleteDirectory('app/_cache')) {
-			$success .= addItem('success', 'Removed /app/_cache', 'Successfully removed unused <code>/app/_cache</code> directory.');
-		} else {
-			$warning .= addItem('warning', 'Failed to remove /app/_cache', 'Failed to remove some items in <code>/app/_cache</code>. It is recommended to delete this unused directory by FTP.');
-		}
-	}
+	if(file_exists('./app/_cache') && !deleteDirectory('./app/_cache')) $warning .= addItem('warning', 'Delete directory', 'Please delete the <code>./app/_cache</code> directory by FTP. It is no longer in use.');
 
-	// LEGACY X3.23.0 :: Remove various unused directories
-	$unused_dirs = array('extensions', 'templates', /*'public',*/ 'content/feed', 'content/json', /*'content/services',*/ /*'content/sitemap',*/ 'content/custom/css', 'content/custom/footer', 'content/custom/head', 'content/custom/header', 'content/custom/javascript', 'content/custom/mail', 'content/custom/widget.contact', 'diag/', 'check/');
-	if($_SERVER['HTTP_HOST'] !== 'macbook.local' && $_SERVER['HTTP_HOST'] !== 'x3') $unused_dirs[] = '.sass-cache/';
+	// LEGACY X3.*.* :: Remove various unused directories
+	$unused_dirs = array('extensions', 'templates', /*'public',*/ 'content/feed', 'content/json', /*'content/services',*/ /*'content/sitemap',*/ 'content/custom/css', 'content/custom/footer', 'content/custom/head', 'content/custom/header', 'content/custom/javascript', 'content/custom/mail', 'content/custom/widget.contact', 'diag/', 'check/', '.sass-cache/');
 	foreach($unused_dirs as $unused_dir) {
 		if(deleteDirectory($unused_dir)) $success .= addItem('success', 'Removed ' . $unused_dir, 'Successfully removed unused <code>' . $unused_dir . '</code> directory.');
 	}
@@ -342,6 +386,19 @@ if($posted){
 			foreach($custom_dirs as $custom_dir) {
 				mkdir_if_missing($custom_dir_path . '/' . $custom_dir);
 			}
+		}
+	}
+
+	//
+	if($protect_json_exists){
+
+		// delete empty protect.json
+		if(empty($protect_ob)){
+			if(@unlink('./config/protect.json')) $success .= addItem('success', 'Deleted protect.json', 'Deleted empty config/protect.json, because it has no function when it\'s empty.');
+
+		// recommend to delete if access is empty
+		} else if(!isset($protect_ob['access']) || empty($protect_ob['access'])){
+			$warning .= addItem('warning', 'Delete unused protect.json', 'You have no access links in your config/protect.json file. Delete this file if you are not protecting any links and don\'t have any users.');
 		}
 	}
 
@@ -542,19 +599,19 @@ if($posted){
 
 		// session_save_path is blocked by open_basedir
 		if($open_basedir && !@is_dir($session_save_path)) {
-			$warning .= addItem('warning', 'PHP session.save-path directory is blocked by open_basedir.', 'Your server <a href="http://php.net/manual/en/session.configuration.php#ini.session.save-path" target="_blank">session.save_path</a> is set to <code>' . $session_save_path . '</code> but this directory is not within your <strong>open_basedir</strong> allowed paths. If you can\'t login to your X3 panel, it means X3 can\'t <strong>save</strong> the login-session, in which case you need to contact your host.');
+			$warning .= addItem('warning', 'PHP session.save-path directory is blocked by open_basedir.', 'Your server <a href="http://php.net/manual/en/session.configuration.php#ini.session.save-path" target="_blank">session.save_path</a> is set to <code>' . $session_save_path . '</code> but this directory is not within your <strong>open_basedir</strong> allowed paths. If you can\'t login to your X3 panel, it means X3 can\'t <strong>save</strong> the login-session, in which case you need to contact your host. You can ignore this warning if you are able to login to your X3 <a href="./panel" target="_blank">control panel</a>.');
 			$session_save_path_result = false;
 
 		} else {
 
 			// path doesn't exist?
 			if(!file_exists($session_save_path)) {
-				$warning .= addItem('warning', 'PHP session.save-path directory does not exist.', 'Your server <a href="http://php.net/manual/en/session.configuration.php#ini.session.save-path" target="_blank">session.save_path</a> is set to <code>' . $session_save_path . '</code>, but this directory does not seem to exist. If you can\'t login to your X3 panel, it means X3 can\'t <strong>save</strong> the login-session, in which case you need to contact your host!');
+				$warning .= addItem('warning', 'PHP session.save-path directory does not exist.', 'Your server <a href="http://php.net/manual/en/session.configuration.php#ini.session.save-path" target="_blank">session.save_path</a> is set to <code>' . $session_save_path . '</code>, but this directory does not seem to exist. If you can\'t login to your X3 panel, it means X3 can\'t <strong>save</strong> the login-session, in which case you need to contact your host. You can ignore this warning if you are able to login to your X3 <a href="./panel" target="_blank">control panel</a>.');
 				$session_save_path_result = false;
 
 			// not writeable?
 			} else if(!is_writable($session_save_path)){
-				$warning .= addItem('warning', 'PHP session.save-path directory is not writeable.', 'Your server <a href="http://php.net/manual/en/session.configuration.php#ini.session.save-path" target="_blank">session.save_path</a> is set to <code>' . $session_save_path . '</code>, but this directory does not seem to be writeable. If you can\'t login to your X3 panel, it means X3 can\'t <strong>save</strong> the login-session, in which case you need to contact your host!');
+				$warning .= addItem('warning', 'PHP session.save-path directory is not writeable.', 'Your server <a href="http://php.net/manual/en/session.configuration.php#ini.session.save-path" target="_blank">session.save_path</a> is set to <code>' . $session_save_path . '</code>, but this directory does not seem to be writeable. If you can\'t login to your X3 panel, it means X3 can\'t <strong>save</strong> the login-session, in which case you need to contact your host. You can ignore this warning if you are able to login to your X3 <a href="./panel" target="_blank">control panel</a>.');
 				$session_save_path_result = false;
 			}
 		}

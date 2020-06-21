@@ -17,6 +17,12 @@
       "type": "string",
       "title": "Default Page Preview Image"
     },
+    "page_css": {
+      "type": "string"
+    },
+    "page_js": {
+      "type": "string"
+    },
     "seo": {
       "type": "object",
       "properties": {
@@ -27,6 +33,9 @@
           "type": "string"
         },
         "keywords": {
+          "type": "string"
+        },
+        "robots": {
           "type": "string"
         }
       }
@@ -596,6 +605,12 @@
           "type": "object",
           "properties": {
             "title": {
+              "type": "boolean"
+            },
+            "title_from_name": {
+              "type": "boolean"
+            },
+            "filename": {
               "type": "boolean"
             },
             "description": {
@@ -1346,7 +1361,7 @@
           "items": [
             {
               "type": "help",
-              "helpvalue": "<a href=# class=\"text-help\">SEO options</a> allow you to customize meta tags that may improve Search Engine Optimization.<div class=\"hidden\"><h2>SEO Options</h2><p>SEO options allow you to customize certain meta tags which may improve page SEO (Search Engine Optimization). These options will not display for visitors, but are added to meta tags which are used by search engines. See <a href=\"https://backlinko.com/google-seo-guide\" target=\"_blank\">this guide</a> for more info on SEO.</p><p><em> * Only use these options if you want meta tags that are different or longer than the title and description that visitors see on page.</em></p><h4>Title</h4><p>This option will popuplate the page <code>&lt;title&gt;</code> tag, which otherwise is populated from page title or page name. In terms of SEO, this is the most important tag.<br><a href=\"https://moz.com/learn/seo/title-tag\" target=\"_blank\">moz.com/learn/seo/title-tag</a></p><h4>Description</h4><p>This option will popuplate the page <code>&lt;meta name=&quot;description&quot;&gt;</code> tag, which otherwise is populated from page description. This tag does <u>not</u> affect page rankings, but may still be used by search engines to provide a brief summary of your page in search listings.<br><a href=\"https://moz.com/learn/seo/meta-description\" target=\"_blank\">moz.com/learn/seo/meta-description</a></p><h4>Keywords</h4><p>This option will popuplate the page <code>&lt;meta name=&quot;keywords&quot;&gt;</code> tag, which is <a href=\"https://support.seomanager.com/article/30-keywords-meta-field-is-no-longer-used-by-google\" target=\"_blank\"><u>no longer relevant</u></a> for search engines. We recommend leaving this option blank, although it does not hurt to add the keywords tag if you really want to.<br><a href=\"https://www.straightnorth.com/faq/seo/what-are-meta-keywords/\" target=\"_blank\">straightnorth.com/faq/seo/what-are-meta-keywords</a></p></div>"
+              "helpvalue": "<a href=# class=\"text-help\">SEO options</a> allow you to customize meta tags that affect \"Search Engine Optimization\".<div class=\"hidden\"><h2>SEO Options</h2><p>SEO options allow you to customize certain meta tags which may improve page SEO (Search Engine Optimization). These options will not display for visitors, but are added to meta tags which are used by search engines. See <a href=\"https://backlinko.com/google-seo-guide\" target=\"_blank\">this guide</a> for more info on SEO.</p><h4>Title</h4><p>This option will popuplate the page <code>&lt;title&gt;</code> tag, which otherwise is populated from page title or page name. In terms of SEO, this is the most important tag.<br><a href=\"https://moz.com/learn/seo/title-tag\" target=\"_blank\">moz.com/learn/seo/title-tag</a></p><h4>Description</h4><p>This option will popuplate the page <code>&lt;meta name=&quot;description&quot;&gt;</code> tag, which otherwise is populated from page description. This tag does <u>not</u> affect page rankings, but may still be used by search engines to provide a brief summary of your page in search listings.<br><a href=\"https://moz.com/learn/seo/meta-description\" target=\"_blank\">moz.com/learn/seo/meta-description</a></p><h4>Keywords</h4><p>This option will popuplate the page <code>&lt;meta name=&quot;keywords&quot;&gt;</code> tag, which is <a href=\"https://support.seomanager.com/article/30-keywords-meta-field-is-no-longer-used-by-google\" target=\"_blank\"><u>no longer relevant</u></a> for search engines. We recommend leaving this option blank, although it does not hurt to add the keywords tag if you really want to.<br><a href=\"https://www.straightnorth.com/faq/seo/what-are-meta-keywords/\" target=\"_blank\">straightnorth.com/faq/seo/what-are-meta-keywords</a></p><h4>Robots</h4><p>The robots meta tag allows you control how a page is indexed by search engines.<br><a href=\"https://developers.google.com/search/reference/robots_meta_tag#robotsmeta\" target=\"_blank\">developers.google.com/search/reference/robots_meta_tag</a></p><p><code>noindex</code> / Don't show this page in search results.<br><code>nofollow</code> / Don't follow the links on this page.<br><code>noimageindex</code> / Don't index images on this page.<br><code>noindex, nofollow</code> / Combine multiple directives with commas.</p></div>"
             },
             {
               "key": "seo.title",
@@ -1354,12 +1369,18 @@
             },
             {
               "key": "seo.description",
-              "title": "Description <span>&lt;meta name=&quot;description&quot;&gt;</span>"
+              "title": "Description <span>&lt;meta name=&quot;description&quot;&gt;</span>",
+              "type": "textarea"
             },
             {
               "key": "seo.keywords",
               "title": "Keywords <span>&lt;meta name=&quot;keywords&quot;&gt;</span>",
-              "placeholder": "keywords, separated, by, comma"
+              "placeholder": "keyword1, keyword2"
+            },
+            {
+              "key": "seo.robots",
+              "title": "Robots <span>&lt;meta name=&quot;robots&quot;&gt;</span>",
+              "placeholder": "noindex, nofollow"
             }
           ]
         },
@@ -1375,29 +1396,41 @@
               "htmlClass": "settings_selectize"
             },
             {
-              "type": "section",
-              "htmlClass": "group-bg",
-              "items": [
-                {
-                  "key": "layout.items",
-                  "htmlClass": "settings_selectize",
-                  "title": "Page Layout Items<a href=# class=show-help></a><div class=hidden><h3>Page Layout Items</h3><p>This setting is used to set the order of items on the page. You can also remove items.</p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard</em></p><h3>Examples</h3><p>By default, context will display first, followed by page folders, and gallery. Normally, you won't have both folders and images in the same page.<span class=code-line><code>context</code><code>folders</code><code>gallery</code></span></p><p>In some cases, you may wish to switch the order of page items. In the below example, gallery displays before the page context.<span class=code-line><code>gallery</code><code>context</code><code>folders</code></span></p><p>If you remove the gallery, it will not display in the page, even if the page has images.<span class=code-line><code>context</code><code>folders</code></span></p></div><span class='hidden selectize-items'>context,folders,gallery</span>"
-                },
-                {
-                  "key": "layout.width",
-                  "type": "radiobuttons",
-                  "activeClass": "btn-primary",
-                  "titleMap": {
-                    "width-default": "normal"
-                  },
-                  "title": "Default Layout Width <a href=# class=show-help></a><div class=hidden><h3>Layout Width</h3><p>This option sets the default width for all items displaying in the page.</p><p><em>* You can override the width of each item specifically from context, folders and gallery settings. For example, you may want a narrow layout for context, and a wide layout for the gallery.</em></p><h4>Responsive</h4><p>Layout width options are <em>responsive</em>, and are relative to the device screen width. For example on small mobile devices, this option has no effect, because the layout will scale down to device max width anyway. This option mainly affects desktop-sized screens, where the content may need to be contained inside a functional viewing area.</p><h3>Options</h3><p><code>wide</code> The wide option sets the layout to display at 100% screen width. It can be useful for many folders and gallery layouts (especially slideshow), but should not be used for context.</p><p><code>normal</code> This is the default option, where the layout is wrapped inside <em>1140 px</em> maximum width. This ensures that content remains within functional viewing areas also on very large screens.</p><p><code>narrow</code> This option sets a relatively narrow layout, which is often suitable for context (text). Text content should be limited by width, because optimal human reading is limited to 50-80 characters per line (like a book).</p><p><code>narrower</code> This option sets a narrower layout, which is very functional for context (text). This is the default width for the <code>context</code> layout.</p><p><code>narrowest</code> This option sets a very narrow layout, which is suitable for very specific content, for example a contact form.</p></div>"
-                },
-                {
-                  "key": "layout.classes",
-                  "htmlClass": "settings_selectize",
-                  "title": "Layout CSS Classes <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Layout CSS Classes</h3><p>Layout CSS classes are applied to <em>all</em> layout items in your page (context, folders, gallery). You can add native X3 classes or custom CSS classes here.</p></div><span class='hidden selectize-items selectize-create'>separator,[none]</span>"
-                }
-              ]
+              "key": "layout.items",
+              "htmlClass": "settings_selectize",
+              "title": "Page Layout Items<a href=# class=show-help></a><div class=hidden><h3>Page Layout Items</h3><p>This setting is used to set the order of items on the page. You can also remove items.</p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard</em></p><h3>Examples</h3><p>By default, context will display first, followed by page folders, and gallery. Normally, you won't have both folders and images in the same page.<span class=code-line><code>context</code><code>folders</code><code>gallery</code></span></p><p>In some cases, you may wish to switch the order of page items. In the below example, gallery displays before the page context.<span class=code-line><code>gallery</code><code>context</code><code>folders</code></span></p><p>If you remove the gallery, it will not display in the page, even if the page has images.<span class=code-line><code>context</code><code>folders</code></span></p></div><span class='hidden selectize-items'>context,folders,gallery</span>"
+            },
+            {
+              "key": "layout.width",
+              "type": "radiobuttons",
+              "activeClass": "btn-primary",
+              "titleMap": {
+                "width-default": "normal"
+              },
+              "title": "Default Layout Width <a href=# class=show-help></a><div class=hidden><h3>Layout Width</h3><p>This option sets the default width for all items displaying in the page.</p><p><em>* You can override the width of each item specifically from context, folders and gallery settings. For example, you may want a narrow layout for context, and a wide layout for the gallery.</em></p><h4>Responsive</h4><p>Layout width options are <em>responsive</em>, and are relative to the device screen width. For example on small mobile devices, this option has no effect, because the layout will scale down to device max width anyway. This option mainly affects desktop-sized screens, where the content may need to be contained inside a functional viewing area.</p><h3>Options</h3><p><code>wide</code> The wide option sets the layout to display at 100% screen width. It can be useful for many folders and gallery layouts (especially slideshow), but should not be used for context.</p><p><code>normal</code> This is the default option, where the layout is wrapped inside <em>1140 px</em> maximum width. This ensures that content remains within functional viewing areas also on very large screens.</p><p><code>narrow</code> This option sets a relatively narrow layout, which is often suitable for context (text). Text content should be limited by width, because optimal human reading is limited to 50-80 characters per line (like a book).</p><p><code>narrower</code> This option sets a narrower layout, which is very functional for context (text). This is the default width for the <code>context</code> layout.</p><p><code>narrowest</code> This option sets a very narrow layout, which is suitable for very specific content, for example a contact form.</p></div>"
+            },
+            {
+              "key": "layout.classes",
+              "htmlClass": "settings_selectize",
+              "title": "Layout CSS Classes <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Layout CSS Classes</h3><p>Layout CSS classes are applied to <em>all</em> layout items in your page (context, folders, gallery). You can add native X3 classes or custom CSS classes here.</p></div><span class='hidden selectize-items selectize-create'>separator,[none]</span>"
+            },
+            {
+              "key": "page_css",
+              "type": "textarea",
+              "title": "Page CSS<a href=# class=show-help></a><div class=hidden><h3>Custom Page CSS</h3><p>Include custom page CSS styles here. You can override existing styles or add your own classes to be used in the page. Styles added here will only apply to this page. If you want to include custom CSS for all pages, go to main <strong><em>Settings &rsaquo; Custom &rsaquo; Custom CSS</em></strong> instead.</p><p><em>* Don't include </em><code>&lt;style&gt;&lt;/style&gt;</code><em> tags, as they will be applied automatically.</em></p></div>",
+              "type": "ace",
+              "aceMode": "css",
+              "aceTheme": "tomorrow_night",
+              "width": "100%"
+            },
+            {
+              "key": "page_js",
+              "type": "textarea",
+              "title": "Page Javascript<a href=# class=show-help></a><div class=hidden><h3>Custom Page Javascript</h3><p>Include custom Javascript for this page and this page only. The javascript will exexute after the page is loaded. If you want to include custom Javascript for all pages, go to main <em>Settings &rsaquo; Custom &rsaquo; Custom Javascript</em> instead.</p><p><em>* Don't include </em><code>&lt;script&gt;&lt;/script&gt;</code><em> tags here.</em></p></div>",
+              "type": "ace",
+              "aceMode": "javascript",
+              "aceTheme": "tomorrow_night",
+              "width": "100%"
             }
           ]
         }
@@ -1933,7 +1966,7 @@
               {
                 "key": "folders.carousel.lazy",
                 "notitle": true,
-                "inlinetitle": "Lazy Load <a href=# class=show-help></a><div class=hidden><h3>Carousel Interval</h3><p>Lazy-load images as they come into view, instead of preloading all images on page-load. This setting should be enable if you have dozens of images in your carousel. If there are only a few, you should perhaps disable for better loading performance.</p></div>"
+                "inlinetitle": "Lazy Load <a href=# class=show-help></a><div class=hidden><h3>Carousel Interval</h3><p>Lazy-load images as they come into view, instead of preloading all images on page-load. This setting should be enabled if you have dozens of images in your carousel. If there are only a few, you should perhaps disable for better loading performance.</p></div>"
               },
               {
                 "key": "folders.carousel.background",
@@ -2836,31 +2869,38 @@
                         {
                           "key": "popup.caption.title",
                           "title": "Caption Items",
-                          "inlinetitle": "Title <a href=# class=show-help></a><div class=hidden><h3>Show title in caption</h3><p>Include image title in the caption. If you have not set a specific caption for the image, the image name (without extension) will be used.</p></div>"
+                          "inlinetitle": "Title <a href=# class=show-help></a><div class=hidden><h3>Title</h3><p>Show image title in popup caption.</p></div>",
+                          "toggleNext": 1
+                        },
+                        {
+                          "key": "popup.caption.title_from_name",
+                          "inlinetitle": "Create title from filename if empty title<a href=# class=show-help></a><div class=hidden><h3>Title from filename</h3><p>When enabled and image title is empty, it will get created from filename instead. In this case filename <code>happy-days.jpg</code> will become title <code>Happy days</code>.</p><p>If disabled, title will only appear if the image has a title.</p></div>"
+
+                        },
+                        {
+                          "key": "popup.caption.filename",
+                          "inlinetitle": "Filename <a href=# class=show-help></a><div class=hidden><h3>Filename</h3><p>Show filename in popup caption.</p></div>"
                         },
                         {
                           "key": "popup.caption.description",
-                          "inlinetitle": "Description <a href=# class=show-help></a><div class=hidden><h3>Show description in caption</h3><p>Include image description in the caption.</p><p><em>* Only applies if your image has been assigned a description.</em></p></div>",
-                          "notitle": true
+                          "inlinetitle": "Description <a href=# class=show-help></a><div class=hidden><h3>Description</h3><p>Show image description in popup caption.</p><p><em>* Only applies if your image has been assigned a description.</em></p></div>"
                         },
                         {
                           "key": "popup.caption.date",
-                          "inlinetitle": "Date <a href=# class=show-help></a><div class=hidden><h3>Show date in caption</h3><p>Include image date in the caption.</p><p><em>* Image EXIF date will be used if available. Otherwise, server creation date will be used.</em></p></div>",
-                          "notitle": true
+                          "inlinetitle": "Date <a href=# class=show-help></a><div class=hidden><h3>Date</h3><p>Show image date in popup caption.</p><p><em>* Image EXIF date will be used if available. Otherwise, server creation date will be used.</em></p></div>"
                         },
                         {
                           "key": "popup.caption.exif",
-                          "inlinetitle": "EXIF <a href=# class=show-help></a><div class=hidden><h3>Show EXIF in caption</h3><p>Include <a href=http://www.makeuseof.com/tag/exif-photo-data-find-understand/ target=\"_blank\">image EXIF</a> data in the caption. By default, the following EXIF values will display: <code>Model</code><code>Aperture</code><code>Focal_length</code><code>Exposure</code><code>ISO</code></p><p><em>* EXIF only displays if your image has EXIF meta data available.</em></p></div>",
-                          "notitle": true
+                          "inlinetitle": "EXIF <a href=# class=show-help></a><div class=hidden><h3>EXIF</h3><p>Show <a href=http://www.makeuseof.com/tag/exif-photo-data-find-understand/ target=\"_blank\">image EXIF</a> data in popup caption. By default, the following EXIF values will display: <code>Model</code><code>Aperture</code><code>Focal_length</code><code>Exposure</code><code>ISO</code></p><p><em>* EXIF only displays if your image has EXIF meta data available.</em></p></div>"
                         },
                         {
                           "key": "popup.caption.download",
-                          "inlinetitle": "Download button <a href=# class=show-help></a><div class=hidden><h3>Download button in caption</h3><p>Adds a convenient download button directly to caption, making it easy for your visitors to download the image.</p></div>"
+                          "inlinetitle": "Download button <a href=# class=show-help></a><div class=hidden><h3>Download button</h3><p>Adds a convenient download button directly to popup caption, making it easy for visitors to download the image.</p></div>"
                         },
                         {
                           "key": "popup.caption.map",
                           "htmlClass": "x3-pro-only",
-                          "inlinetitle": "Map button <span class=\"x3-not-pro\"></span><a href=# class=show-help></a><div class=hidden><h3>Map button in caption</h3><p>Adds a view map button directly to caption if the image contains GPS location data <a href=\"https://demo.photo.gallery/examples/features/exif/#&gid=1&pid=kinsarvik-church\" target=\"_blank\">[demo]</a>.</p></div>"
+                          "inlinetitle": "Map button <span class=\"x3-not-pro\"></span><a href=# class=show-help></a><div class=hidden><h3>Map button</h3><p>Adds a view map button directly to caption if the image contains GPS location data <a href=\"https://demo.photo.gallery/examples/features/exif/#&gid=1&pid=kinsarvik-church\" target=\"_blank\">[demo]</a>.</p></div>"
                         }
                       ]
                     }
@@ -3202,7 +3242,7 @@
           "items": [
             {
               "type": "help",
-              "helpvalue": "Use the <a href=# class='text-help'>Fotomoto Plugin</a> to add e-commerce to your website. <a href=https://demo.photo.gallery/examples/plugins/fotomoto/ target=\"_blank\">[demo]</a><div class=hidden><h2>Fotomoto Plugin</h2><p>Integrate <a href=\"http://www.fotomoto.com/\" target=\"_blank\">Fotomoto</a> e-commerce seamlessly into your X3 website with this plugin.</p><div class=\"embed-responsive embed-responsive-16by9 fa fa-play\" style=\"background:#EEE; font-size: 4em; text-align:center; cursor:pointer; line-height:5.5em;\" onclick=\"$(this).append('<iframe src=https://www.youtube.com/embed/DDG83B_ZFug frameborder=0 allowfullscreen></iframe>')\"></div><h3>Instructions</h3><ol><li>Create a <a href=\"http://www.fotomoto.com/\" target=\"_blank\">Fotomoto</a> account.</li><li>Enable X3 Fotomoto plugin from global <em>settings &rsaquo; plugins &rsaquo; Fotomoto</em>.</li><li>Add your Fotomoto Store ID.</li><li>Done!</li></ol><p><em>* Prices and product management is done from your Fotomoto Dashboard.</em></p></div>"
+              "helpvalue": "Use the <a href=\"https://www.photo.gallery/docs/plugins/fotomoto/\" target=\"_blank\">Fotomoto Plugin</a> to add e-commerce to your website <a href=\"https://demo.photo.gallery/examples/plugins/fotomoto/\" target=\"_blank\">[see demo]</a>."
             },
             {
               "key": "plugins.fotomoto.enabled_page",
@@ -3248,7 +3288,7 @@
           "items": [
             {
               "type": "help",
-              "helpvalue": "<a href=\"#\" class=\"text-help\" data-help=\"panorama\">X3 panorama plugin</a> / Find global settings in Settings &rsaquo; Plugins &rsaquo; Panorama."
+              "helpvalue": "<a href=\"https://www.photo.gallery/docs/plugins/panorama/\" target=\"_blank\">X3 panorama plugin</a> / Find global settings in Settings &rsaquo; Plugins &rsaquo; Panorama."
             },
             {
               "key": "plugins.panorama.enabled",

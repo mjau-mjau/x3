@@ -31,11 +31,16 @@ class X3_Twig_Extension extends Twig_Extension {
     );
   }
 
+  // get json
+  private function get_json($dir){
+    $file = $dir . '/page.json';
+    if(!file_exists($file)) return array();
+    $content = file_get_contents($file);
+    return $content ? json_decode($content) : array();
+  }
+
   // get adjacent siblings dir
   function get_adjacent_siblings($dir){
-
-  	// result
-  	$result = array(false, false);
 
   	// sort config
   	$parent = dirname($dir);
@@ -101,21 +106,33 @@ class X3_Twig_Extension extends Twig_Extension {
   	$index = array_search($dir, $keys);
   	if($index === false || count($keys) < 2) return false;
 
-  	// sibling previous
+    // result array
+    $result = array();
+
+  	// previous
   	if($index > 0) {
   		$prev_dir = $keys[$index - 1];
   		$dir_slug = $dir_object[$prev_dir]['slug'];
-      $slug = str_replace(' ', '_', $dir_slug);
-      $label = ucwords(str_replace(array('_', '-'), ' ', $dir_slug));
-  		$result[0] = array('slug' => $slug, 'label' => $label);
+      $page_data = $this->get_json($prev_dir);
+      $label = isset($page_data->label) ? $page_data->label : ucwords(str_replace(array('_', '-'), ' ', $dir_slug));
+  		$result['prev'] = array(
+        'slug' => str_replace(' ', '_', $dir_slug),
+        'label' => $label
+      );
+      if(isset($page_data->title) && $page_data->title != $label) $result['prev']['title'] = $page_data->title;
   	}
-  	// sibling next
+
+  	// next
   	if($index < (count($keys) - 1)){
   		$next_dir = $keys[$index + 1];
   		$dir_slug = $dir_object[$next_dir]['slug'];
-      $slug = str_replace(' ', '_', $dir_slug);
-      $label = ucwords(str_replace(array('_', '-'), ' ', $dir_slug));
-  		$result[1] = array('slug' => $slug, 'label' => $label);
+      $page_data = $this->get_json($next_dir);
+      $label = isset($page_data->label) ? $page_data->label : ucwords(str_replace(array('_', '-'), ' ', $dir_slug));
+      $result['next'] = array(
+        'slug' => str_replace(' ', '_', $dir_slug),
+        'label' => $label
+      );
+      if(isset($page_data->title) && $page_data->title != $label) $result['next']['title'] = $page_data->title;
   	}
     
   	return $result;

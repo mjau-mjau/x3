@@ -19,6 +19,7 @@ gtag('config', '{{ page.accounts.google_analytics }}');
   <title>{{ meta_page_title }}</title>
   {% if meta_page_description %}<meta name="description" content="{{ meta_page_description }}">{% endif %}
   {% if page.seo.keywords %}<meta name="keywords" content="{{ page.seo.keywords|trim }}">{% endif %}
+  {% if page.seo.robots %}<meta name="robots" content="{{ page.seo.robots|trim }}">{% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="canonical" href="{{ absolutepath_page }}">
 
@@ -29,7 +30,6 @@ gtag('config', '{{ page.accounts.google_analytics }}');
 
   {# Google Authorship, Publisher and site-verification #}
   {% if not page.accounts.google_author is empty %}<link rel="author" href="https://plus.google.com/{{ page.accounts.google_author }}">{% endif %}
-  {% if not page.accounts.google_publisher is empty %}<link rel="publisher" href="https://plus.google.com/{{ page.accounts.google_publisher }}">{% endif %}
   {% if page.accounts.google_site_verification is not empty %}<meta name="google-site-verification" content="{{ page.accounts.google_site_verification }}">{% endif %}
 
   {# Twitter Card data #}
@@ -102,6 +102,13 @@ function cssFail(){
   {% if page.back.custom.css is not empty %}
   <style id="custom-css"><!-- {{ page.back.custom.css|minify }} --></style>
   {% endif %}
+
+
+  {# custom page css #}
+  {% if page.page_css %}
+  <style id="custom-page-css">{{ page.page_css|minify }}</style>
+  {% endif %}
+
 
   {# Custom logo css #}
   {% if page.back.custom.logo_css is not empty %}

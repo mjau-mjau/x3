@@ -579,7 +579,6 @@ class SLIRImage
 		{
 			return TRUE;
 		}
-		
 		$cropper	= $this->getCropperClass();
 		$offset		= $cropper->getCrop($this);
 		return $this->cropImage($offset['x'], $offset['y'], $isBackgroundFillOn);

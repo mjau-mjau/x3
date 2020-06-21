@@ -15,7 +15,7 @@ include '../config.php';
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Montserrat:500|Source+Sans+Pro:400,400i,600,600i&amp;subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-<link href="../filemanager_css/x3.panel.css?v=<?php echo X3Config::$config["x3_panel_version"]; ?>" rel="stylesheet" />
+<link href="../filemanager_css/x3.panel.min.css?v=<?php echo X3Config::$config["x3_panel_version"]; ?>" rel="stylesheet" />
  <style type="text/css">
      body {
          padding-top: 40px;

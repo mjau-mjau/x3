@@ -29,8 +29,6 @@ if ($core->isLogin())
                 $allowedExts = implode(", ", $allowedExts);
                 $size = 0;
             }
-
-            $resizer_orientation = X3Config::$config["back"]["panel"]["upload_resize"]["orientation"];
 ?>
         <!-- NEW UPLOADER -->
         <div class="alert alert-info" style="text-align: center;"><?php language_filter("You can upload file with following extensions")?>: <br> <?php echo $allowedExts;?></div>
@@ -149,7 +147,7 @@ if ($core->isLogin())
                         <span class="preview">
                             {% if (file.thumbnailUrl) { %}
                                 <a href="{%=file.url.replace('//content/','/content/')%}" target="_blank"{% if (file.width) { %} class="popup" data-width="{%=file.width%}" data-height="{%=file.height%}"{% } %} data-name="{%=file.name%}" data-filesize="{%=o.formatFileSize(file.size)%}" rel="up1">
-                                	<img src="{%=file.thumbnailUrl.replace('//content/','/render/w'+thumbsize+'-c1:1-q90/')%}">
+                                	<img src="{%=file.thumbnailUrl.replace('//content/','/render/w'+thumbsize+'-c1.1/')%}">
                                 </a>
                             {% } %}
                         </span>
@@ -187,8 +185,7 @@ if ($core->isLogin())
             		"img_resize_height": <?php echo IMG_RESIZE_HEIGHT; ?>,
             		"img_resize_quality": <?php echo IMG_RESIZE_QUALITY; ?>,
             		"path": 'filemanager_user/upload.php',
-            		"acceptFileTypes": /(\.|\/)(<?php echo $uploaderExts; ?>)$/i,
-            		"orientation": <?php echo ($resizer_orientation === true || $resizer_orientation === 'resizer' ? 'true' : 'false'); ?>
+            		"acceptFileTypes": /(\.|\/)(<?php echo $uploaderExts; ?>)$/i
             	});
             });
 

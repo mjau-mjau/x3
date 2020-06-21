@@ -20,16 +20,15 @@
 	RewriteRule (.+)\.(html|json|xml|atom|rss)$ index.php?$1/ [L]
 
 	# Rewrite any calls to /render to the X3 image resizer
+	RewriteCond %{REQUEST_FILENAME} !-f [OR]
+	RewriteCond %{QUERY_STRING} ^(?)debug($|&)
 	RewriteCond %{REQUEST_URI} render/
-	#RewriteRule ^render/. app/parsers/slir/ [L]	
 	RewriteRule ^render/. app/parsers/slir/index.php?$1 [L]
 
 	# Rewrite routes to X3 application index.php if they are non-existent files/dirs
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule ^(.*)/$ index.php?/$1/ [L,QSA]
-	#RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
-
 </IfModule>
 
 # ---------------------------------------------------------------------------
@@ -58,9 +57,15 @@
 	</IfModule>
 
 	# Allow basic authentication in X3 for servers running PHP as FastCGI
-	RewriteCond %{HTTP:Authorization} ^(.+)$
-	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+	RewriteCond %{HTTP:Authorization} !^$ 
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},E=PHP_AUTH_USER:%{HTTP:Authorization},E=REMOTE_USER:%{HTTP:Authorization},L]
 </IfModule>
+
+# CGIPassAuth On
+# <IfModule mod_env.c>
+#		SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
+#		SetEnvIf Authorization .+ REMOTE_USER=$0
+# </IfModule>
 
 # Prevent X3 Diagnostics from showing server information
 # <IfModule mod_env.c>

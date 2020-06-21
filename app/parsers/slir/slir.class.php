@@ -198,12 +198,6 @@ class SLIR
 
 		$this->request = new SLIRRequest();
 
-		// Check the cache based on the request URI
-		if (SLIRConfig::$useRequestCache === TRUE && $this->isRequestCached())
-		{
-			$this->serveRequestCachedImage();
-		}
-
 		// Set up our error handler after the request cache to help keep
 		// everything humming along nicely
 		require 'slirexception.class.php';
@@ -338,7 +332,6 @@ class SLIR
 	 */
 	public function collectGarbage()
 	{
-		$this->deleteStaleFilesFromDirectory($this->getRequestCacheDir(), FALSE);
 		$this->deleteStaleFilesFromDirectory($this->getRenderedCacheDir());
 	}
 
@@ -989,17 +982,6 @@ class SLIR
 	}
 
 	/**
-	 * Determines if the request is symlinked to the rendered file
-	 * 
-	 * @since 2.0
-	 * @return boolean
-	 */
-	private function isRequestCached()
-	{
-		return $this->isCached($this->requestCacheFilePath());
-	}
-
-	/**
 	 * Determines if a given file exists in the cache
 	 * 
 	 * @since 2.0
@@ -1020,7 +1002,8 @@ class SLIR
 			return FALSE;
 		}
 
-		$imageModified	= filectime($this->request->fullPath());
+		//$imageModified	= filectime($this->request->fullPath());
+		$imageModified	= filemtime($this->request->fullPath());
 
 		if ($imageModified >= $cacheModified)
 		{
@@ -1067,20 +1050,6 @@ class SLIR
 	 * @since 2.0
 	 * @return string
 	 */
-	private function requestCacheFilename()
-	{
-		//return '/' . md5($_SERVER['HTTP_HOST'] . '/' . $this->requestURI() . '/' . SLIRConfig::$defaultCropper);
-		$uri = $_SERVER['REQUEST_URI'];
-		$request_path = strpos($uri, 'render/') === FALSE ? $uri : strstr($uri, 'render/');
-		$q = $this->request->quality !== NULL ? '' : SLIRConfig::$defaultQuality;
-		return '/' . md5($request_path . $q);
-		//return '/' . md5($request_path);
-	}
-
-	/**
-	 * @since 2.0
-	 * @return string
-	 */
 	/*private function requestURI()
 	{
 		if (SLIRConfig::$forceQueryString === TRUE)
@@ -1094,24 +1063,6 @@ class SLIR
 	}*/
 
 	/**
-	 * @since 2.0
-	 * @return string
-	 */
-	private function getRequestCacheDir()
-	{
-		return SLIRConfig::$cacheDir . '/request';
-	}
-
-	/**
-	 * @since 2.0
-	 * @return string
-	 */
-	private function requestCacheFilePath()
-	{
-		return $this->getRequestCacheDir() . $this->requestCacheFilename();
-	}
-
-	/**
 	 * Write an image to the cache
 	 *
 	 * @since 2.0
@@ -1121,15 +1072,7 @@ class SLIR
 	private function cache()
 	{
 		$this->cacheRendered();
-		
-		if (SLIRConfig::$useRequestCache === TRUE)
-		{
-			return $this->cacheRequest($this->rendered->data, TRUE);
-		}
-		else
-		{
-			return TRUE;
-		}
+		return TRUE;
 	}
 
 	/**
@@ -1149,24 +1092,6 @@ class SLIR
 	}
 
 	/**
-	 * Write an image to the cache based on the request URI
-	 *
-	 * @since 2.0
-	 * @param string $imageData
-	 * @param boolean $copyEXIF
-	 * @return string
-	 */
-	private function cacheRequest($imageData, $copyEXIF = TRUE)
-	{
-		return $this->cacheFile(
-			$this->requestCacheFilePath(),
-			$imageData,
-			$copyEXIF,
-			$this->renderedCacheFilePath()
-		);
-	}
-
-	/**
 	 * Write an image to the cache based on the properties of the rendered image
 	 *
 	 * @since 2.0
@@ -1176,14 +1101,8 @@ class SLIR
 	 * @param string $symlinkToPath
 	 * @return string|boolean
 	 */
-	private function cacheFile($cacheFilePath, $imageData, $copyEXIF = TRUE, $symlinkToPath = NULL)
+	private function cacheFile($cacheFilePath, $imageData, $copyEXIF = TRUE)
 	{
-
-		// Try to create just a symlink to minimize disk space
-		if($symlinkToPath && SLIRConfig::$useRequestCache && function_exists('symlink') && (file_exists($cacheFilePath) || @symlink($symlinkToPath, $cacheFilePath))) return TRUE;
-		/*if($symlinkToPath && function_exists('symlink') && (file_exists($cacheFilePath) || symlink($symlinkToPath, $cacheFilePath))){
-			return TRUE;
-		}*/
 
 		// Create the file
 		if(!file_put_contents($cacheFilePath, $imageData)) return FALSE;
@@ -1326,17 +1245,6 @@ class SLIR
 	}
 
 	/**
-	 * Serves the image from the cache based on the request URI
-	 *
-	 * @since 2.0
-	 * @return void
-	 */
-	private function serveRequestCachedImage()
-	{
-		return $this->serveCachedImage($this->requestCacheFilePath(), 'request');
-	}
-
-	/**
 	 * Serves the image from the cache
 	 *
 	 * @since 2.0
@@ -1355,14 +1263,6 @@ class SLIR
 			NULL,
 			"$cacheType cache"
 		);
-		
-		// If we are serving from the rendered cache, create a symlink in the
-		// request cache to the rendered file
-		if ($cacheType != 'request' && SLIRConfig::$useRequestCache)
-		{
-			$this->cacheRequest($data, FALSE);
-		}
-		
 		exit();
 	}
 	

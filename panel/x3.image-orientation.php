@@ -1,33 +1,6 @@
 <?php
 
-function fix_orientation($fileandpath, $ext, $quality) {
-
-	// proceed if extension is image
-	if(empty($ext) || !in_array($ext, ['png', 'jpg', 'jpeg', 'gif'])) return false;
-
-	// proceed if exif_read_data() function exists
-	if(!function_exists('exif_read_data')) return false;
-
-  // proceed if the file exists
-  if(!file_exists($fileandpath)) return false;
-
-  // Get all the exif data from the file
-  $exif = @exif_read_data($fileandpath);
-
-  // If we dont get any exif data at all, then we may as well stop now
-  if(!$exif || !is_array($exif)) return false;
-
-  // I hate case juggling, so we're using loweercase throughout just in case
-  $exif = array_change_key_case($exif, CASE_LOWER);
-
-  // proceed if exif orientation key
-  if(!array_key_exists('orientation', $exif)) return false;
-
-  // get $orientation
-  $orientation = (int)@$exif['orientation'];
-
-  // proceed if image requires rotation
-  if($orientation < 2 || $orientation > 8) return false;
+function fix_orientation($orientation, $fileandpath, $ext, $quality) {
 
   // Gets the GD image resource for loaded image
   $img_res = get_image_resource($fileandpath, $ext);

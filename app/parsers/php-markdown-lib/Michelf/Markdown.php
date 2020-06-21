@@ -74,7 +74,7 @@ class Markdown implements MarkdownInterface {
 	 * Change to `true` to enable line breaks on \n without two trailling spaces
 	 * @var boolean
 	 */
-	public $hard_wrap = false;
+	public $hard_wrap = true;
 
 	/**
 	 * Predefined URLs and titles for reference links and images.

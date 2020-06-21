@@ -71,11 +71,12 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 			$write += x3_set_iptc($file, $iptc, 'params', Iptc::X3_PARAMS);
 			$write += x3_set_iptc($file, $iptc, 'index', Iptc::X3_INDEX);
 
-			// store reference date
-			if(isset($file['date']) && !empty($file['date'])) {
-				$reference_date = $iptc->fetch(Iptc::REFERENCE_DATE);
-				if(empty($reference_date)) $iptc->set(Iptc::REFERENCE_DATE, $file['date']);
-			}
+			// store reference date // outdated
+			/*$reference_date = $iptc->fetch(Iptc::REFERENCE_DATE);
+			if(empty($reference_date) && isset($file['date']) && !empty($file['date'])){
+				$reference_date = $file['date'];
+				$iptc->set(Iptc::REFERENCE_DATE, $reference_date);
+			}*/
 
 			// write
 			if(!$write || $iptc->write()) $success ++;
