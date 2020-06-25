@@ -76,3 +76,5 @@ Stack trace:
 #1 /Users/karlward/sites/x3_new/panel/x3_settings.php(138): set_iptc(Array)
 #2 {main}
   thrown in /Users/karlward/sites/x3_new/panel/iptc.php on line 254
+[25-Jun-2020 13:13:27 Asia/Bangkok] PHP Warning:  require_once(/Users/karlward/sites/x3_new/app/x3.config.inc.phpz): failed to open stream: No such file or directory in /Users/karlward/sites/x3_new/panel/config.php on line 6
+[25-Jun-2020 13:13:27 Asia/Bangkok] PHP Fatal error:  require_once(): Failed opening required '/Users/karlward/sites/x3_new/app/x3.config.inc.phpz' (include_path='.:/usr/local/Cellar/php/7.4.6_1/share/php/pear') in /Users/karlward/sites/x3_new/panel/config.php on line 6
