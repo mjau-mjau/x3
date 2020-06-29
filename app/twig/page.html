@@ -78,9 +78,15 @@
 				{% set file_index = loop.index0 %}
 
 				{# siblings #}
-				{% if current_image %}{% set prev_image = current_image %}{% endif %}
-				{% set get_next_image = true %}
+				{# previous #}
+				{#{% if current_image %}{% set prev_image = current_image %}{% endif %}#}
+				{% set prev_image = current_image|default(parent_images|last) %}
 
+				{# next #}
+				{# {% set get_next_image = true %} #}
+				{% if loop.last %}{% set next_image = parent_images|first %}{% else %}{% set get_next_image = true %}{% endif %}
+
+				{# current #}
 				{% set myimage = image %}
 			{% endif %}
 		{% endif %}

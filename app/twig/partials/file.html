@@ -9,16 +9,16 @@
 {% if parent_images|length > 1 %}
 <div class="pagenav pagenav-static">
 
-	{# next #}
-	{% if next_image %}
-		{% set url = '../' ~ getSibling(next_image.file_name|removeExtension) ~ '/' %}
-		<a href="{{ url }}" class="pagenav-link pagenav-prev"><span class="pagenav-text">{{ next_image.title|default(next_image.name) }}</span></a>
-	{% endif %}
-
 	{# previous #}
 	{% if prev_image %}
 		{% set url = '../' ~ getSibling(prev_image.file_name|removeExtension) ~ '/' %}
-		<a href="{{ url }}" class="pagenav-link pagenav-next"><span class="pagenav-text">{{ prev_image.title|default(prev_image.name) }}</span></a>
+		<a href="{{ url }}" class="pagenav-link pagenav-prev"><span class="pagenav-text">{{ prev_image.title|default(prev_image.name) }}</span></a>
+	{% endif %}
+
+	{# next #}
+	{% if next_image %}
+		{% set url = '../' ~ getSibling(next_image.file_name|removeExtension) ~ '/' %}
+		<a href="{{ url }}" class="pagenav-link pagenav-next"><span class="pagenav-text">{{ next_image.title|default(next_image.name) }}</span></a>
 	{% endif %}
 </div>
 {% endif %}

@@ -47,7 +47,7 @@ if ($core->isLogin() and $core->role == "admin"){
 <script src="https://cdn.jsdelivr.net/npm/jquery-throttle-debounce@1.0.0/jquery.ba-throttle-debounce.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.53.0/lib/codemirror.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/codemirror@5.53.0/mode/xml/xml.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <?php if(preg_match('~MSIE|Internet Explorer~i', $_SERVER['HTTP_USER_AGENT']) || preg_match('~Trident/7.0(; Touch)?; rv:11.0~',$_SERVER['HTTP_USER_AGENT'])): ?><script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.10.0/intersection-observer.js"></script><?php endif; ?>
 <script src="https://cdn.jsdelivr.net/npm/yall-js@3.2.0/dist/yall.min.js"></script>
 
@@ -93,7 +93,7 @@ $language_array = array(
 $language_key = $lng === 'English' ? substr(strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 2) : $lng;
 if(array_key_exists($language_key, $language_array)) {
 	$summernote_lang = $language_array[$language_key];
-	echo '<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/lang/summernote-' . $summernote_lang . '.js"></script>';
+	echo '<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/lang/summernote-' . $summernote_lang . '.js"></script>';
 }
 ?>
 
@@ -105,7 +105,7 @@ if(array_key_exists($language_key, $language_array)) {
 <link href="https://cdn.jsdelivr.net/npm/blueimp-file-upload@10.30.1/css/jquery.fileupload-ui.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.bootstrap3.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.css" rel="stylesheet" />
 
 <!-- X3 vars -->
 <?php

@@ -37,15 +37,15 @@ class __TwigTemplate_db49246ef100488bf387c704be915976dc53fe33439588b93ef0ac7e41b
 \t";
             // line 13
             echo "\t";
-            if ((isset($context["next_image"]) ? $context["next_image"] : null)) {
+            if ((isset($context["prev_image"]) ? $context["prev_image"] : null)) {
                 // line 14
                 echo "\t\t";
-                $context["url"] = (("../" . call_user_func_array($this->env->getFunction('getSibling')->getCallable(), array(call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "file_name")))))) . "/");
+                $context["url"] = (("../" . call_user_func_array($this->env->getFunction('getSibling')->getCallable(), array(call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "file_name")))))) . "/");
                 // line 15
                 echo "\t\t<a href=\"";
                 echo (isset($context["url"]) ? $context["url"] : null);
                 echo "\" class=\"pagenav-link pagenav-prev\"><span class=\"pagenav-text\">";
-                echo (($this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "title", array(), "any", true, true)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array($this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "title"), $this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "name")))) : ($this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "name")));
+                echo (($this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "title", array(), "any", true, true)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array($this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "title"), $this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "name")))) : ($this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "name")));
                 echo "</span></a>
 \t";
             }
@@ -54,15 +54,15 @@ class __TwigTemplate_db49246ef100488bf387c704be915976dc53fe33439588b93ef0ac7e41b
 \t";
             // line 19
             echo "\t";
-            if ((isset($context["prev_image"]) ? $context["prev_image"] : null)) {
+            if ((isset($context["next_image"]) ? $context["next_image"] : null)) {
                 // line 20
                 echo "\t\t";
-                $context["url"] = (("../" . call_user_func_array($this->env->getFunction('getSibling')->getCallable(), array(call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "file_name")))))) . "/");
+                $context["url"] = (("../" . call_user_func_array($this->env->getFunction('getSibling')->getCallable(), array(call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "file_name")))))) . "/");
                 // line 21
                 echo "\t\t<a href=\"";
                 echo (isset($context["url"]) ? $context["url"] : null);
                 echo "\" class=\"pagenav-link pagenav-next\"><span class=\"pagenav-text\">";
-                echo (($this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "title", array(), "any", true, true)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array($this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "title"), $this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "name")))) : ($this->getAttribute((isset($context["prev_image"]) ? $context["prev_image"] : null), "name")));
+                echo (($this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "title", array(), "any", true, true)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array($this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "title"), $this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "name")))) : ($this->getAttribute((isset($context["next_image"]) ? $context["next_image"] : null), "name")));
                 echo "</span></a>
 \t";
             }
@@ -356,6 +356,6 @@ class __TwigTemplate_db49246ef100488bf387c704be915976dc53fe33439588b93ef0ac7e41b
 
     public function getDebugInfo()
     {
-        return array (  342 => 126,  332 => 118,  329 => 117,  326 => 115,  319 => 114,  308 => 107,  304 => 106,  278 => 104,  275 => 103,  269 => 100,  266 => 98,  257 => 97,  251 => 96,  247 => 95,  244 => 94,  237 => 91,  230 => 90,  227 => 88,  223 => 86,  220 => 85,  212 => 82,  209 => 80,  205 => 78,  200 => 77,  197 => 76,  194 => 75,  191 => 74,  188 => 73,  185 => 72,  182 => 71,  179 => 70,  167 => 65,  163 => 63,  158 => 62,  151 => 61,  148 => 60,  145 => 59,  139 => 58,  137 => 57,  134 => 56,  131 => 50,  128 => 49,  125 => 48,  122 => 47,  119 => 45,  117 => 44,  115 => 43,  113 => 42,  111 => 41,  104 => 37,  89 => 32,  86 => 31,  83 => 30,  79 => 28,  77 => 27,  56 => 19,  45 => 15,  30 => 7,  28 => 6,  22 => 3,  101 => 36,  98 => 35,  95 => 34,  92 => 33,  88 => 35,  85 => 34,  74 => 25,  71 => 26,  64 => 22,  59 => 20,  52 => 16,  49 => 15,  43 => 12,  40 => 11,  34 => 9,  232 => 84,  225 => 83,  221 => 80,  217 => 84,  214 => 83,  211 => 76,  207 => 73,  204 => 72,  201 => 70,  187 => 69,  184 => 68,  181 => 66,  178 => 65,  176 => 69,  173 => 68,  170 => 66,  165 => 61,  162 => 59,  159 => 58,  156 => 57,  153 => 56,  150 => 55,  147 => 53,  144 => 52,  141 => 50,  138 => 49,  135 => 48,  132 => 47,  129 => 46,  126 => 44,  108 => 39,  105 => 43,  102 => 40,  99 => 39,  96 => 38,  93 => 37,  90 => 36,  87 => 35,  84 => 33,  81 => 29,  78 => 30,  73 => 30,  70 => 23,  67 => 23,  65 => 26,  62 => 21,  60 => 23,  58 => 22,  55 => 17,  53 => 17,  50 => 17,  46 => 13,  42 => 14,  39 => 13,  37 => 10,  35 => 10,  33 => 9,  31 => 8,  29 => 7,  26 => 5,  24 => 4,  21 => 2,  19 => 1,);
+        return array (  342 => 126,  332 => 118,  329 => 117,  326 => 115,  319 => 114,  308 => 107,  304 => 106,  278 => 104,  275 => 103,  269 => 100,  266 => 98,  257 => 97,  251 => 96,  247 => 95,  230 => 90,  227 => 88,  220 => 85,  217 => 84,  214 => 83,  212 => 82,  209 => 80,  205 => 78,  200 => 77,  197 => 76,  194 => 75,  191 => 74,  188 => 73,  185 => 72,  182 => 71,  179 => 70,  176 => 69,  173 => 68,  170 => 66,  163 => 63,  158 => 62,  151 => 61,  148 => 60,  145 => 59,  139 => 58,  137 => 57,  134 => 56,  131 => 50,  128 => 49,  125 => 48,  122 => 47,  119 => 45,  117 => 44,  115 => 43,  113 => 42,  111 => 41,  104 => 37,  101 => 36,  98 => 35,  95 => 34,  92 => 33,  89 => 32,  86 => 31,  83 => 30,  79 => 28,  77 => 27,  74 => 25,  59 => 20,  56 => 19,  45 => 15,  30 => 7,  28 => 6,  22 => 3,  244 => 94,  237 => 91,  233 => 86,  229 => 84,  226 => 83,  223 => 86,  219 => 79,  216 => 78,  213 => 76,  199 => 75,  196 => 74,  193 => 72,  190 => 71,  187 => 70,  184 => 68,  177 => 67,  175 => 66,  172 => 64,  169 => 63,  167 => 65,  165 => 61,  162 => 59,  159 => 58,  156 => 57,  153 => 56,  150 => 55,  147 => 53,  144 => 52,  141 => 50,  138 => 49,  135 => 48,  132 => 47,  129 => 46,  126 => 44,  108 => 39,  105 => 41,  102 => 40,  99 => 39,  96 => 38,  93 => 37,  90 => 36,  87 => 35,  84 => 33,  81 => 29,  78 => 31,  73 => 30,  70 => 23,  67 => 27,  65 => 26,  62 => 21,  60 => 23,  58 => 22,  55 => 20,  53 => 17,  50 => 17,  46 => 16,  42 => 14,  39 => 13,  37 => 12,  35 => 10,  33 => 9,  31 => 9,  29 => 8,  26 => 5,  24 => 4,  21 => 2,  19 => 1,);
     }
 }

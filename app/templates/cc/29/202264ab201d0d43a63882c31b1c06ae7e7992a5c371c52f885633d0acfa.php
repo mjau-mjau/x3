@@ -209,30 +209,42 @@ class __TwigTemplate_cc29202264ab201d0d43a63882c31b1c06ae7e7992a5c371c52f885633d
 \t\t\t\t";
                         // line 81
                         echo "\t\t\t\t";
-                        if ((isset($context["current_image"]) ? $context["current_image"] : null)) {
-                            $context["prev_image"] = (isset($context["current_image"]) ? $context["current_image"] : null);
-                        }
                         // line 82
                         echo "\t\t\t\t";
-                        $context["get_next_image"] = true;
                         // line 83
+                        echo "\t\t\t\t";
+                        $context["prev_image"] = ((array_key_exists("current_image", $context)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array((isset($context["current_image"]) ? $context["current_image"] : null), call_user_func_array($this->env->getFilter('last')->getCallable(), array($this->env, (isset($context["parent_images"]) ? $context["parent_images"] : null)))))) : (call_user_func_array($this->env->getFilter('last')->getCallable(), array($this->env, (isset($context["parent_images"]) ? $context["parent_images"] : null)))));
+                        // line 84
                         echo "
 \t\t\t\t";
-                        // line 84
+                        // line 86
+                        echo "\t\t\t\t";
+                        // line 87
+                        echo "\t\t\t\t";
+                        if ($this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "last")) {
+                            $context["next_image"] = call_user_func_array($this->env->getFilter('first')->getCallable(), array($this->env, (isset($context["parent_images"]) ? $context["parent_images"] : null)));
+                        } else {
+                            $context["get_next_image"] = true;
+                        }
+                        // line 88
+                        echo "
+\t\t\t\t";
+                        // line 90
+                        echo "\t\t\t\t";
                         $context["myimage"] = (isset($context["image"]) ? $context["image"] : null);
-                        // line 85
+                        // line 91
                         echo "\t\t\t";
                     }
-                    // line 86
+                    // line 92
                     echo "\t\t";
                 }
-                // line 87
+                // line 93
                 echo "
 \t\t";
-                // line 89
+                // line 95
                 echo "\t\t";
                 $context["current_image"] = (isset($context["image"]) ? $context["image"] : null);
-                // line 90
+                // line 96
                 echo "\t";
                 ++$context['loop']['index0'];
                 ++$context['loop']['index'];
@@ -246,35 +258,35 @@ class __TwigTemplate_cc29202264ab201d0d43a63882c31b1c06ae7e7992a5c371c52f885633d
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['image'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 91
+            // line 97
             echo "
 \t";
-            // line 93
+            // line 99
             echo "\t";
             $context["template"] = "partials/file.html";
         } else {
-            // line 96
+            // line 102
             echo "\t";
             $context["page_title"] = $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "title");
-            // line 97
+            // line 103
             echo "\t";
             $context["page_description"] = $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "description");
-            // line 98
+            // line 104
             echo "\t";
             $context["template"] = "partials/content.html";
         }
-        // line 100
+        // line 106
         echo "
 ";
-        // line 102
+        // line 108
         $this->env->loadTemplate("partials/head.html")->display($context);
-        // line 103
+        // line 109
         $template = $this->env->resolveTemplate((isset($context["template"]) ? $context["template"] : null));
         $template->display($context);
-        // line 104
+        // line 110
         $this->env->loadTemplate("partials/footer.html")->display($context);
         echo trim(preg_replace('/>\s+</', '><', ob_get_clean()));
-        // line 106
+        // line 112
         echo "
 <!-- X3 website by www.photo.gallery -->";
     }
@@ -291,6 +303,6 @@ class __TwigTemplate_cc29202264ab201d0d43a63882c31b1c06ae7e7992a5c371c52f885633d
 
     public function getDebugInfo()
     {
-        return array (  278 => 106,  275 => 104,  272 => 103,  270 => 102,  267 => 100,  263 => 98,  260 => 97,  257 => 96,  253 => 93,  250 => 91,  236 => 90,  233 => 89,  230 => 87,  227 => 86,  224 => 85,  222 => 84,  219 => 83,  216 => 82,  211 => 81,  208 => 79,  205 => 78,  202 => 77,  199 => 76,  196 => 75,  194 => 74,  191 => 73,  188 => 72,  182 => 69,  179 => 68,  176 => 66,  173 => 65,  170 => 63,  167 => 62,  164 => 61,  161 => 60,  158 => 59,  155 => 57,  137 => 56,  134 => 54,  131 => 53,  128 => 52,  125 => 51,  122 => 50,  119 => 49,  116 => 48,  113 => 46,  110 => 45,  107 => 44,  102 => 43,  99 => 42,  96 => 40,  94 => 39,  91 => 37,  89 => 36,  87 => 35,  84 => 33,  80 => 31,  77 => 30,  73 => 28,  70 => 27,  68 => 26,  66 => 25,  64 => 24,  62 => 23,  59 => 21,  57 => 20,  54 => 18,  50 => 17,  46 => 16,  43 => 14,  41 => 13,  39 => 12,  37 => 11,  35 => 10,  33 => 9,  30 => 7,  28 => 6,  25 => 4,  23 => 3,  19 => 1,);
+        return array (  290 => 112,  287 => 110,  284 => 109,  282 => 108,  279 => 106,  275 => 104,  272 => 103,  269 => 102,  265 => 99,  262 => 97,  248 => 96,  245 => 95,  242 => 93,  239 => 92,  236 => 91,  233 => 90,  230 => 88,  223 => 87,  221 => 86,  218 => 84,  215 => 83,  213 => 82,  211 => 81,  208 => 79,  205 => 78,  202 => 77,  199 => 76,  196 => 75,  194 => 74,  191 => 73,  188 => 72,  182 => 69,  179 => 68,  176 => 66,  173 => 65,  170 => 63,  167 => 62,  164 => 61,  161 => 60,  158 => 59,  155 => 57,  137 => 56,  134 => 54,  131 => 53,  128 => 52,  125 => 51,  122 => 50,  119 => 49,  116 => 48,  113 => 46,  110 => 45,  107 => 44,  102 => 43,  99 => 42,  96 => 40,  94 => 39,  91 => 37,  89 => 36,  87 => 35,  84 => 33,  80 => 31,  77 => 30,  73 => 28,  70 => 27,  68 => 26,  66 => 25,  64 => 24,  62 => 23,  59 => 21,  57 => 20,  54 => 18,  50 => 17,  46 => 16,  43 => 14,  41 => 13,  39 => 12,  37 => 11,  35 => 10,  33 => 9,  30 => 7,  28 => 6,  25 => 4,  23 => 3,  19 => 1,);
     }
 }
