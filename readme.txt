@@ -1,4 +1,4 @@
-# Photo Gallery X3.29.4
+# Photo Gallery X3.29.6
 
 
 
