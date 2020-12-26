@@ -87,6 +87,11 @@ function cssFail(){
   {# Skin #}
   <link rel="stylesheet" id="{{ page.style.skin.skin }}" href="{{ core_css }}"{% if page.settings.cdn_core %} onerror="cssFail();"{% endif %}>
 
+  {# interface language / must load after stylesheet to override #}
+  {#{% if page.settings.lang != 'en' %}
+  <link rel="stylesheet" href="{{ local_public }}/lang/{{ page.settings.lang }}.css">
+  {% endif %}#}
+
 	{# Google webfonts #}
 	{% if page.style.font.font is not empty and page.style.font.font != 'none' %}
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ page.style.font.font|default("Lato:400,700,900,400italic,700italic,900italic")|getfontstring }}">
@@ -103,12 +108,10 @@ function cssFail(){
   <style id="custom-css"><!-- {{ page.back.custom.css|minify }} --></style>
   {% endif %}
 
-
   {# custom page css #}
   {% if page.page_css %}
   <style id="custom-page-css">{{ page.page_css|minify }}</style>
   {% endif %}
-
 
   {# Custom logo css #}
   {% if page.back.custom.logo_css is not empty %}

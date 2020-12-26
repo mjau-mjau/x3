@@ -107,9 +107,11 @@
 			{% for item in tooltip_items %}
 				{% if item == 'title' %}<span class="title">{{ title }}</span>
 				{% elseif item == 'label' %}<span class="title">{{ label }}</span>
-				{% elseif item == 'date' %}{{time_tag}}
-				{% elseif item == 'amount' and amount > 0 %}<span class="amount">{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span>
-				{% elseif item == 'folders_amount' and folders_amount > 0 %}<span class="folder_amount">{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span>
+				{% elseif item == 'date' %}{{ time_tag }}
+				{#{% elseif item == 'amount' and amount > 0 %}<span class="amount">{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span>#}
+				{% elseif item == 'amount' and amount > 0 %}<span class="amount" data-lang="image{{ amount == 1 ? '' : 's' }}">{{ amount }}</span>
+				{#{% elseif item == 'folders_amount' and folders_amount > 0 %}<span class="folder_amount">{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span>#}
+				{% elseif item == 'folders_amount' and folders_amount > 0 %}<span class="folder_amount" data-lang="folder{{ folders_amount == 1 ? '' : 's' }}">{{ folders_amount }}</span>
 				{% elseif item == 'description' and child.description is not empty %}<span class="description">{{ description }}</span>
 				{% endif %}
 			{% endfor %}
@@ -219,12 +221,14 @@
     {% endset %}
     {% set amount_tag %}
     	{% if amount > 0 %}
-    	<h6 class="amount"><span>{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span></h6>
+    	{#<h6 class="amount"><span>{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span></h6>#}
+    	<h6 class="amount" data-lang="image{{ amount == 1 ? '' : 's' }}">{{ amount }}</h6>
     	{% endif %}
     {% endset %}
     {% set folders_amount_tag %}
     	{% if folders_amount > 0 %}
-    	<h6 class="folder_amount"><span>{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span></h6>
+    	{#<h6 class="folder_amount"><span>{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span></h6>#}
+    	<h6 class="folder_amount" data-lang="folder{{ folders_amount == 1 ? '' : 's' }}">{{ folders_amount }}</h6>
     	{% endif %}
     {% endset %}
     {% if child.description is not empty %}
@@ -244,8 +248,10 @@
 	        	{% for item in folders.caption.items|split(",") %}
 	        		{% if item == 'title' %}<span class="title">{{ title_pseudo }}</span>
 	        		{% elseif item == 'label' %}<span class="title">{{ label }}</span>
-	        		{% elseif item == 'amount' and amount > 0 %}<span class="amount">{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span>
-	        		{% elseif item == 'folders_amount' and folders_amount > 0 %}<span class="folder_amount">{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span>
+	        		{#{% elseif item == 'amount' and amount > 0 %}<span class="amount">{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span>#}
+	        		{% elseif item == 'amount' and amount > 0 %}<span class="amount" data-lang="image{{ amount == 1 ? '' : 's' }}">{{ amount }}</span>
+	        		{#{% elseif item == 'folders_amount' and folders_amount > 0 %}<span class="folder_amount">{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span>#}
+	        		{% elseif item == 'folders_amount' and folders_amount > 0 %}<span class="folder_amount" data-lang="folder{{ folders_amount == 1 ? '' : 's' }}">{{ folders_amount }}</span>
 	        		{% elseif item == 'date' %}{{ time_tag }}
 	        		{% elseif item == 'description' and child.description is not empty %}<span class="description">{{ description_pseudo }}</span>{% endif %}
 	        	{% endfor %}

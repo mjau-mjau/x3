@@ -86,7 +86,7 @@ class X3_Twig_Extension extends Twig_Extension {
   	// custom sort
   	if($sortby === 'custom'){
   		uasort($dir_object, function($a, $b){
-		    return $a['index'] > $b['index'];
+		    return $a['index'] > $b['index'] ? 1 : -1;
 	    });
   	} else if($sortby === 'title'){
   		uasort($dir_object, function($a, $b){
@@ -94,7 +94,7 @@ class X3_Twig_Extension extends Twig_Extension {
 	    });
   	} else if($sortby === 'date'){
   		uasort($dir_object, function($a, $b){
-		    return $a['date'] > $b['date'];
+		    return $a['date'] > $b['date'] ? 1 : -1;
 	    });
   	}
 
@@ -277,7 +277,7 @@ class X3_Twig_Extension extends Twig_Extension {
     // date sort
     if($value === 'date'){
 	    uasort($sorted, function($a, $b){
-		  	return $a['date'] > $b['date'];
+		  	return $a['date'] > $b['date'] ? 1 : -1;
 	    });
 
 	  // title sort
@@ -289,7 +289,7 @@ class X3_Twig_Extension extends Twig_Extension {
 	  // custom sort (index)
     } else if($value === 'custom'){
 	    uasort($sorted, function($a, $b){
-		    return $a['index'] > $b['index'];
+		    return $a['index'] > $b['index'] ? 1 : -1;
 	    });
     }
 

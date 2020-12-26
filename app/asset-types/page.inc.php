@@ -11,7 +11,7 @@ Class Page {
   var $all_pages;
 	var $is_protected = false;
 
-  function __construct($url, $content = false, $file_path, $current_page = false, $is_protected = false) {
+  function __construct($url, $content = false, $file_path = '', $current_page = false, $is_protected = false) {
 
   	# is protected
   	$this->is_protected = $is_protected;

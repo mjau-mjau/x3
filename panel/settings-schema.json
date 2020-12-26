@@ -161,6 +161,19 @@
             "create"
           ]
         },
+        "lang": {
+          "type": "string",
+          "enum": [
+            "de",
+            "en",
+            "es",
+            "fr",
+            "it"
+          ]
+        },
+        "auto_lang": {
+          "type": "boolean"
+        },
         "pagenav": {
           "type": "boolean"
         },
@@ -231,38 +244,111 @@
             "zoom"
           ]
         },
-        "hide_caption": {
-          "type": "boolean",
-          "title": "Hide Caption"
+        "transition": {
+          "type": "string",
+          "enum": [
+            "none",
+            "slide",
+            "glide",
+            "fade",
+            "zoom",
+            "pop",
+            "elastic",
+            "wipe",
+            "custom"
+          ]
         },
-        "transitions": {
-          "type": "boolean",
-          "title": "Transitions"
+        "transition_custom": {
+          "type": "object",
+          "properties": {
+            "opacity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "x": {
+              "type": "integer",
+              "minimum": -9999,
+              "maximum": 9999
+            },
+            "y": {
+              "type": "integer",
+              "minimum": -9999,
+              "maximum": 9999
+            },
+            "rotate": {
+              "type": "integer",
+              "minimum": -360,
+              "maximum": 360
+            },
+            "scale": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 3
+            },
+            "easing": {
+              "type": "string",
+              "enum": [
+                "linear",
+                "easeOutQuad",
+                "easeOutCubic",
+                "easeOutQuart",
+                "easeOutQuint",
+                "easeOutBack",
+                "easeOutElastic",
+                "easeOutBounce"
+              ]
+            },
+            "duration": {
+              "type": "number",
+              "minimum": 100,
+              "maximum": 10000
+            }
+          }
+        },
+        "bg_color": {
+          "type": "string"
+        },
+        "bg_image": {
+          "type": "boolean"
         },
         "bgOpacity": {
           "type": "number",
-          "title": "Background Opacity",
           "minimum": 0,
           "maximum": 1
-        },
-        "bg_color": {
-          "type": "string",
-          "enum": [
-            "#000",
-            "#FFF"
-          ]
         },
         "history": {
           "type": "boolean",
           "title": "History"
         },
         "captionEl": {
-          "type": "boolean",
-          "title": "Show Caption"
+          "type": "boolean"
         },
-        "caption_centered": {
-          "type": "boolean",
-          "title": "Caption Centered"
+        "hide_caption": {
+          "type": "boolean"
+        },
+        "caption_transition": {
+          "type": "boolean"
+        },
+        "caption_style": {
+          "type": "string",
+          "enum": [
+            "block",
+            "box",
+            "subtitles",
+            "gradient",
+            "topbar",
+            "none"
+          ]
+        },
+        "caption_align": {
+          "type": "string",
+          "enum": [
+            "left",
+            "center-left",
+            "center",
+            "right"
+          ]
         },
         "caption": {
           "type": "object",
@@ -275,6 +361,9 @@
               "type": "boolean"
             },
             "filename": {
+              "type": "boolean"
+            },
+            "filename_ext": {
               "type": "boolean"
             },
             "description": {
@@ -303,13 +392,37 @@
             }
           }
         },
-        "shareEl": {
-          "type": "boolean",
-          "title": "Show Share button"
-        },
         "zoomEl": {
-          "type": "boolean",
-          "title": "Show Zoom button"
+          "type": "boolean"
+        },
+        "downloadEl": {
+          "type": "boolean"
+        },
+        "shareEl": {
+          "type": "boolean"
+        },
+        "playEl": {
+          "type": "boolean"
+        },
+        "play_interval": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99
+        },
+        "play_transition": {
+          "type": "string",
+          "enum": [
+            "inherit",
+            "none",
+            "slide",
+            "glide",
+            "fade",
+            "zoom",
+            "pop",
+            "elastic",
+            "wipe",
+            "custom"
+          ]
         }
       }
     },
@@ -2182,46 +2295,74 @@
         {
           "type": "help",
           "htmlClass": "alt-title",
-          "helpvalue": "Popup Slideshow"
-        },
-        {
-          "type": "help",
-          "htmlClass": "text-center",
-          "helpvalue": "Settings for the X3 popup slideshow, which appears when an image is clicked."
+          "helpvalue": "Popup Gallery"
         },
         {
           "key": "popup.enabled",
-          "inlinetitle": "Enabled <a href=# class=show-help></a><div class=hidden><h3>Popup Enabled</h3><p>If you disable the popup, clicking on an image will instead navigate the visitor to a separate image landing-page. This represents a less functional interface for browsing images.</p></div>",
-          "notitle": true,
-          "toggleNext": 8
+          "inlinetitle": "Enabled <a href=# class=show-help></a><div class=hidden><h3>Popup Enabled</h3><p>Allows images to open in a popup when clicked from gallery layouts. If you disable the popup, clicking an image will instead cause navigation to a unique image landing-page.</p></div>",
+          "toggleNext": 6
         },
         {
           "key": "popup.auto_open",
-          "inlinetitle": "Auto Open <a href=# class=show-help></a><div class=hidden><h3>Popup Auto Open</h3><p>If enabled, first image in gallery will immediately open and display in popup after page load.</p><p><em>* Auto-open can be applied on a per-gallery basis from page settings &rsaquo; gallery &rsaquo; popup.</em></p></div>"
+          "inlinetitle": "Auto Open <a href=# class=show-help></a><div class=hidden><h3>Popup Auto Open</h3><p>The first image in a gallery will immediately open and display in popup on page load.</p><p><em>* Auto-open can be applied on a per-gallery basis from page settings &rsaquo; gallery &rsaquo; popup.</em></p></div>"
         },
         {
-          "key": "popup.click",
-          "title": "Image Click <a href=# class=show-help></a><div class=hidden><h3>Image Click Behavior</h3><p>Decides behavior of the popup when current image in popup is clicked.</p><p><strong><code>prev | next</code></strong><br>If mouse cursor is located on right half of image, click will proceed to next image. If mouse cursor is located on left half of image, click will proceed to previous image.</p><p><strong><code>next</code></strong><br>Clicking image will proceed to next image.</p><p><strong><code>zoom</code></strong><br>Clicking image will zoom the current image, if the image is zoomable.</p><p><em>* Click behavior does not apply for mobile devices, since primary navigation is swipe.</em></p></div>",
-          "type": "radiobuttons",
-          "activeClass": "btn-primary",
-          "titleMap": {
-            "prev_next": "prev | next"
-          }
-        },
-        {
-          "key": "popup.zoomEl",
-          "inlinetitle": "Zoom Button <a href=# class=show-help></a><div class=hidden><h3>Show Zoom Button</h3><p>Show the zoom button, which allows the visitor to zoom the image to original size.</p><p><em>* The zoom button is only visible if the image can be scaled up without exceeding original dimensions.</em></p></div>",
-          "notitle": true
-        },
-        {
-          "key": "popup.shareEl",
-          "inlinetitle": "Share Button <a href=# class=show-help></a><div class=hidden><h3>Show Share Button</h3><p>Show the share button, which allows visitors to share the image on social services.</p><p><em>* Services in the share button are inherited from the toolbar settings.</em></p></div>",
-          "notitle": true
-        },
-        {
-          "key": "popup.transitions",
-          "inlinetitle": "Transitions <a href=# class=show-help></a><div class=hidden><h3>Transitions</h3><p>Includes an animated slide effect when navigating between images in the popup.</p><p><em>* Transitions do not apply for touch devices, where it is natural to instead swipe between images. Also, for technical reasons, the transition does not apply in the loop stitch between the last and first image.</em></p></div>",
-          "notitle": true
+          "type": "section",
+          "items": [
+            {
+              "key": "popup.transition",
+              "title": "Transition <a href=# class=show-help></a><div class=hidden><h3>Transition</h3><p>Select transition when navigating between slides in the popup. The default <em>glide</em> transition offers a soft direction-aware transition with reduced motion. Transitions do not apply on drag/swipe navigation, which always use the native \"slide\" transition to match the gesture.</p><p><em>* Transitions only affect the incoming image, except when using the \"slide\" transition.</em><p></div>",
+              "titleMap": {
+                "glide": "glide *"
+              }
+            },
+            {
+              "type": "section",
+              "htmlClass": "group-bg x3-custom-transition",
+              "items": [
+                {
+                  "type": "help",
+                  "helpvalue": "Assign start position values for your <a href=# class=\"text-help\">custom transition</a>.<div class=hidden><h3>Custom transition</h3><p>Custom transition allows you to assign start properties and duration for the incoming image. Only properties that are different from the transition-end values will be animated. </p><p><strong>Opacity</strong><span class=\"text-muted\"> / ends at 1</span><br>Set a low value to fade in the image. Opacity should normally be part of all transitions.</p><p><strong>X</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (px) to animate the X position of the image. The value is inverted depending on the direction of navigation.</p><p><strong>Y</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (px) to animate the Y position of the image.</p><p><strong>Rotate</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (degrees) to animate the rotation of the image. The value is multiplied by -1/1 depending on the direction of navigation.</p><p><strong>Scale</strong><span class=\"text-muted\"> / ends at 1</span><br>Set a start value to animate the scale of the image.</p><p><strong>Duration</strong><span class=\"text-muted\"></span><br>Duration of transition in milliseconds.</p><p><strong>Easing</strong><br>Set the acceleration of the transition. See more at <a href=\"https://easings.net/\" target=\"_blank\">easings.net</a>.</p><p><em>* You can also create more advanced transitions and override existing ones directly from Javascript.</em></p></div>"
+                },
+                {
+                  "title": "Opacity <span>1</span>",
+                  "key": "popup.transition_custom.opacity",
+                  "htmlClass": "inline-group",
+                  "step": 0.1
+                },
+                {
+                  "title": "X <span>px</span>",
+                  "htmlClass": "inline-group",
+                  "key": "popup.transition_custom.x"
+                },
+                {
+                  "title": "Y <span>px</span>",
+                  "htmlClass": "inline-group",
+                  "key": "popup.transition_custom.y"
+                },
+                {
+                  "title": "Rotate <span>deg</span>",
+                  "htmlClass": "inline-group",
+                  "key": "popup.transition_custom.rotate"
+                },
+                {
+                  "title": "Scale <span>1</span>",
+                  "htmlClass": "inline-group",
+                  "key": "popup.transition_custom.scale",
+                  "step": 0.1
+                },
+                {
+                  "title": "Duration <span>[milliseconds]</span>",
+                  "key": "popup.transition_custom.duration",
+                  "step": 100
+                },
+                {
+                  "title": "Easing",
+                  "key": "popup.transition_custom.easing"
+                }
+              ]
+            }
+          ]
         },
         {
           "key": "popup.history",
@@ -2232,25 +2373,53 @@
           "type": "section",
           "htmlClass": "help-title",
           "items": [
-          	{
+            {
               "type": "help",
-              "helpvalue": "Background"
+              "helpvalue": "Controls"
             },
             {
-		          "key": "popup.bg_color",
-		          "title": "Color <a href=# class=show-help></a><div class=hidden><h3>Popup Background Color</h3><p>Set the color of the background that appears behind the popup. Should normally be set to black to give best focus on viewing images.</p></div>",
-		          "titleMap": {
-		            "#000": "black",
-		            "#FFF": "white"
-		          },
-		          "type": "radiobuttons",
-		          "activeClass": "btn-primary"
-		        },
+              "key": "popup.zoomEl",
+              "inlinetitle": "Zoom <a href=# class=show-help></a><div class=hidden><h3>Zoom button</h3><p>Allows the visitor to zoom the image to original size. The button will only display if the image is zoomable, and will not display on touch devices that use \"pinch\" gesture to zoom.</p></div>"
+            },
             {
-		          "key": "popup.bgOpacity",
-		          "title": "Opacity <a href=# class=show-help></a><div class=hidden><h3>Popup Background Opacity</h3><p>Set the opacity of the background color that appears behind the popup. Should normally be set quite high to avoid visual noise when viewing images in the popup.</p></div>",
-		          "step": 0.01
-		        }
+              "key": "popup.downloadEl",
+              "inlinetitle": "Download <a href=# class=show-help></a><div class=hidden><h3>Download button</h3><p>Allows the visitor to conveniently download an image.</p></div>"
+            },
+            {
+              "key": "popup.shareEl",
+              "inlinetitle": "Share <a href=# class=show-help></a><div class=hidden><h3>Share button</h3><p>The share dropdown button allows visitors to share the image on social services.</p><p><em>* Share links are inherited from Settings &rsaquo; Toolbar &rsaquo; Items.</em></p></div>"
+            },
+            {
+              "key": "popup.playEl",
+              "inlinetitle": "Play slideshow <a href=# class=show-help></a><div class=hidden><h3>Play slideshow button</h3><p>Show the slideshow \"play\" button.</p></div>",
+              "toggleNext": 1
+            },
+            {
+              "type": "section",
+              "htmlClass": "group-bg",
+              "items": [            
+                {
+                  "key": "popup.play_interval",
+                  "title": "Slideshow interval <span>[seconds]</span><a href=# class=show-help></a><div class=hidden><h3>Slideshow interval</h3><p>Sets the time interval between slides in play mode.<br><em>* Interval will only begin once an image is fully loaded.</em></p></div>"
+                },
+                {
+                  "key": "popup.play_transition",
+                  "title": "Slideshow transition <a href=# class=show-help></a><div class=hidden><h3>Slideshow transition</h3><p>Assign a unique transition for slideshow play mode. With \"inherit\", the same transition will be used as in main settings. For slideshow-play transitions, you may want to consider a subtle transition like \"fade\".</p></div>",
+                  "titleMap": {
+                    "inherit": "inherit *"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "popup.click",
+              "title": "Image click <a href=# class=show-help></a><div class=hidden><h3>Image click behavior</h3><p>Interaction behavior when current image in popup is clicked.</p><p><strong><code>previous | next</code></strong> <em>* default</em><br>Will navigate in the direction of the side of the image that was clicked.</p><p><strong><code>next</code></strong><br>Clicking image will always proceed to next image.</p><p><strong><code>zoom</code></strong><br>Clicking image will zoom the current image (if the image is zoomable).</p><p><em>* Click behavior does not apply for touch devices, which use swipe and pinch to interact.</em></p></div>",
+              "type": "radiobuttons",
+              "activeClass": "btn-primary",
+              "titleMap": {
+                "prev_next": "previous | next"
+              }
+            }
           ]
         },
         {
@@ -2259,23 +2428,61 @@
           "items": [
             {
               "type": "help",
-              "helpvalue": "Popup Caption"
+              "helpvalue": "Background"
+            },
+            {
+		          "key": "popup.bg_color",
+		          "title": "Color <a href=# class=show-help></a><div class=hidden><h3>Popup background color</h3><p>Set the color of the background that appears behind the popup. Should normally be set to black (#000) to optimize focus on the image.</p></div>",
+              "placeholder": "#000"
+		        },
+            {
+              "key": "popup.bgOpacity",
+              "title": "Opacity <a href=# class=show-help></a><div class=hidden><h3>Popup background opacity</h3><p>Set the opacity of the background color that appears behind the popup. Should normally be set very high to avoid visual noise when viewing images in the popup.</p></div>",
+              "step": 0.01
+            },
+            {
+              "key": "popup.bg_image",
+              "inlinetitle": "Get color from image &nbsp;<code>experimental</code><a href=# class=show-help></a><div class=hidden><h3>Background color from image</h3><p>Popup background color is dynamically assigned from the average color of each image.</p><p><code>Warning!</code> This effect should be used with caution. Color results may vary and the effect requires additional processing power to extract colors from each image.</p></div>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "htmlClass": "help-title",
+          "items": [
+            {
+              "type": "help",
+              "helpvalue": "Caption"
             },
             {
               "key": "popup.captionEl",
-              "inlinetitle": "Show Caption <a href=# class=show-help></a><div class=hidden><h3>Show Caption</h3><p>Shows image caption at the bottom of the popup.</p></div>",
-              "notitle": true,
-              "toggleNext": 3
+              "inlinetitle": "Show caption <a href=# class=show-help></a><div class=hidden><h3>Show caption</h3><p>Shows image caption in the popup.</p></div>",
+              "toggleNext": 5
+            },
+            {
+              "key": "popup.caption_style",
+              "title": "Style <a href=# class=show-help></a><div class=hidden><h3>Caption style</h3><p><strong>block</strong> <em>* default</em><br>Displays caption in a full width background block.</p><p><strong>box</strong><br>Displays caption in a dark background box that matches the width of the caption.</p><p><strong>subtitles</strong><br>Displays caption with subtitles effect.</p><p><strong>gradient</strong><br>Displays caption with a soft gradient background. Works best with dark images.</p><p><strong>topbar</strong><br>Displays captions on a single line in the topbar. Works best for short captions.<br><em>* Caption align options do not apply for topbar style.</em></p><p><strong>none</strong><br>No caption background style will be applied. Use with dark images, or when adding your own custom CSS.</p></div>",
+              "htmlClass": "inline-group",
+              "titleMap": {
+                "block": "block *"
+              }
+            },
+            {
+              "key": "popup.caption_align",
+              "title": "Align <a href=# class=show-help></a><div class=hidden><h3>Caption align</h3><p><strong>left</strong><br>Displays caption on the left.</p><p><strong>center left</strong> <em>* default</em><br>Displays caption at center of screen with text aligned left (if multiple lines).</p><p><strong>center</strong><br>Displays caption at center of screen with text aligned center.</p><p><strong>right</strong><br>Displays caption at right of screen with text aligned right.</p><p><em>* Caption align does not apply for \"topbar\" style.</em></p></div>",
+              "htmlClass": "inline-group",
+              "titleMap": {
+                "center-left": "center left *"
+              }
             },
             {
               "key": "popup.hide_caption",
-              "inlinetitle": "Autohide Caption <a href=# class=show-help></a><div class=hidden><h3>Autohide Caption</h3><p>Autohide the image caption after a period of mouse inactivity. Disabling autohide will force the caption to always remain visible.</p></div>",
-              "notitle": true
+              "htmlClass": "clear-node",
+              "inlinetitle": "Autohide caption <a href=# class=show-help></a><div class=hidden><h3>Autohide caption</h3><p>Autohide the image caption after a period of mouse inactivity. Disabling this option will force the caption to always remain visible.</p></div>"
             },
             {
-              "key": "popup.caption_centered",
-              "inlinetitle": "Center Caption <a href=# class=show-help></a><div class=hidden><h3>Center Caption</h3><p>Center-aligns the caption. This looks elegant if you have relatively short captions. However, if your captions are long and/or you have multi-line descriptions, you should disable this feature.</p></div>",
-              "notitle": true
+              "key": "popup.caption_transition",
+              "inlinetitle": "Caption transitions <a href=# class=show-help></a><div class=hidden><h3>Caption transitions</h3><p>Animate captions when they appear on screen.</p></div>"
             },
             {
             "type": "section",
@@ -2283,18 +2490,22 @@
             "items": [
 	            {
 	              "key": "popup.caption.title",
-	              "title": "Caption Items",
+	              "title": "Caption items",
 	              "inlinetitle": "Title <a href=# class=show-help></a><div class=hidden><h3>Title</h3><p>Show image title in popup caption.</p></div>",
                 "toggleNext": 1
 	            },
               {
                 "key": "popup.caption.title_from_name",
-                "inlinetitle": "Create title from filename if empty title<a href=# class=show-help></a><div class=hidden><h3>Title from filename</h3><p>When enabled and image title is empty, it will get created from filename instead. In this case filename <code>happy-days.jpg</code> will become title <code>Happy days</code>.</p><p>If disabled, title will only appear if the image has a title.</p></div>"
+                "inlinetitle": "Create title from filename if empty title<a href=# class=show-help></a><div class=hidden><h3>Title from filename</h3><p>When enabled and image title is empty, caption title will get created from filename. In this case filename <code>happy-days.jpg</code> will become title <code>Happy days</code>.</p><p>When disabled, title will only appear if the image has a title.</p></div>"
 
               },
               {
                 "key": "popup.caption.filename",
-                "inlinetitle": "Filename <a href=# class=show-help></a><div class=hidden><h3>Filename</h3><p>Show filename in popup caption.</p></div>"
+                "inlinetitle": "Filename <a href=# class=show-help></a><div class=hidden><h3>Filename</h3><p>Show filename (without extension) in popup caption.</p></div>"
+              },
+              {
+                "key": "popup.caption.filename_ext",
+                "inlinetitle": "Filename.ext<a href=# class=show-help></a><div class=hidden><h3>Filename.ext</h3><p>Show filename (including extension) in popup caption.</p></div>"
               },
 	            {
 	              "key": "popup.caption.description",
@@ -2303,7 +2514,7 @@
 	            },
 	            {
 	              "key": "popup.caption.date",
-	              "inlinetitle": "Date <a href=# class=show-help></a><div class=hidden><h3>Date</h3><p>Show image date in popup caption.</p><p><em>* Image EXIF date will be used if available. Otherwise, server creation date will be used.</em></p></div>",
+	              "inlinetitle": "Date <a href=# class=show-help></a><div class=hidden><h3>Date</h3><p>Show image date in popup caption. if image EXIF date (from camera) is not available, server creation date will be used.</p></div>",
 	              "notitle": true
 	            },
 	            {
@@ -2319,7 +2530,7 @@
               },
 	            {
 	              "key": "popup.caption.download",
-	              "inlinetitle": "Download button <a href=# class=show-help></a><div class=hidden><h3>Download button</h3><p>Adds a convenient download button directly to caption, making it easy for your visitors to download the image.</p></div>",
+	              "inlinetitle": "Download button <a href=# class=show-help></a><div class=hidden><h3>Download button</h3><p>Includes a download button in the popup caption.</p></div>",
 	              "toggleNext": 1
 	            },
 	            {
@@ -2380,12 +2591,12 @@
               "items": [
 		            {
 		              "key": "toolbar.share_click",
-		              "inlinetitle": "Show popup on click <a href=# class=show-help></a><div class=hidden><h3>Show popup on share-button click</h3><p>When the main share-button is clicked, a popup window will open to display all sharing options.</p></div>",
+		              "inlinetitle": "Show popup on click <a href=# class=show-help></a><div class=hidden><h3>Show popup on share-button click</h3><p>When the main share-button is clicked, a popup will open and display all share links.</p></div>",
 		              "toggleNext": 1
 		            },
 		            {
 		              "key": "toolbar.overlay_fun",
-		              "inlinetitle": "Use 3D effect <a href=# class=show-help></a><div class=hidden><h3>Use 3D effect</h3><p>When enabled, the sharing popup window will use an interactive 3D effect on mouse move.</p></div>"
+		              "inlinetitle": "3D effect <a href=# class=show-help></a><div class=hidden><h3>Use 3D effect</h3><p>When enabled, the sharing popup window will use an interactive 3D effect on mouse move.</p></div>"
 		            }
 		          ]
 		        },
@@ -3439,7 +3650,7 @@
 				          	{
 				              "key": "gallery.items",
 				              "htmlClass": "settings_selectize",
-				              "title": "Inline Caption <a href=# class=show-help></a><div class=hidden><h3>Inline Caption Items</h3><p>This setting is used to set inline caption items for images in the gallery, and in which order the items display. The following items are available: <span class=code-inline-block><code>title</code><code>date</code><code>description</code><code>preview</code></span>.</p><p><code>Important!</code><br><em>Justified</em> and <em>Columns</em> layouts do not support inline captions, because they use a masonry-like layout that stacks images and does not support text. If you require captions for these layouts, you need to use <em>caption overlay</em> or <em>tooltip caption</em>.</p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard</em></p><h4>Items</h4><p><code>title</code> displays the title for each image.</p><p><code>date</code> displays the image date.</p><p><code>preview</code> displays a preview of the actual image.</p><p><code>description</code> displays the image description, if it exists.</p><p><code>maplink</code> creates a button to open Google maps if the image contains geo data.</p><h4>Examples</h4><p>Default gallery items, shows only a preview for each image (no caption).<span class=code-line><code>preview</code></span></p><p>You can add image title and description by adding these items before the preview. <span class=code-line><code>title</code><code>description</code><code>preview</code></span></p><p>Display date below the preview image.<span class=code-line><code>preview</code><code>date</code></span></p><p><em>* Items do not apply for the slideshow layout.</em></p></div><span class='hidden selectize-items'>title,date,description,maplink,preview</span>",
+				              "title": "Inline Caption <a href=# class=show-help></a><div class=hidden><h3>Inline Caption Items</h3><p>This setting is used to set inline caption items for images in the gallery, and in which order the items display. The following items are available: <span class=code-inline-block><code>title</code><code>date</code><code>description</code><code>preview</code></span>.</p><p><code>Important!</code><br><em>Justified</em> and <em>Columns</em> layouts do not support inline captions, because they use a masonry-like layout that stacks images and does not support text. If you require captions for these layouts, you need to use <em>caption overlay</em> or <em>tooltip caption</em>.</p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard</em></p><h4>Items</h4><p><code>title</code> displays the title for each image.</p><p><code>date</code> displays the image date.</p><p><code>preview</code> displays a preview of the actual image.</p><p><code>description</code> displays the image description, if it exists.</p><p><code>maplink</code> creates a button to open Google maps if the image contains geo data.</p><h4>Examples</h4><p>Default gallery items, shows only a preview for each image (no caption).<span class=code-line><code>preview</code></span></p><p>You can add image title and description by adding these items before the preview. <span class=code-line><code>title</code><code>description</code><code>preview</code></span></p><p>Display date below the preview image.<span class=code-line><code>preview</code><code>date</code></span></p><p><em>* Items do not apply for the slideshow layout.</em></p></div><span class='hidden selectize-items'>title,filename,filename_ext,date,description,maplink,preview</span>",
 				          		"description": "Add the caption items you want to display in addition to the preview image."
 				            },
 				            {
@@ -3473,7 +3684,7 @@
 		                {
 		                  "key": "gallery.caption.items",
 		                  "htmlClass": "settings_selectize",
-		                  "title": "Caption Items <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Caption Overlay Items</h3><p>Select default items to display in the caption overlay. The following items are available: <span class=code-inline-block><code>title</code><code>date</code><code>description</code><code>maplink</code></span></p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard.</em></p></div><span class='hidden selectize-items'>title,date,description,maplink</span>"
+		                  "title": "Caption Items <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Caption Overlay Items</h3><p>Select default items to display in the caption overlay. The following items are available: <span class=code-inline-block><code>title</code><code>date</code><code>description</code><code>maplink</code></span></p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard.</em></p></div><span class='hidden selectize-items'>title,date,filename,filename_ext,description,maplink</span>"
 		                },
 		                {
 		                  "key": "gallery.caption.align",
@@ -3509,7 +3720,7 @@
 		                {
 		                  "key": "gallery.tooltip.items",
 		                  "htmlClass": "settings_selectize",
-		                  "title": "Items <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Gallery Tooltip Items</h3><p>The following items are available for the gallery tooltip: <span class=code-inline-block><code>title</code><code>date</code><code>description</code></span></p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard.</em></p></p></div><span class='hidden selectize-items'>title,date,description</span>"
+		                  "title": "Items <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Gallery Tooltip Items</h3><p>The following items are available for the gallery tooltip: <span class=code-inline-block><code>title</code><code>date</code><code>description</code></span></p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard.</em></p></p></div><span class='hidden selectize-items'>title,date,filename,filename_ext,description</span>"
 		                }
 				          ]
 				        },
@@ -4968,8 +5179,26 @@
             }
           ]
         },
-
-        
+        {
+          "type": "section",
+          "items": [
+            {
+              "key": "settings.lang",
+              "titleMap": {
+                "de": "🇩🇪 Deutsche",
+                "en": "🇬🇧 English",
+                "es": "🇪🇸 Española",
+                "fr": "🇫🇷 Français",
+                "it": "🇮🇹 Italiano"
+              },
+              "title": "Interface language <a href=# class=show-help></a><div class=hidden><h3>Interface language</h3><p>Sets default language for the X3 website interface. This option only applies for interface items like \"images\" and \"folders\" and cannot be used to publish your website in multiple languages.</p></div>"
+            },
+            {
+              "key": "settings.auto_lang",
+              "inlinetitle": "Auto language <a href=# class=show-help></a><div class=hidden><h3>Auto language</h3><p>When enabled, interface language will change based on browser language. If browser language is not supported, default language will be used.</p></div>"
+            }
+          ]
+        },
         {
           "key": "settings.cdn_files",
           "title": "CDN URL <span>[If you are using a CDN service]</span><a href=# class=show-help></a><div class=hidden><h3>CDN URL</h3><p>If you are using a 3rd party content delivery network service, you can add your CDN url here.</p><p>Example:<br><code>https://d30dfk2xhetdj.cloudfront.net</code></p><p>You could also set up a subdomain that points to the same location as your X3 directory:<br><code>http://images.yourwebsite.com</code></p></div>"

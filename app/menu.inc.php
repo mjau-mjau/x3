@@ -300,13 +300,13 @@ Class Menu {
 		// sort by date
 		} else if($sort === 'date'){
 			uasort($dir_object, function($a, $b){
-		  	return $a['sort_date'] > $b['sort_date'];
+		  	return $a['sort_date'] > $b['sort_date'] ? 1 : -1;
 	    });
 
 		// sort by custom
 		} else if($sort === 'custom'){
 	    uasort($dir_object, function($a, $b){
-		    return $a['index'] > $b['index'];
+		    return $a['index'] > $b['index'] ? 1 : -1;
 	    });
 		}
 

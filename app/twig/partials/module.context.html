@@ -38,13 +38,15 @@
 	{# Amount #}
 	{% if item == 'amount' %}
 	{% set amount = gallery_images|length %}
-	<h6 class="amount amount-{{amount}}"><span>{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span></h6>
+	{#<h6 class="amount amount-{{amount}}"><span>{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span></h6>#}
+	<h6 class="amount amount-{{ amount }}" data-lang="image{{ amount == 1 ? '' : 's' }}">{{ amount }}</h6>
 	{% endif %}
 
 	{# Folders Amount #}
 	{% if item == 'folders_amount' %}
 	{% set folders_amount = folder.children_count %}
-	<h6 class="folder_amount folder-amount-{{folders_amount}}"><span>{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span></h6>
+	{#<h6 class="folder_amount folder-amount-{{folders_amount}}"><span>{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span></h6>#}
+	<h6 class="folder_amount folder-amount-{{ folders_amount }}" data-lang="folder{{ folders_amount == 1 ? '' : 's' }}">{{ folders_amount }}</h6>
 	{% endif %}
 
 	{# Date #}
@@ -109,13 +111,15 @@
         		{# Amount #}
         		{% if item == 'amount' %}
 						{% set amount = gallery_images|length %}
-        		<span class="amount amount-{{ amount }}">{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span>
+        		{#<span class="amount amount-{{ amount }}">{{ amount }} {{ pluralize(amount, 'image', 'images') }}</span>#}
+        		<span class="amount amount-{{ amount }}" data-lang="image{{ amount == 1 ? '' : 's' }}">{{ amount }}</span>
         		{% endif %}
 
         		{# Folder Amount #}
         		{% if item == 'folders_amount' %}
         		{% set folders_amount = folder.children_count %}
-        		<span class="folder_amount folder-amount-{{ folders_amount }}">{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span>
+        		{#<span class="folder_amount folder-amount-{{ folders_amount }}">{{ folders_amount }} {{ pluralize(folders_amount, 'album', 'albums') }}</span>#}
+        		<span class="folder_amount folder-amount-{{ folders_amount }}" data-lang="folder{{ folders_amount == 1 ? '' : 's' }}">{{ folders_amount }}</span>
         		{% endif %}
 
         		{# Date #}

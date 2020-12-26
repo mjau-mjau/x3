@@ -246,9 +246,8 @@ class Iptc
         // !$content
         if(!$content) return;
 
-        // PHP 7.3 bug https://bugs.php.net/bug.php?id=77546, affects PHP 7.3.0, 7.3.1 and 7.3.2
         // detect if image is corrupt before writing
-        if(version_compare(PHP_VERSION, '7.3') >= 0 && version_compare(PHP_VERSION, '7.3.3') < 0 && !@getimagesizefromstring($content)) return;
+        if(!@getimagesizefromstring($content)) return;
 
         // reference date from iptc (legacy reference_date) or mtime
         $reference_date = $this->fetch(Iptc::REFERENCE_DATE) ?: filemtime($this->_filename);

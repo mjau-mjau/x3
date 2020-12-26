@@ -17,10 +17,8 @@ class __TwigTemplate_e662867bd57256593279d3d3d845ec14dbb7ade9686a8292804d8b88746
     {
         // line 1
         echo "<div id=\"comments\">
-\t<div>
-\t\t<h2>Comments</h2>
-\t\t<div id=\"disqus_thread\"></div>
-\t</div>
+\t<h2 data-lang=\"comments\" class=\"comments-header\"></h2>
+\t<div id=\"disqus_thread\"></div>
 </div>";
     }
 

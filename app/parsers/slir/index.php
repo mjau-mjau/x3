@@ -314,10 +314,9 @@ class resizer {
   // set memory
   private function set_memory(){
 
-  	// get 
-  	$limit = @ini_get('memory_limit');
-		$limit = !empty($limit) ? (int) $limit : false;
-		if(!$limit || $limit >= $this->max_memory) return;
+  	// get
+  	$limit = function_exists('ini_get') ? (int) @ini_get('memory_limit') : 0;
+  	if($limit < 1 || $limit >= $this->max_memory) return;
 
 		// destination resize/smart_crop or crop
 		$dst_w = $this->render['resample'] || $this->smart_crop ? $this->render['resize_width'] : $this->render['dst_w'];

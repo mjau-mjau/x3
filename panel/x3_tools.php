@@ -184,7 +184,7 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 	# Save custom templates
 	} else if(isset($_POST['save_template'])){
 		header($json_header);
-		$post = get_magic_quotes_gpc() ? stripslashes($_POST['save_template']) : $_POST['save_template'];
+		$post = function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc() ? stripslashes($_POST['save_template']) : $_POST['save_template'];
 		$config_folder = '../config';
 		$custom_templates_file = '../config/custom-setting-templates.json';
 		$template = json_decode($post, TRUE);

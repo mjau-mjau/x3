@@ -9,7 +9,7 @@
 
 	{# Below link will NOT display for licensed X3 websites.
 		 Removing the below code will break the X3 application. Get a license! #}
-	<p class="x3-footer-link">X3 {{ random(['Photo Gallery Website', 'Photography Website', 'Image Gallery CMS', 'Website for Photographers', 'Online Portfolio']) }} by <a href="https://www.photo.gallery">www.photo.gallery</a></p>
+	<p class="x3-footer-link"><span data-nosnippet>X3 {{ random(['Photo Gallery Website', 'Photography Website', 'Image Gallery CMS', 'Website for Photographers', 'Online Portfolio']) }} by <a href="https://www.photo.gallery">www.photo.gallery</a></span></p>
 </footer>
 
 {# X3 Settings + JS #}
@@ -38,14 +38,15 @@ function jsFail(){
 
 {# Javascript#}
 {% if page.settings.cdn_core %}
-
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.0.1/velocity.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.0.1/velocity.ui.min.js"></script>
 {% if page.gallery.layout == 'slideshow' %}<script src="https://cdn.jsdelivr.net/npm/fotorama@4.6.4/fotorama.js"></script>{% endif %}
 <script src="https://cdn.jsdelivr.net/npm/string@3.3.3/dist/string.min.js"></script>
 {% else %}
 <script src="{{ local_public }}/vendor/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ local_public }}/vendor/animejs/3.2.1/anime.min.js"></script>
 <script src="{{ local_public }}/vendor/velocity/1.0.1/velocity.min.js"></script>
 <script src="{{ local_public }}/vendor/velocity/1.0.1/velocity.ui.min.js"></script>
 {% if page.gallery.layout == 'slideshow' %}<script src="{{ local_public }}/vendor/fotorama/4.6.4/fotorama.js"></script>{% endif %}

@@ -7,7 +7,7 @@ class X3 {
 
 	// get iptc data
 	public static function get_iptc_data($iptc){
-  	$data = self::iptc_data($iptc, '005', 'title')
+  	$data = self::iptc_data($iptc, (isset($iptc['2#005'][0]) ? '005' : '105'), 'title')
 					. self::iptc_data($iptc, '120', 'description');
 
 		// only add X3 IPTC if "use iptc"
@@ -52,7 +52,7 @@ class X3 {
 
 	// X3 json decode POST
 	public static function json_decode($str){
-		$parsed = get_magic_quotes_gpc() ? stripslashes($str) : $str;
+		$parsed = function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc() ? stripslashes($str) : $str;
 		return json_decode($parsed, TRUE);
 	}
 
@@ -230,7 +230,7 @@ class X3 {
 				if($custom) $custom_sort = true;
 			}
 			if($custom_sort) uasort($dir_object, function($a, $b){
-		    return $a['custom'] > $b['custom'];
+		    return $a['custom'] > $b['custom'] ? 1 : -1;
 	    });
 
 			// menu html

@@ -1,7 +1,4 @@
 
-{# GALLERY MODULE #}
-
-
 {# GLOBAL VARS #}
 {% set settings = page.gallery %}
 {% set items = settings.items|split(',') %}
@@ -138,10 +135,6 @@
 
 		{# caption EXIF #}
 		{% if exif_items|length > 0 %}
-			{#{% for key in exif_items if image.exif[key] %}
-		    {% set exif_string = exif_string ~ '"' ~ key ~ '":"' ~ image.exif[key] ~ '",' %}
-			{% endfor %}#}
-			{#{% if exif_string %}{% set data_exif = ' data-exif="{' ~ exif_string|trim(',')|e('html_attr') ~ '}"' %}{% endif %}#}
 			{% for key in exif_items if image.exif[key] %}
 		    {% set exif_array = exif_array|merge({ (key): image.exif[key] }) %}
 			{% endfor %}
@@ -153,15 +146,13 @@
 			{% set geo = image.exif.latitude ~ ',' ~ image.exif.longitude %}
 			{% set map_embed_src = 'https://www.google.com/maps/embed/v1/place?q=' ~ geo ~ '&amp;key=AIzaSyDRp6xla9SxUmTBu6l_kprhjjI9e5-EVZk' %}
 			{% set map_link_src = 'https://www.google.com/maps/search/?api=1&query=' ~ geo %}
-			{% set map_embed_button_item = '<button data-href="' ~ map_link_src ~ '" data-popup-href="' ~ map_embed_src ~ '" class="button small button-map" data-popup-class="x3-popup-iframe-full" data-popup></button>' %}
-			{% set map_button_popup = '<a href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="button small button-map" target="_blank"></a>' %}
-			{% set map_link_popup = '<a href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="link-map" target="_blank"></a>' %}
-			{% set map_button = '<a href="' ~ map_link_src ~ '" class="button small button-map" target="_blank"></a>' %}
-			{% set map_link = '<a href="' ~ map_link_src ~ '" class="link-map" target="_blank"></a>' %}
+			{#{% set map_embed_button_item = '<button data-href="' ~ map_link_src ~ '" data-popup-href="' ~ map_embed_src ~ '" class="button small button-map" data-popup-class="x3-popup-iframe-full" data-popup></button>' %}#}
+			{% set map_embed_button_item = '<button data-href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="button small button-map" data-lang="map"></button>' %}
+			{% set map_button_popup = '<a href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="button small button-map" target="_blank" data-lang="map"></a>' %}
+			{% set map_link_popup = '<a href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="link-map" target="_blank" data-lang="map"></a>' %}
+			{% set map_button = '<a href="' ~ map_link_src ~ '" class="button small button-map" target="_blank" data-lang="map"></a>' %}
+			{% set map_link = '<a href="' ~ map_link_src ~ '" class="link-map" target="_blank" data-lang="map"></a>' %}
 			{% set data_geo = ' data-geo="' ~ geo ~ '"' %}
-			{#
-			- hmm exif_items from popup settings, but I think that's OK
-			#}
 		{% endif %}
 	{% endif %}
 
@@ -202,7 +193,9 @@
 		{% set link_title_content %}
 		{% for item in tooltip_items %}
 			{% if item == 'title' %}<span class="title">{{ title_name }}</span>
-			{% elseif item == 'date' %}{{time_tag}}
+			{% elseif item == 'date' %}{{ time_tag }}
+			{% elseif item == 'filename' %}<span>{{ name_no_ext }}</span>
+			{% elseif item == 'filename_ext' %}<span>{{ image.file_name }}</span>
 			{% elseif item == 'description' and description is not empty %}<span class="description">{{ description }}</span>{% endif %}
 		{% endfor %}
 		{% endset %}
@@ -226,6 +219,8 @@
 				{% for item in settings.caption.items|split(",") %}
 					{% if item == 'title' %}<span class="title">{{ title_pseudo }}</span>
 					{% elseif item == 'date' %}{{ time_tag }}
+					{% elseif item == 'filename' %}<span>{{ name_no_ext }}</span>
+					{% elseif item == 'filename_ext' %}<span>{{ image.file_name }}</span>
 					{% elseif item == 'maplink' and geo %} {{ map_embed_button_item }}
 					{% elseif item == 'description' and description_pseudo is not empty %}<span class="description">{{ description_pseudo }}</span>{% endif %}
 				{% endfor %}
@@ -297,6 +292,10 @@
 							<p itemprop="description">{{ description_pseudo }}</p>
 						{% elseif item == 'date' %}
 							<h6 class="date">{{time_tag}}</h6>
+						{% elseif item == 'filename' %}
+							<span class="gallery-filename">{{ name_no_ext }}</span>
+						{% elseif item == 'filename_ext' %}
+							<span class="gallery-filename_ext">{{ image.file_name }}</span>
 						{% elseif item == 'maplink' and geo %}
 							{{ map_embed_button_item }}
 						{% endif %}
@@ -316,6 +315,10 @@
 						<p itemprop="description">{{ description_pseudo }}</p>
 					{% elseif item == 'date' %}
 						<h6 class="date">{{time_tag}}</h6>
+					{% elseif item == 'filename' %}
+						<span class="gallery-filename">{{ name_no_ext }}</span>
+					{% elseif item == 'filename_ext' %}
+						<span class="gallery-filename_ext">{{ image.file_name }}</span>
 					{% elseif item == 'maplink' and geo %}
 						{{ map_embed_button_item }}
 					{% elseif item == 'preview' %}

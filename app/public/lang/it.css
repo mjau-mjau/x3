@@ -1,0 +1,12 @@
+
+/* it.css [Italian] */
+[data-lang="chat"]:after { content: 'chat'; }
+[data-lang="comments"]:after { content: 'commenti'; }
+[data-lang="folder"]:after { content: 'cartella'; }
+[data-lang="folders"]:after { content: 'cartelle'; }
+[data-lang="image"]:after { content: 'immagine'; }
+[data-lang="images"]:after { content: 'immagini'; }
+[data-lang="map"]:after { content: 'mappa'; }
+[data-lang="pause"]:after { content: 'pausa'; }
+[data-lang="play"]:after { content: 'riprodurre'; }
+[data-lang="styles"]:after { content: 'stili'; }

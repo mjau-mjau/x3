@@ -361,7 +361,7 @@ class filemanager_user_core extends Services_JSON
                 if($select = mysqli_query($GLOBALS["___mysqli_ston"], $query))
                 {
                     $result = mysqli_fetch_array($select,  MYSQLI_ASSOC);
-                    if($result["ck_id"] == $ck_id and $result["is_login"] == "1" and $result["id"] == $id)
+                    if($result && $result["ck_id"] == $ck_id and $result["is_login"] == "1" and $result["id"] == $id)
                     {
                         $this->role = "user";
                         return true;
@@ -1603,7 +1603,7 @@ class filemanager_user_core extends Services_JSON
 
 class filemanager_show_from_root_user extends filemanager_user_core
 {
-    public $root_files_folders;
+    public $root_files_folders = array();
     private $root_dir = "../";
     private $ignored = array('.', '..', 'filemanager_user_core.php','config.php', 'filemanager_config.php', 'filemanager_core.php', 'filemanager_language.php', 'filemanager_language_user.php', 'filemanager_js', 'filemanager_install', 'filemanager_css', 'filemanager_backups', 'filemanager_admin', 'filemanager_img', 'filemanager_assets', 'filemanager_user', 'filemanager_temp', 'filemanager_fonts', 'filemanager_img/pattern', 'filemanager_img/fancy', 'filemanager_assets/PHPMailer', 'filemanager_assets/PHPMailer/docs', 'filemanager_assets/PHPMailer/extras', 'filemanager_assets/PHPMailer/language', 'filemanager_assets/PHPMailer/test', 'filemanager_assets/securimage', 'filemanager_assets/securimage/backgrounds', 'filemanager_assets/securimage/images', 'filemanager_assets/securimage/words', 'services', 'sitemap', 'json', 'feed', 'custom');
     private $suppurt_ext;
@@ -1722,7 +1722,7 @@ class filemanager_show_from_root_user extends filemanager_user_core
         {
             $search = $this->filter_search_str($this->search);
             $directories = array();//"";
-            function glob_recursive($directory, &$directories = array(), $search)
+            function glob_recursive($directory, &$directories = array(), $search = '')
             {
                 foreach(glob($directory, GLOB_ONLYDIR | GLOB_NOSORT) as $folder)
                 {

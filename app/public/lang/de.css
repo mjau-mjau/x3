@@ -1,0 +1,12 @@
+
+/* de.css [German] */
+[data-lang="chat"]:after { content: 'chat'; }
+[data-lang="comments"]:after { content: 'kommentare'; }
+[data-lang="folder"]:after { content: 'galerie'; }
+[data-lang="folders"]:after { content: 'galerien'; }
+[data-lang="image"]:after { content: 'bild'; }
+[data-lang="images"]:after { content: 'bilder'; }
+[data-lang="map"]:after { content: 'karte'; }
+[data-lang="pause"]:after { content: 'anhalten'; }
+[data-lang="play"]:after { content: 'abspielen'; }
+[data-lang="styles"]:after { content: 'stile'; }
