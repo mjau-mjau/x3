@@ -1,0 +1,12 @@
+
+/* da.css [Danish] */
+[data-lang="chat"]:after { content: 'chat'; }
+[data-lang="comments"]:after { content: 'kommentar'; }
+[data-lang="folder"]:after { content: 'mappe'; }
+[data-lang="folders"]:after { content: 'mapper'; }
+[data-lang="image"]:after { content: 'billede'; }
+[data-lang="images"]:after { content: 'billeder'; }
+[data-lang="map"]:after { content: 'kort'; }
+[data-lang="pause"]:after { content: 'pause'; }
+[data-lang="play"]:after { content: 'afspil'; }
+[data-lang="styles"]:after { content: 'stil'; }

@@ -8,5 +8,5 @@
 [data-lang="images"]:after { content: 'immagini'; }
 [data-lang="map"]:after { content: 'mappa'; }
 [data-lang="pause"]:after { content: 'pausa'; }
-[data-lang="play"]:after { content: 'riprodurre'; }
+[data-lang="play"]:after { content: 'riproduci'; }
 [data-lang="styles"]:after { content: 'stili'; }

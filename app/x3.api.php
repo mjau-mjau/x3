@@ -46,7 +46,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 
 		// Make sure fields are populated correctly
 		if(empty($_POST['honey1']) 
-			&& $_POST['honey2'] == 'googooforgaga' 
+			&& $_POST['honey2'] == 'alpaca' 
 			&& (!$email || filter_var($email, FILTER_VALIDATE_EMAIL)) 
 			&& !empty($_POST['page'])
 			) {
@@ -230,7 +230,7 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 			json_response($success, $success ? $settings['response_text'] : $mail->ErrorInfo, $debug);
 
 		} else {
-			json_response(true, 'honey');
+			json_response(true, 'thnx');
 		}
 	}
 }

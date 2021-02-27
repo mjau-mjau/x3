@@ -189,6 +189,7 @@ class Iptc
     {
         $iptc = '';
         foreach (array_keys($this->_meta) as $key) {
+            if(strpos($key, '2#') !== 0) continue; // strange PHP 8 bug
             $tag   = str_replace("2#", "", $key);
             foreach($this->_meta[$key] as $value) {
                 $iptc .= $this->iptcMakeTag(2, $tag, $value);

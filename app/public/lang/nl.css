@@ -1,0 +1,12 @@
+
+/* nl.css [Dutch] */
+[data-lang="chat"]:after { content: 'chat'; }
+[data-lang="comments"]:after { content: 'reacties'; }
+[data-lang="folder"]:after { content: 'galerij'; }
+[data-lang="folders"]:after { content: 'galerijen'; }
+[data-lang="image"]:after { content: 'afbeelding'; }
+[data-lang="images"]:after { content: 'afbeeldingen'; }
+[data-lang="map"]:after { content: 'kaart'; }
+[data-lang="pause"]:after { content: 'pauzeren'; }
+[data-lang="play"]:after { content: 'afspelen'; }
+[data-lang="styles"]:after { content: 'stijlen'; }

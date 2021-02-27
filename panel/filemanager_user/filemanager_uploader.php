@@ -69,6 +69,7 @@ if ($core->isLogin())
 								  <span class="input-sm>"<?php language_filter( "Quality" );?></span><div class="form-group">
 								  	<input type="number" class="form-control input-sm" id="resize-quality" value="91" placeholder="91" min="1" max="100" maxlength="3" step="1" pattern="[0-9]{1,3}" title="Resized image quality (1-100)">
 								  </div>
+                                  <label class="btn btn-default btn-sm" style="background: #EEE; display: <?php echo $x3_panel_config["upload_resize"]["disable_meta_save"] ? 'inline-block' : 'none'; ?>"><input id="resize-meta" type="checkbox" autocomplete="off" style="margin: 0 5px 0 0;vertical-align: middle;">Remove meta</label>
 							  </div>
 							</div>
 
@@ -185,7 +186,8 @@ if ($core->isLogin())
             		"img_resize_height": <?php echo IMG_RESIZE_HEIGHT; ?>,
             		"img_resize_quality": <?php echo IMG_RESIZE_QUALITY; ?>,
             		"path": 'filemanager_user/upload.php',
-            		"acceptFileTypes": /(\.|\/)(<?php echo $uploaderExts; ?>)$/i
+            		"acceptFileTypes": /(\.|\/)(<?php echo $uploaderExts; ?>)$/i,
+                    "disableImageMetaDataSave": <?php echo $x3_panel_config["upload_resize"]["disable_meta_save"] ? 'true' : 'false'; ?>
             	});
             });
 

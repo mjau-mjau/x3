@@ -318,8 +318,10 @@
           "maximum": 1
         },
         "history": {
-          "type": "boolean",
-          "title": "History"
+          "type": "boolean"
+        },
+        "loop": {
+          "type": "boolean"
         },
         "captionEl": {
           "type": "boolean"
@@ -1238,7 +1240,8 @@
 		            "menu-absolute-default",
 		            "menu-absolute",
 		            "menu-absolute-20",
-		            "menu-absolute-50"
+		            "menu-absolute-50",
+                "menu-absolute-100"
 		          ]
 		        },
 		        "hide_context": {
@@ -1483,7 +1486,8 @@
 		            "menu-absolute-default",
 		            "menu-absolute",
 		            "menu-absolute-20",
-		            "menu-absolute-50"
+		            "menu-absolute-50",
+                "menu-absolute-100"
 		          ]
 		        },
 		        "page_meta_title": {
@@ -1578,7 +1582,8 @@
 		            "",
 		            "menu-absolute",
 		            "menu-absolute-20",
-		            "menu-absolute-50"
+		            "menu-absolute-50",
+                "menu-absolute-100"
 		          ]
 		        },
 		        "height": {
@@ -1991,6 +1996,9 @@
                   "type": "integer",
                   "minimum": 0,
                   "maximum": 100
+                },
+                "disable_meta_save": {
+                  "type": "boolean"
                 }
               }
             },
@@ -2300,74 +2308,82 @@
         {
           "key": "popup.enabled",
           "inlinetitle": "Enabled <a href=# class=show-help></a><div class=hidden><h3>Popup Enabled</h3><p>Allows images to open in a popup when clicked from gallery layouts. If you disable the popup, clicking an image will instead cause navigation to a unique image landing-page.</p></div>",
-          "toggleNext": 6
-        },
-        {
-          "key": "popup.auto_open",
-          "inlinetitle": "Auto Open <a href=# class=show-help></a><div class=hidden><h3>Popup Auto Open</h3><p>The first image in a gallery will immediately open and display in popup on page load.</p><p><em>* Auto-open can be applied on a per-gallery basis from page settings &rsaquo; gallery &rsaquo; popup.</em></p></div>"
+          "toggleNext": 4
         },
         {
           "type": "section",
           "items": [
             {
-              "key": "popup.transition",
-              "title": "Transition <a href=# class=show-help></a><div class=hidden><h3>Transition</h3><p>Select transition when navigating between slides in the popup. The default <em>glide</em> transition offers a soft direction-aware transition with reduced motion. Transitions do not apply on drag/swipe navigation, which always use the native \"slide\" transition to match the gesture.</p><p><em>* Transitions only affect the incoming image, except when using the \"slide\" transition.</em><p></div>",
-              "titleMap": {
-                "glide": "glide *"
-              }
+              "key": "popup.auto_open",
+              "inlinetitle": "Auto-open <a href=# class=show-help></a><div class=hidden><h3>Popup auto-open</h3><p>The first image in a gallery will immediately open and display in popup on page load.</p><p><em>* Auto-open can be applied on a per-gallery basis from page settings &rsaquo; gallery &rsaquo; popup.</em></p></div>"
+            },
+            {
+              "key": "popup.history",
+              "inlinetitle": "History <a href=# class=show-help></a><div class=hidden><h3>Popup History</h3><p>Adds a #hashtag in the browser URL with the current image ID. This allows you to deep link to the image when directly sharing the URL.</p></div>"
+            },
+            {
+              "key": "popup.loop",
+              "inlinetitle": "Loop <a href=# class=show-help></a><div class=hidden><h3>Popup loop</h3><p>Popup slideshow will loop seamlessly between last and first item.</p></div>"
             },
             {
               "type": "section",
-              "htmlClass": "group-bg x3-custom-transition",
               "items": [
                 {
-                  "type": "help",
-                  "helpvalue": "Assign start position values for your <a href=# class=\"text-help\">custom transition</a>.<div class=hidden><h3>Custom transition</h3><p>Custom transition allows you to assign start properties and duration for the incoming image. Only properties that are different from the transition-end values will be animated. </p><p><strong>Opacity</strong><span class=\"text-muted\"> / ends at 1</span><br>Set a low value to fade in the image. Opacity should normally be part of all transitions.</p><p><strong>X</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (px) to animate the X position of the image. The value is inverted depending on the direction of navigation.</p><p><strong>Y</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (px) to animate the Y position of the image.</p><p><strong>Rotate</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (degrees) to animate the rotation of the image. The value is multiplied by -1/1 depending on the direction of navigation.</p><p><strong>Scale</strong><span class=\"text-muted\"> / ends at 1</span><br>Set a start value to animate the scale of the image.</p><p><strong>Duration</strong><span class=\"text-muted\"></span><br>Duration of transition in milliseconds.</p><p><strong>Easing</strong><br>Set the acceleration of the transition. See more at <a href=\"https://easings.net/\" target=\"_blank\">easings.net</a>.</p><p><em>* You can also create more advanced transitions and override existing ones directly from Javascript.</em></p></div>"
+                  "key": "popup.transition",
+                  "title": "Transition <a href=# class=show-help></a><div class=hidden><h3>Transition</h3><p>Select transition when navigating between slides in the popup. The default <em>glide</em> transition offers a soft direction-aware transition with reduced motion. Transitions do not apply on drag/swipe navigation, which always use the native \"slide\" transition to match the gesture.</p><p><em>* Transitions only affect the incoming image, except when using the \"slide\" transition.</em><p></div>",
+                  "titleMap": {
+                    "glide": "glide *"
+                  }
                 },
                 {
-                  "title": "Opacity <span>1</span>",
-                  "key": "popup.transition_custom.opacity",
-                  "htmlClass": "inline-group",
-                  "step": 0.1
-                },
-                {
-                  "title": "X <span>px</span>",
-                  "htmlClass": "inline-group",
-                  "key": "popup.transition_custom.x"
-                },
-                {
-                  "title": "Y <span>px</span>",
-                  "htmlClass": "inline-group",
-                  "key": "popup.transition_custom.y"
-                },
-                {
-                  "title": "Rotate <span>deg</span>",
-                  "htmlClass": "inline-group",
-                  "key": "popup.transition_custom.rotate"
-                },
-                {
-                  "title": "Scale <span>1</span>",
-                  "htmlClass": "inline-group",
-                  "key": "popup.transition_custom.scale",
-                  "step": 0.1
-                },
-                {
-                  "title": "Duration <span>[milliseconds]</span>",
-                  "key": "popup.transition_custom.duration",
-                  "step": 100
-                },
-                {
-                  "title": "Easing",
-                  "key": "popup.transition_custom.easing"
+                  "type": "section",
+                  "htmlClass": "group-bg x3-custom-transition",
+                  "items": [
+                    {
+                      "type": "help",
+                      "helpvalue": "Assign start position values for your <a href=# class=\"text-help\">custom transition</a>.<div class=hidden><h3>Custom transition</h3><p>Custom transition allows you to assign start properties and duration for the incoming image. Only properties that are different from the transition-end values will be animated. </p><p><strong>Opacity</strong><span class=\"text-muted\"> / ends at 1</span><br>Set a low value to fade in the image. Opacity should normally be part of all transitions.</p><p><strong>X</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (px) to animate the X position of the image. The value is inverted depending on the direction of navigation.</p><p><strong>Y</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (px) to animate the Y position of the image.</p><p><strong>Rotate</strong><span class=\"text-muted\"> / ends at 0</span><br>Set a start value (degrees) to animate the rotation of the image. The value is multiplied by -1/1 depending on the direction of navigation.</p><p><strong>Scale</strong><span class=\"text-muted\"> / ends at 1</span><br>Set a start value to animate the scale of the image.</p><p><strong>Duration</strong><span class=\"text-muted\"></span><br>Duration of transition in milliseconds.</p><p><strong>Easing</strong><br>Set the acceleration of the transition. See more at <a href=\"https://easings.net/\" target=\"_blank\">easings.net</a>.</p><p><em>* You can also create more advanced transitions and override existing ones directly from Javascript.</em></p></div>"
+                    },
+                    {
+                      "title": "Opacity <span>1</span>",
+                      "key": "popup.transition_custom.opacity",
+                      "htmlClass": "inline-group",
+                      "step": 0.1
+                    },
+                    {
+                      "title": "X <span>px</span>",
+                      "htmlClass": "inline-group",
+                      "key": "popup.transition_custom.x"
+                    },
+                    {
+                      "title": "Y <span>px</span>",
+                      "htmlClass": "inline-group",
+                      "key": "popup.transition_custom.y"
+                    },
+                    {
+                      "title": "Rotate <span>deg</span>",
+                      "htmlClass": "inline-group",
+                      "key": "popup.transition_custom.rotate"
+                    },
+                    {
+                      "title": "Scale <span>1</span>",
+                      "htmlClass": "inline-group",
+                      "key": "popup.transition_custom.scale",
+                      "step": 0.1
+                    },
+                    {
+                      "title": "Duration <span>[milliseconds]</span>",
+                      "key": "popup.transition_custom.duration",
+                      "step": 100
+                    },
+                    {
+                      "title": "Easing",
+                      "key": "popup.transition_custom.easing"
+                    }
+                  ]
                 }
               ]
             }
           ]
-        },
-        {
-          "key": "popup.history",
-          "inlinetitle": "History <a href=# class=show-help></a><div class=hidden><h3>Popup History</h3><p>Adds a #hashtag in the browser URL with the current image ID. This allows you to deep link to the image when directly sharing the URL.</p></div>",
-          "notitle": true
         },
         {
           "type": "section",
@@ -4489,7 +4505,8 @@
 								        "menu-absolute-default": "normal",
 								        "menu-absolute": "white",
 								        "menu-absolute-20": "white on 12% black",
-								        "menu-absolute-50": "white on 25% black"
+								        "menu-absolute-50": "white on 25% black",
+                        "menu-absolute-100": "white on 50% black"
 								      },
 								      "title": "Menu Style <a href=# class=show-help></a><div class=hidden><h2>Menu Style</h2><p>Since the main menu is overlaying the intro, we use white text on a semi-transparent dark background by default, to make sure the menu remains visible.</p><p><code>normal</code><br>Keeps the default menu colors. Often, this will not create enough contrast to layer the menu on top of the intro.</p><p><code>white</code><br>Sets the menu text color to white, which makes the menu optimally visible when layered above the intro.</p><p><code>white on 12% black</code> <em>* default</em><br>Sets the menu text color to white, and adds a 12% semi-transparent dark background behind the menu. This is often required to make sure the menu is visible when layered on top of the intro.</p><p><code>white on 25% black</code><br>Sets the menu text color to white, and adds a 25% semi-transparent dark background behind the menu.</p></div>"
 								    }
@@ -4613,7 +4630,8 @@
 					        "": "normal",
 					        "menu-absolute": "white",
 			            "menu-absolute-20": "white on 12% black",
-			            "menu-absolute-50": "white on 25% black"
+			            "menu-absolute-50": "white on 25% black",
+                  "menu-absolute-100": "white on 50% black"
 					      },
 	              "title": "Menu Style <a href=# class=show-help></a><div class=hidden><h3>Menu Style</h3><p>Since the main menu is overlaying the video, we use white text on a semi-transparent dark background by default, to make sure the menu remains visible.</p><p><code>normal</code><br>Keeps the default menu colors. Often, this will not create enough contrast to layer the menu on top of the video.</p><p><code>white</code><br>Sets the menu text color to white, which makes the menu optimally visible when layered over the video.</p><p><code>white on 12% black</code> <em>* default</em><br>Sets the menu text color to white, and adds a 12% semi-transparent dark background behind the menu. This is often required to make sure the menu is visible when layered on top of the video.</p><p><code>white on 25% black</code><br>Sets the menu text color to white, and adds a 25% semi-transparent dark background behind the menu.</p></div>",
 	              "type": "radiobuttons",
@@ -4994,7 +5012,7 @@
           "items": [
             {
               "type": "help",
-              "helpvalue": "Uploader <a href=# class=show-help></a><div class=hidden><h3>Upload Resizer</h3><p>Default settings for resizing images as they are uploaded. If you disable the upload resizer, you should be resizing images before upload. <a href=\"https://www.photo.gallery/blog/image-size-quality-photo-gallery-websites/\" target=\"_blank\">Read more</a> about optimal size and quality settings.</p><h4>Width and height</h4><p>The width and height options represent the bounding box of what your images will be resized within. Images will scale within the resize dimensions, while keeping original aspect.</p><h4>Quality</h4><p>Sets the JPG quality level when resizing images on upload. For an optimal balance between file size and quality, you should consider values between 70 and 80.</p></div>"
+              "helpvalue": "Uploader <a href=# class=show-help></a><div class=hidden><h3>Upload Resizer</h3><p>Default settings for resizing images as they are uploaded. If you disable the upload resizer, you should be resizing images before upload. <a href=\"https://www.photo.gallery/blog/image-size-quality-photo-gallery-websites/\" target=\"_blank\">Read more</a> about optimal size and quality settings.</p><h4>Width and height</h4><p>The width and height options represent the bounding box of what your images will be resized within. Images will scale within the resize dimensions, while keeping original aspect.</p><h4>Quality</h4><p>Sets the JPG quality level when resizing images on upload. For an optimal balance between file size and quality, you should consider values between 70 and 80.</p><h4>Remove image meta data</h4><p>Removes all image meta data (IPTC, EXIF, GPS) on upload.</p></div>"
             },
             {
               "key": "back.panel.upload_resize.enabled",
@@ -5019,6 +5037,10 @@
             {
               "key": "back.panel.upload_resize.quality",
               "title": "Quality"
+            },
+            {
+              "key": "back.panel.upload_resize.disable_meta_save",
+              "inlinetitle": "Remove image meta data <a href=# class=show-help></a><div class=hidden><h3>Remove image meta data</h3><p>Displays a \"remove meta\" checkbox in the uploader interface, which allows you to remove all image meta data (IPTC, EXIF, GPS) on upload. Only use this feature if you are sure you don't need any of the image meta data for display reasons.</p><p><em>* Meta data will only get removed from images that get resized.</em></p></div>"
             }
           ]
         },
@@ -5185,7 +5207,7 @@
             {
               "key": "settings.lang",
               "titleMap": {
-                "de": "🇩🇪 Deutsche",
+                "de": "🇩🇪 Deutsch",
                 "en": "🇬🇧 English",
                 "es": "🇪🇸 Española",
                 "fr": "🇫🇷 Français",

@@ -441,7 +441,6 @@
 	      "enabled": true,
           "auto_open": false,
 	      "click": "prev_next",
-	      "transitions": true,
           "transition": "glide",
           "transition_custom": {
             "opacity": 0.1,
@@ -453,6 +452,7 @@
             "duration": 1000
           },
 	      "history": true,
+          "loop": true,
           "zoomEl": true,
           "downloadEl": false,
 	      "shareEl": true,
@@ -519,7 +519,8 @@
 	          "enabled": true,
 	          "width": 2048,
 	          "height": 2048,
-	          "quality": 80
+	          "quality": 80,
+              "disable_meta_save": false
 	      },
 	      "language": "English",
 	      "editor": "markdown"
