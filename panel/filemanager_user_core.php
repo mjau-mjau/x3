@@ -101,6 +101,7 @@ class filemanager_user_core extends Services_JSON
     public function is_db( )
     {
         $this->db_use = true;
+        if(function_exists('mysqli_report')) mysqli_report(MYSQLI_REPORT_OFF);
         if( defined( "USERNAME" ) and defined( "PASSWORD" ) ) {
             if( USERNAME != "" and PASSWORD != md5( "" ) and PASSWORD != "" ) {
                 $this->db_use = false;

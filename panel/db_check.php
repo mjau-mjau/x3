@@ -94,7 +94,7 @@ if(function_exists('mysqli_connect')){
 echo $warning;
 
 # Output initial html if not POST
-else: 
+else:
 
 # Display ALL errors to detect any server issues
 ini_set('display_errors',1);

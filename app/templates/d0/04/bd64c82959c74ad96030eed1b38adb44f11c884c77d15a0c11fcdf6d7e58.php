@@ -45,7 +45,7 @@ class __TwigTemplate_d004bd64c82959c74ad96030eed1b38adb44f11c884c77d15a0c11fcdf6
 \t";
             // line 10
             echo "\t";
-            $context["title"] = call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('striptags')->getCallable(), array(call_user_func_array($this->env->getFunction('getDefault')->getCallable(), array($this->getAttribute((isset($context["video"]) ? $context["video"] : null), "title"), $this->getAttribute($this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "image"), "title"), $this->getAttribute($this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "image"), "title_include"))), "<a><span><em><i><b><strong><small><s><mark>")), array("{file_name}" => call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name"))), "{file_name_ext}" => $this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name")))), $this->getAttribute((isset($context["video"]) ? $context["video"] : null), "name")));
+            $context["title"] = call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, call_user_func_array($this->env->getFunction('getDefault')->getCallable(), array($this->getAttribute((isset($context["video"]) ? $context["video"] : null), "title"), $this->getAttribute($this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "image"), "title"), $this->getAttribute($this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "image"), "title_include"))), "<a><span><em><i><b><strong><small><s><mark>")), array("{file_name}" => call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name"))), "{file_name_ext}" => $this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name")))), $this->getAttribute((isset($context["video"]) ? $context["video"] : null), "name")));
             // line 11
             echo "\t";
             $context["title_pseudo"] = call_user_func_array($this->env->getFilter('replace')->getCallable(), array((isset($context["title"]) ? $context["title"] : null), array("<a" => "<span", "</a>" => "</span>", " href=" => " data-href=", " target=" => " data-target=")));
@@ -69,7 +69,7 @@ class __TwigTemplate_d004bd64c82959c74ad96030eed1b38adb44f11c884c77d15a0c11fcdf6
             } else {
                 // line 19
                 echo "\t\t";
-                $context["description"] = call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('striptags')->getCallable(), array((isset($context["image_description"]) ? $context["image_description"] : null), "<a><span><em><i><b><strong><small><s><br><mark><img><kbd><code><button>")), array("{file_name}" => call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name"))), "{file_name_ext}" => $this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name"))));
+                $context["description"] = call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, (isset($context["image_description"]) ? $context["image_description"] : null), "<a><span><em><i><b><strong><small><s><br><mark><img><kbd><code><button>")), array("{file_name}" => call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name"))), "{file_name_ext}" => $this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name"))));
                 // line 20
                 echo "\t\t";
                 $context["description_pseudo"] = call_user_func_array($this->env->getFilter('replace')->getCallable(), array((isset($context["description"]) ? $context["description"] : null), array("<a" => "<span", "</a>" => "</span>", " href=" => " data-href=", " target=" => " data-target=")));
@@ -147,8 +147,8 @@ class __TwigTemplate_d004bd64c82959c74ad96030eed1b38adb44f11c884c77d15a0c11fcdf6
                     echo ">
 \t\t\t\t<source src=\"";
                     // line 47
-                    echo ((isset($context["assetspath"]) ? $context["assetspath"] : null) . call_user_func_array($this->env->getFilter('trim')->getCallable(), array((($this->getAttribute((isset($context["gallery"]) ? $context["gallery"] : null), "file_path") . "/") . $this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name")), ".")));
-                    echo "\" type=\"";
+                    echo ((isset($context["assetspath"]) ? $context["assetspath"] : null) . call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, (($this->getAttribute((isset($context["gallery"]) ? $context["gallery"] : null), "file_path") . "/") . $this->getAttribute((isset($context["video"]) ? $context["video"] : null), "file_name")), ".")));
+                    echo "#t=0.001\" type=\"";
                     echo (($this->getAttribute((isset($context["video"]) ? $context["video"] : null), "mime", array(), "any", true, true)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array($this->getAttribute((isset($context["video"]) ? $context["video"] : null), "mime"), "video/mp4"))) : ("video/mp4"));
                     echo "\">
 \t\t\t</video>
@@ -191,7 +191,8 @@ class __TwigTemplate_d004bd64c82959c74ad96030eed1b38adb44f11c884c77d15a0c11fcdf6
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 62
         echo "
-</section>";
+</section>
+";
     }
 
     public function getTemplateName()

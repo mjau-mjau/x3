@@ -32,6 +32,11 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 
 		// write json
 		} else {
+
+			// invalidate auto-cache.json in case a newly protected page is stored
+			$core->touchme();
+
+			// write
 			echo @file_put_contents($file, $json) ? $json : '{ "error": "Can\'t write to file ' . $file . '" }';
 		}
 

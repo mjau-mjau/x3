@@ -43,16 +43,13 @@ if ($core->isLogin())
                     <li id="fileManager"><a href="#"><?php language_filter("File Manager");?></a></li>
                     <li id="setting"><a href="#"><?php language_filter("General Setting");?></a></li>
                     <li id="protect"><a href="#">Protect</a></li>
+										<li id="orders"<?php if(!X3Config::$config['plugins']['cart']['panel_orders']) echo ' class="hidden"'; ?>><a href="#">Orders</a></li>
                     <li id="tools"><a href="#">Tools</a></li>
-                    <!--<li id="addUser"><a href="javascript:;" ><?php /*language_filter("Add User");*/?></a></li>-->
                     <?php if( $core->db_use ): ?><li id="users"><a href="#" ><?php language_filter("Users");?></a></li><?php endif;?>
-                    <!--<li id="tickets"><a href="javascript:;" onclick="show_what = 'all'; ticket_page = 1;"><?php /*language_filter("Tickets");*/?></a></li>-->
                     <?php if( $core->db_use ): ?><li id="editProfile"><a href="#"><?php language_filter("Edit Profile");?></a></li><?php endif;?>
                     <li><a href="logout.php"><?php language_filter("Logout");?></a></li>
-
                     <?php $refresh = X3Config::$config["settings"]["menu_manual"] ? '' : ' class=hidden' ?>
                     <li id="refresh"<?php echo $refresh; ?>><a href="#" class="btn btn-primary">Refresh Menu<i class="fa fa-question-circle panel-help" data-help="refresh"></i></a></li>
-
                     <?php if( !$core->db_use ): ?><li id="website-link"><a href="../" target="_blank" title="<?php language_filter("View_Page");?>"><span class="glyphicon glyphicon-new-window"></span></a></li><?php endif;?>
                 </ul>
             </div><!--/.nav-collapse -->

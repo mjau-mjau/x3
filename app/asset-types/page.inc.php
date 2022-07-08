@@ -40,7 +40,7 @@ Class Page {
     $this->url_path = $url;
 
     // sort index
-    $content_path = str_replace('./content/', '', $this->file_path);
+    $content_path = str_replace('./content/', '', $this->file_path ?? '');
     $index = isset(Helpers::$folders[$content_path]['index']) ? Helpers::$folders[$content_path]['index'] : 0;
     $this->index = $index ? $index : 0;
 

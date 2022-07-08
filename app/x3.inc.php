@@ -3,8 +3,8 @@
 # X3
 Class X3 {
 
-  static $version = '3.30.1';
-  static $version_date = 1614405920360;
+  static $version = '3.31.0';
+  static $version_date = 1657261704416;
   static $server_protocol = 'http://';
 
   var $route;
@@ -156,7 +156,7 @@ Class X3 {
 
     # if etag is still fresh, return 304 and don't render anything
     if(!$this->etag_expired($cache)) return;
-    
+
     # if cache has expired
     if($cache->expired()) {
       # render page & create new cache
@@ -296,8 +296,8 @@ Class X3 {
     # strip any leading or trailing slashes from the passed url
     $key = key($get);
     # if the key isn't a URL path, then ignore it
-    if (!preg_match('/\//', $key)) $key = false;
-    $key = preg_replace(array('/\/$/', '/^\//'), '', $key);
+    if($key && !preg_match('/\//', $key)) $key = false;
+    if($key) $key = preg_replace(array('/\/$/', '/^\//'), '', $key);
     # store file path for this current page
     $this->route = isset($key) ? $key : 'index';
     # strip any trailing extensions from the url

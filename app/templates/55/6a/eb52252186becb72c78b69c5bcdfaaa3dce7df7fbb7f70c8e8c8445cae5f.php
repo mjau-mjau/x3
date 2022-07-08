@@ -51,7 +51,7 @@ class __TwigTemplate_556aeb52252186becb72c78b69c5bcdfaaa3dce7df7fbb7f70c8e8c8445
        <image:loc>";
                     // line 11
                     echo (isset($context["absolutepath"]) ? $context["absolutepath"] : null);
-                    echo call_user_func_array($this->env->getFilter('trim')->getCallable(), array((isset($context["preview_image"]) ? $context["preview_image"] : null), "."));
+                    echo call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, (isset($context["preview_image"]) ? $context["preview_image"] : null), "."));
                     echo "</image:loc>
     </image:image>
   \t";

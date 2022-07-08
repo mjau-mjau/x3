@@ -214,13 +214,19 @@ class Twig_Node implements Twig_NodeInterface
         unset($this->nodes[$name]);
     }
 
+    // Deprecated: Return type of Twig_Node::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in
+    #[\ReturnTypeWillChange]
     public function count()
     {
-        return count($this->nodes);
+        //return count($this->nodes);
+        return \count($this->nodes);
     }
 
-    public function getIterator()
+    // Return type of Twig_Node::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /Users/karlward/sites/x3/app/parsers/Twig/Node.php on line 222
+    //public function getIterator()
+    public function getIterator(): \Traversable
     {
-        return new ArrayIterator($this->nodes);
+        //return new ArrayIterator($this->nodes);
+        return new \ArrayIterator($this->nodes);
     }
 }

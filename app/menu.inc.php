@@ -154,7 +154,7 @@ Class Menu {
   static function get_preview($dir, $path){
 
 		# set $page_image
-		if(!empty($path)){	
+		if(!empty($path)){
 
 			# trim
 			$page_image = trim($path, ' ./');
@@ -210,7 +210,7 @@ Class Menu {
 
 				# url
 				$url = self::$root . str_replace(array('index/',' '), array('', '_'), preg_replace(array('/\d+?\./', '/(\.+\/)*content\/*/'), '', $dir) . '/');
-				if(self::$win) $url = str_replace('\\', '', $url);				
+				if(self::$win) $url = str_replace('\\', '', $url);
 
 				# child tree
 				$tree = self::simple_dir_tree($dir);

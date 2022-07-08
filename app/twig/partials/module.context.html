@@ -18,9 +18,11 @@
 {% endif %}
 {% set time_tag = '<time itemprop="dateCreated" datetime="' ~ date|date("c") ~ '" class="' ~ date_class ~ '">' ~ date_formatted ~ '</time>' %}
 
-{# Set items order #}
-{# title,label,amount,folder_amount,date,preview,description,content #}
-{% set items = context.items|split(',') %}
+{# Set items order #}{# add breadcrumbs if enabled and doesn't already exist #}
+{# title, description, breadcrumbs, content, label, amount, folders_amount, date, preview #}
+{# set items = context.items|split(',') #}
+{% set items = (p.plugins.breadcrumbs.enabled and 'breadcrumbs' not in context.items ? ('description' in context.items ? context.items|replace({'description': 'description,breadcrumbs'}) : ('title' in context.items ? context.items|replace({'title': 'title,breadcrumbs'}) : 'breadcrumbs,' ~ context.items)) : context.items)|split(',') %}
+{# set items = (p.plugins.breadcrumbs.enabled and 'breadcrumbs' not in context.items ? 'breadcrumbs,' ~ context.items : context.items)|split(',') #}
 
 {# Output items #}
 {% for item in items %}
@@ -144,6 +146,11 @@
 			</figure>
 		</a>
 	</div>
+	{% endif %}
+
+	{# breadcrumbs #}
+	{% if item == 'breadcrumbs' and p.plugins.breadcrumbs.enabled %}
+		<div class="x3-breadcrumbs x3-breadcrumbs-primary"></div>
 	{% endif %}
 
 	{# Content #}

@@ -159,6 +159,10 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 				$diff = arrayRecursiveDiff($page, X3Config::$config);
 			}
 
+			// Don't save image data in page.json
+			// foreach ($diff as $key => $val) if(preg_match('/\.jpe?g$/i', $key)) unset($diff[$key]);
+
+			// save
 			$save = (phpversion() < 5.4) ? json_encode($diff) : json_encode($diff, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
 			// Save it!

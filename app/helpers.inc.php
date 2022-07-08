@@ -152,7 +152,7 @@ Class Helpers {
     	self::$file_cache[$dir] = array();
     }
   }
-  
+
   static function list_files($dir, $regex, $folders_only = false, $sort = true) {
     $files = array();
     //if(!$regex && $folders_only) $regex = X3Config::$config["settings"]["hide_folders"] ? '\/\d+?\.[^\/]+$/' : '\/[^_][^\/]+$/';
@@ -161,7 +161,7 @@ Class Helpers {
     # $use_data
     if($folders_only && self::$use_data) {
     	foreach (self::$folders as $key => $val) {
-    		if(preg_match('/' . preg_quote($dir, '/') . $regex, './content/' . $key) && (!isset($val['hidden']) || !$val['hidden'] || substr($key, -5) === 'index')){
+    		if(preg_match('/' . preg_quote((string)$dir, '/') . $regex, './content/' . $key) && (!isset($val['hidden']) || !$val['hidden'] || substr($key, -5) === 'index')){
     			$files[basename($key)] = './content/' . $key;
     		}
     	}

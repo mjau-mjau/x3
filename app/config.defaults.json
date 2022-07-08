@@ -261,6 +261,34 @@
     	"content_append": null
     },
     "plugins":{
+      "cart":{
+        "enabled": false,
+        "page_unique": false,
+        "hide_cart": false,
+        "panel_orders": false,
+        "checkbox": true,
+        "checkbox_hover": true,
+        "select_mode": false,
+        "popup_button": true,
+        "gallery_buttons": true,
+        "gallery_button_items": "select-mode,select-all,cart",
+        "show_cart": "first_empty",
+        "limit": 0,
+        "cart_custom": false,
+        "cart_order": true,
+        "order_form": true,
+        "order_form_html": "<h2>Order</h2>\r\n<input type=\"text\" name=\"name\" placeholder=\"Name\" required>\r\n<input type=\"email\" name=\"email\" placeholder=\"Email\" required>\r\n<textarea rows=\"3\" name=\"message\" placeholder=\"Message\" required></textarea>",
+        "success_empty_cart": true,
+        "success_close_cart": false,
+        "cart_output": "paths",
+        "cart_download": false,
+        "download_order_form": false,
+        "download_include_paths": true
+      },
+      "breadcrumbs":{
+        "enabled": false,
+    		"level": 2
+      },
     	"chat":{
     		"x3_control": true,
     		"mobile": false,

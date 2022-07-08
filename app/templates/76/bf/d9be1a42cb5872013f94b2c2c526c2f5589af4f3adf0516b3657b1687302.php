@@ -25,7 +25,7 @@ class __TwigTemplate_76bfd9be1a42cb5872013f94b2c2c526c2f5589af4f3adf0516b3657b16
 \t";
         // line 8
         echo "\t";
-        echo call_user_func_array($this->env->getFilter('trim')->getCallable(), array(call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('removeComments')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "footer"))), array("{{copy}}" => (((((("<p>&copy; " . $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "current_year")) . " <a href=\"") . (isset($context["rootpath"]) ? $context["rootpath"] : null)) . "/\">") . $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "base_url")) . "</a></p>"))))));
+        echo call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('removeComments')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "footer"))), array("{{copy}}" => (((((("<p>&copy; " . $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "current_year")) . " <a href=\"") . (isset($context["rootpath"]) ? $context["rootpath"] : null)) . "/\">") . $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "base_url")) . "</a></p>"))))));
         echo "
 
 \t";
@@ -76,10 +76,10 @@ var x3_page = ";
         echo "
 ";
         // line 35
-        if ((!call_user_func_array($this->env->getTest('empty')->getCallable(), array(call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "js"))))))) {
+        if ((!call_user_func_array($this->env->getTest('empty')->getCallable(), array(call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "js"))))))) {
             // line 36
             echo "<script id=\"custom-javascript\">";
-            echo call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "js")));
+            echo call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "js")));
             echo "</script>
 ";
         }
@@ -89,7 +89,7 @@ var x3_page = ";
         // line 40
         if ($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "settings"), "cdn_core")) {
             // line 41
-            echo "<script src=\"https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js\"></script>
+            echo "<script src=\"https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\"></script>
 <script src=\"https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js\"></script>
 <script src=\"https://cdn.jsdelivr.net/npm/velocity-animate@1.0.1/velocity.min.js\"></script>
 <script src=\"https://cdn.jsdelivr.net/npm/velocity-animate@1.0.1/velocity.ui.min.js\"></script>
@@ -105,7 +105,7 @@ var x3_page = ";
             // line 48
             echo "<script src=\"";
             echo (isset($context["local_public"]) ? $context["local_public"] : null);
-            echo "/vendor/jquery/3.5.1/jquery.min.js\"></script>
+            echo "/vendor/jquery/3.6.0/jquery.min.js\"></script>
 <script src=\"";
             // line 49
             echo (isset($context["local_public"]) ? $context["local_public"] : null);
@@ -148,7 +148,8 @@ var x3_page = ";
         echo "();\"></script>
 
 </body>
-</html>";
+</html>
+";
     }
 
     public function getTemplateName()
@@ -163,6 +164,6 @@ var x3_page = ";
 
     public function getDebugInfo()
     {
-        return array (  138 => 57,  135 => 55,  129 => 53,  123 => 52,  106 => 48,  90 => 40,  76 => 33,  72 => 32,  51 => 19,  47 => 18,  40 => 16,  27 => 8,  342 => 122,  339 => 121,  337 => 120,  334 => 119,  331 => 118,  328 => 116,  321 => 115,  310 => 108,  306 => 107,  280 => 105,  277 => 104,  271 => 101,  268 => 99,  259 => 98,  253 => 97,  249 => 96,  246 => 95,  232 => 91,  229 => 89,  225 => 87,  222 => 86,  219 => 85,  216 => 84,  214 => 83,  207 => 79,  193 => 75,  190 => 74,  187 => 73,  185 => 72,  163 => 63,  151 => 61,  148 => 60,  145 => 59,  139 => 58,  117 => 44,  115 => 50,  111 => 49,  108 => 39,  104 => 37,  101 => 36,  98 => 45,  95 => 34,  92 => 41,  86 => 31,  83 => 30,  81 => 36,  79 => 35,  74 => 25,  56 => 19,  53 => 20,  45 => 15,  42 => 14,  26 => 5,  24 => 4,  22 => 3,  290 => 112,  287 => 110,  284 => 109,  282 => 108,  279 => 106,  275 => 104,  272 => 103,  269 => 102,  265 => 99,  262 => 97,  248 => 96,  245 => 95,  242 => 93,  239 => 92,  236 => 91,  233 => 90,  230 => 88,  223 => 87,  221 => 86,  218 => 84,  215 => 83,  213 => 82,  211 => 81,  208 => 79,  205 => 78,  202 => 78,  199 => 77,  196 => 76,  194 => 74,  191 => 73,  188 => 72,  182 => 71,  179 => 70,  176 => 69,  173 => 68,  170 => 66,  167 => 65,  164 => 61,  161 => 60,  158 => 62,  155 => 57,  137 => 57,  134 => 56,  131 => 50,  128 => 49,  125 => 48,  122 => 47,  119 => 51,  116 => 48,  113 => 42,  110 => 45,  107 => 44,  102 => 46,  99 => 42,  96 => 40,  94 => 39,  91 => 37,  89 => 32,  87 => 38,  84 => 33,  80 => 31,  77 => 27,  73 => 28,  70 => 31,  68 => 26,  66 => 28,  64 => 24,  62 => 21,  59 => 24,  57 => 20,  54 => 18,  50 => 17,  46 => 16,  43 => 17,  41 => 13,  39 => 13,  37 => 11,  35 => 10,  33 => 12,  30 => 7,  28 => 6,  25 => 4,  23 => 3,  19 => 1,);
+        return array (  138 => 57,  135 => 55,  123 => 52,  115 => 50,  111 => 49,  106 => 48,  98 => 45,  90 => 40,  81 => 36,  79 => 35,  76 => 33,  72 => 32,  51 => 19,  40 => 16,  27 => 8,  379 => 143,  376 => 142,  365 => 136,  362 => 134,  360 => 133,  356 => 132,  352 => 131,  350 => 130,  344 => 126,  341 => 124,  336 => 123,  333 => 122,  330 => 120,  324 => 118,  321 => 117,  318 => 115,  312 => 113,  309 => 112,  306 => 110,  300 => 108,  297 => 107,  293 => 104,  278 => 97,  270 => 91,  258 => 88,  255 => 86,  247 => 81,  243 => 80,  227 => 68,  224 => 66,  212 => 61,  189 => 54,  175 => 52,  172 => 51,  166 => 48,  163 => 46,  156 => 45,  150 => 44,  146 => 43,  140 => 41,  129 => 53,  126 => 37,  109 => 33,  92 => 41,  88 => 28,  85 => 27,  63 => 21,  53 => 20,  47 => 18,  32 => 8,  26 => 4,  24 => 3,  22 => 2,  290 => 112,  287 => 101,  284 => 99,  282 => 108,  279 => 106,  275 => 96,  272 => 94,  269 => 102,  265 => 99,  262 => 97,  248 => 96,  245 => 95,  242 => 93,  239 => 92,  236 => 91,  233 => 90,  230 => 69,  223 => 87,  221 => 86,  218 => 64,  215 => 63,  213 => 82,  211 => 81,  208 => 79,  205 => 59,  202 => 58,  199 => 57,  196 => 55,  194 => 74,  191 => 73,  188 => 72,  182 => 53,  179 => 68,  176 => 66,  173 => 65,  170 => 63,  167 => 62,  164 => 61,  161 => 60,  158 => 59,  155 => 57,  137 => 56,  134 => 40,  131 => 53,  128 => 52,  125 => 51,  122 => 50,  119 => 51,  116 => 34,  113 => 46,  110 => 45,  107 => 44,  102 => 46,  99 => 30,  96 => 40,  94 => 39,  91 => 37,  89 => 36,  87 => 38,  84 => 33,  80 => 24,  77 => 23,  73 => 28,  70 => 31,  68 => 26,  66 => 28,  64 => 24,  62 => 23,  59 => 24,  57 => 20,  54 => 18,  50 => 18,  46 => 16,  43 => 17,  41 => 13,  39 => 12,  37 => 11,  35 => 10,  33 => 12,  30 => 7,  28 => 6,  25 => 4,  23 => 3,  19 => 1,);
     }
 }

@@ -57,7 +57,7 @@
 		{% set ul_open = '<ul class="small-block-grid-' ~ small_grid ~ ' medium-block-grid-' ~ medium_grid ~ ' large-block-grid-' ~ large_grid ~ ' items"' ~ ul_style ~ '>' %}
 	{% endif %}
 
-	{# <ul><li> tags #}	
+	{# <ul><li> tags #}
 	{% set li_open = '<li' ~ li_style ~ '>' %}
 	{% set li_close = '</li>' %}
 	{% set ul_close = '</ul>' %}
@@ -146,7 +146,6 @@
 			{% set geo = image.exif.latitude ~ ',' ~ image.exif.longitude %}
 			{% set map_embed_src = 'https://www.google.com/maps/embed/v1/place?q=' ~ geo ~ '&amp;key=AIzaSyDRp6xla9SxUmTBu6l_kprhjjI9e5-EVZk' %}
 			{% set map_link_src = 'https://www.google.com/maps/search/?api=1&query=' ~ geo %}
-			{#{% set map_embed_button_item = '<button data-href="' ~ map_link_src ~ '" data-popup-href="' ~ map_embed_src ~ '" class="button small button-map" data-popup-class="x3-popup-iframe-full" data-popup></button>' %}#}
 			{% set map_embed_button_item = '<button data-href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="button small button-map" data-lang="map"></button>' %}
 			{% set map_button_popup = '<a href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="button small button-map" target="_blank" data-lang="map"></a>' %}
 			{% set map_link_popup = '<a href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="link-map" target="_blank" data-lang="map"></a>' %}
@@ -183,6 +182,9 @@
 		{% set date_class = 'date' %}
 	{% endif %}
 	{% set time_tag = '<time itemprop="dateCreated" datetime="' ~ date|date('c') ~ '" class="' ~ date_class ~ '">' ~ date_formatted ~ '</time>' %}
+
+	{# cart_button #}
+	{% set cart_button = '<button class="button small toggle-cart-button caption-cart-button" data-action="toggle-cart-item"></button>' %}
 
 	{# Set image ratio for responsive layout #}
 	{% set image_ratio = crop_ratio|default(image.height / image.width * 100) %}
@@ -222,7 +224,8 @@
 					{% elseif item == 'filename' %}<span>{{ name_no_ext }}</span>
 					{% elseif item == 'filename_ext' %}<span>{{ image.file_name }}</span>
 					{% elseif item == 'maplink' and geo %} {{ map_embed_button_item }}
-					{% elseif item == 'description' and description_pseudo is not empty %}<span class="description">{{ description_pseudo }}</span>{% endif %}
+					{% elseif item == 'description' and description_pseudo is not empty %}<span class="description">{{ description_pseudo }}</span>
+					{% elseif item == 'cart_button' and page.plugins.cart.enabled %}{{ cart_button }}{% endif %}
 				{% endfor %}
 			{% endset %}
 			{% set figcaption_content =  figcaption_content|trim %}
@@ -298,6 +301,8 @@
 							<span class="gallery-filename_ext">{{ image.file_name }}</span>
 						{% elseif item == 'maplink' and geo %}
 							{{ map_embed_button_item }}
+						{% elseif item == 'cart_button' and page.plugins.cart.enabled %}
+							{{ cart_button }}
 						{% endif %}
 					{% endfor %}
 
@@ -321,6 +326,8 @@
 						<span class="gallery-filename_ext">{{ image.file_name }}</span>
 					{% elseif item == 'maplink' and geo %}
 						{{ map_embed_button_item }}
+					{% elseif item == 'cart_button' and page.plugins.cart.enabled %}
+						{{ cart_button }}
 					{% elseif item == 'preview' %}
 						{{ figure }}
 					{% endif %}

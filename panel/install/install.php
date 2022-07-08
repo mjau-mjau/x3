@@ -14,7 +14,7 @@ class INSTALL extends Services_JSON
 	public function _install($firstname,$lastname,$username,$email,$password)
 	{
 		$table_query = "CREATE TABLE IF NOT EXISTS filemanager_db(
-				  id INT NOT NULL AUTO_INCREMENT, 
+				  id INT NOT NULL AUTO_INCREMENT,
 				  PRIMARY KEY(id),
 				  firstname TEXT,
 				  lastname TEXT,
@@ -173,7 +173,7 @@ class INSTALL extends Services_JSON
 <link href="../filemanager_css/x3.panel.min.css?v=<?php echo X3Config::$config["x3_panel_version"]; ?>" rel="stylesheet" />
 </head>
 <body>
-<?php 
+<?php
 
 if(isset($_POST["install"]) && $_POST["nickname"] == "googooforgaga" && $_POST["pass"] == "")
 {

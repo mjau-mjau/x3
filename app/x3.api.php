@@ -3,11 +3,11 @@
 // x3.api.php
 
 // conditions
-if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
-	&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' 
-	&& $_SERVER["REQUEST_METHOD"] == "POST" 
-	&& isset($_SERVER['HTTP_REFERER']) 
-	&& stripos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false 
+if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+	&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
+	&& $_SERVER["REQUEST_METHOD"] == "POST"
+	&& isset($_SERVER['HTTP_REFERER'])
+	&& stripos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false
 	&& isset($_POST['action'])
 	){
 
@@ -19,8 +19,17 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 	// get action
 	$action = $_POST['action'];
 
+	// detect if cart_items exist for users localStorage
+	if($action === 'cart_items'){
+		$items = isset($_POST['items']) ? $_POST['items'] : false;
+		if(empty($items) || !is_array($items)) return;
+		$missing = array_values(array_filter($items, function($path){
+			return !file_exists('..' . strstr($path, '/content/'));
+		}));
+		if(!empty($missing)) echo json_encode($missing);
+
 	// get cache time for auto-cache
-	if($action === 'get_cache_time'){
+	} else if($action === 'get_cache_time'){
 		$file = '../content/auto-cache.json';
 		if(@file_exists($file) && @filesize($file) > 5){
 			$filetime = @filemtime($file);
@@ -45,9 +54,9 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 		$email = isset($_POST['email']) ? $_POST['email'] : (isset($_POST['Email']) ? $_POST['Email'] : false);
 
 		// Make sure fields are populated correctly
-		if(empty($_POST['honey1']) 
-			&& $_POST['honey2'] == 'alpaca' 
-			&& (!$email || filter_var($email, FILTER_VALIDATE_EMAIL)) 
+		if(empty($_POST['honey1'])
+			&& $_POST['honey2'] == 'alpaca'
+			&& (!$email || filter_var($email, FILTER_VALIDATE_EMAIL))
 			&& !empty($_POST['page'])
 			) {
 
@@ -167,9 +176,29 @@ if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])
 			$custom = array_filter_key($_POST, function($a) use ($ignore){
 				return !in_array($a, $ignore);
 			});
+
+			// cart
+			$cart = isset($_POST['cart']) ? $_POST['cart'] : false;
+			if(!empty($cart) && is_array($cart)){
+				$cart_items = [];
+				$cart_output = $custom['cart_output'];
+				unset($custom['cart_output']); // don't need don't want after used here
+				foreach ($cart as $item) {
+					$display = explode(($cart_output === 'paths' ? '/content/' : '/'), $item);
+					$cart_items[] = '<a href="' . $custom['cart_website'] . htmlspecialchars($item) .'">' . end($display) . '</a>';
+				}
+				$cart_dir = file_exists('../config/orders') ? true : @mkdir('../config/orders');
+				$cart_json = $cart_dir ? @json_encode($custom, JSON_PARTIAL_OUTPUT_ON_ERROR|JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : false;
+				if($cart_json) file_put_contents('../config/orders/order.' . time() . '.json', $cart_json);
+				unset($custom['cart_website']); // don't need don't want after added to stored json
+				$custom['cart'] = implode($cart_output === 'comma' ? ', ' : ($cart_output === 'space' ? ' ' : '<br>'), $cart_items);
+			}
+
+			// email message
 			if(isset($custom['page'])) $custom['page'] = urldecode($custom['page']);
 			foreach ($custom as $key => $value) {
-				$val = nl2br(strip_tags(trim($value)));
+				if(!is_string($value)) continue; // block stuff like cart[]
+				$val = $key === 'cart' ? trim($value) : nl2br(strip_tags(trim($value)));
 				if(!empty($val)){
 
 					// subject

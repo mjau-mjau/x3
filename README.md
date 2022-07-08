@@ -1,4 +1,4 @@
-# Photo Gallery X3.30.1
+# Photo Gallery X3.31.0
 
 ![X3 Photo Gallery](https://www.photo.gallery/content/custom/files/images/x3-styles-2x.jpg)
 
@@ -62,4 +62,3 @@ Once your X3 application is working, you can start setting it up. First, you may
 Good luck!
 
 [www.photo.gallery](https://www.photo.gallery/)
-

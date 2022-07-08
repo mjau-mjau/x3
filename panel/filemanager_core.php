@@ -129,6 +129,7 @@ class filemanager_core extends Services_JSON
     public function is_db( )
     {
         $this->db_use = true;
+				if(function_exists('mysqli_report')) mysqli_report(MYSQLI_REPORT_OFF);
         if( defined( "USERNAME" ) and defined( "PASSWORD" ) ) {
             if( USERNAME != "" and PASSWORD != md5( "" ) and PASSWORD != "" ) {
                 $this->db_use = false;
@@ -258,6 +259,7 @@ class filemanager_core extends Services_JSON
             {
                 $ck_id = $_SESSION['filemanager_admin'];
                 $query = "SELECT is_login,ck_id FROM filemanager_db WHERE is_login='1' AND ck_id='$ck_id' LIMIT 1";
+								//if(function_exists('mysqli_report') && defined('MYSQLI_REPORT_OFF')) mysqli_report(MYSQLI_REPORT_OFF);
                 if($select = mysqli_query($GLOBALS["___mysqli_ston"], $query))
                 {
                     $result = mysqli_fetch_array($select,  MYSQLI_ASSOC);
@@ -1646,7 +1648,7 @@ class filemanager_backups extends filemanager_core
 	function __construct()
 	{
 		$ignored = array('.', '..', 'backups.php', '.htaccess');
-	    foreach (scandir($this->backup_dir) as $file) 
+	    foreach (scandir($this->backup_dir) as $file)
 	    {
 	        if (in_array($file, $ignored)) continue;
 	        $this->backup_dir_files[$file] = filemtime($this->backup_dir . '/' . $file);
@@ -1921,8 +1923,8 @@ class filemanager_show_from_root extends Services_JSON
             @$this->root_files_folders = array_keys($this->root_files_folders);
         }
     }
-	
-	public function formatBytes($path) 
+
+	public function formatBytes($path)
 	{
         if(is_dir($path))
         {
@@ -1936,7 +1938,7 @@ class filemanager_show_from_root extends Services_JSON
 	    {
 	        $unit = intval(log($bytes, 1024));
 	        $units = array('B', 'KB', 'MB', 'GB');
-	
+
 	        if (array_key_exists($unit, $units) === true)
 	        {
 	            return sprintf('%d %s', $bytes / pow(1024, $unit), $units[$unit]);

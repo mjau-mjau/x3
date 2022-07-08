@@ -272,7 +272,7 @@ Class PageData {
 	    $markdown_compatible = preg_match('/\.(xml|html?|rss|rdf|atom|js|json)$/', $current_page_template_file);
 	    //$relative_path = preg_replace('/^\.\//', Helpers::relative_root_path(), $page->file_path);
 	    # x3 fix rootpath
-	    $root_path = preg_replace('/(\/+)/','/',str_replace('/index.php','',$_SERVER['PHP_SELF'])) . str_replace('./','/',$page->file_path);
+	    $root_path = preg_replace('/(\/+)/','/', str_replace('/index.php','',$_SERVER['PHP_SELF'])) . str_replace('./','/',(string)$page->file_path);
 
 	    $vars = self::parse_vars($vars, $markdown_compatible, $root_path);
   	}

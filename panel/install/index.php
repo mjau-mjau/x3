@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include '../config.php';
+if(function_exists('mysqli_report')) mysqli_report(MYSQLI_REPORT_OFF);
 
 ?>
 
@@ -101,6 +102,8 @@ if(X3Config::$config["back"]["panel"]["use_db"]) {
 		$dbuser = X3Config::$config["back"]["panel"]["db_user"];
 		$dbpass = X3Config::$config["back"]["panel"]["db_pass"];
 		$dbhost = X3Config::$config["back"]["panel"]["db_host"];
+
+    //var_dump($dbname);var_dump($dbuser);var_dump($dbpass);var_dump($dbhost);exit;
 
 		# Check DB connection
 		$connection = @new mysqli($dbhost, $dbuser, $dbpass, $dbname);

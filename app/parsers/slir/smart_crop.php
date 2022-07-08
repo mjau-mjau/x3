@@ -3,7 +3,7 @@
   Smart Cropping Class
   Copyright 2014 Greg Schoppe (GPL Licensed)
   http://gschoppe.com
-  
+
   Desc: Takes a GD2 image reference and a target width/height,
         and produces a cropped resized image that puts the focus
         of the image at or close to a rule of thirds line.
@@ -13,7 +13,7 @@
  ****************************************************************/
 class smart_crop {
     protected $img, $orig_w, $orig_h, $x, $y, $x_weight, $y_weight;
-    
+
     /* constructor - initializes the object
        takes: $img - gd2 image resource */
     function __construct($img) {
@@ -21,7 +21,7 @@ class smart_crop {
         $this->orig_w = imageSX($img);
         $this->orig_h = imageSY($img);
     }
-    
+
     /* find_focus - identifies the focal point of an image,
                     based on color difference and image entropy
        takes: $slices - integer representing precision of focal
@@ -50,7 +50,7 @@ class smart_crop {
         $slice = round($w/$slices);
         for($i=0;$i<$slices;$i++) {
             if($weight == 0) {
-                // -we're skipping this calculation because 
+                // -we're skipping this calculation because
                 // -weight 0 doesnt take color into account
                 $colorSlice = 0;
             } else {
@@ -60,7 +60,7 @@ class smart_crop {
                 $colorSlice     = $this->euclidean_distance($avgColor, $color);
             }
             if($weight == 1) {
-                // -we're skipping this calculation because 
+                // -we're skipping this calculation because
                 // -weight 1 doesnt take entropy into account
                 $entropySlice = 0;
             } else {
@@ -83,7 +83,7 @@ class smart_crop {
         $slice = round($h/$slices);
         for($i=0;$i<$slices;$i++) {
             if($weight == 0) {
-                // -we're skipping this calculation because 
+                // -we're skipping this calculation because
                 // -weight 0 doesnt take color into account
                 $colorSlice = 0;
             } else {
@@ -93,7 +93,7 @@ class smart_crop {
                 $colorSlice     = $this->euclidean_distance($avgColor, $color);
             }
             if($weight == 1) {
-                // -we're skipping this calculation because 
+                // -we're skipping this calculation because
                 // -weight 1 doesnt take entropy into account
                 $entropySlice = 0;
             } else {
@@ -113,17 +113,17 @@ class smart_crop {
         // set these values as the focus of the image
         $this->set_focus($x, $y, $xWeight, $yWeight);
     }
-    
+
     /* set_focus - sets the focal point of an image manually
        takes: $x - integer representing the pixel position
                    of the focal point horizontally
               $y - integer representing the pixel position
                    of the focal point vertically
-              $xWeight - float from -1 to 1 representing 
+              $xWeight - float from -1 to 1 representing
                          whether the image is more interesting
                          to the left of the focal point or the
                          right (optional, defaults to 0)
-              $yWeight - float from -1 to 1 representing 
+              $yWeight - float from -1 to 1 representing
                          whether the image is more interesting
                          above the focal point or below
                          (optional, defaults to 0)
@@ -167,7 +167,7 @@ class smart_crop {
         $w   = imageSX($temp);
         $h   = imageSY($temp);
         // if we're done, skip the rest
-        if($w == $newW && $h == $newH) return $temp;
+        if($w == $newW && $h == $newH) return false;//$temp;
         // if a focus wasn't defined already, do it now
         if(!$this->x || !$this->y) $this->find_focus($slices, $weight, $sample);
         // this is the x and y coords for the corner of the crop
@@ -213,7 +213,7 @@ class smart_crop {
         //return($croppedThumb);
         return array((int) round($x), (int) round($y));
     }
-    
+
     /* rough_in_size  - PROTECTED resizes image proportionally,
                         so that the given width and height are
                         covered. */
@@ -238,13 +238,13 @@ class smart_crop {
             $tempH = $newH;
         }
         // make the resized image
-        $temp = imagecreatetruecolor($tempW, $tempH);
+        $temp = imagecreatetruecolor(round($tempW), round($tempH));//HERTE
         imagealphablending( $temp, false );
         imagesavealpha( $temp, true );
-        imagecopyresampled($temp, $this->img, 0, 0, 0, 0, $tempW, $tempH, $w, $h);
+        imagecopyresampled($temp, $this->img, 0, 0, 0, 0, round($tempW), round($tempH), $w, $h);//HERE
         return($temp);
     }
-    
+
     /* average_color - PROTECTED gets the mean average color of
                        the region of an image, within a bounding
                        box */
@@ -257,7 +257,7 @@ class smart_crop {
         imagedestroy($colorTemp);
         return $avgColor;
     }
-    
+
     /* euclidean_distance - PROTECTED gets the euclidean distance
                             (in LAB-X Color space) between two RGB
                             colors */
@@ -274,7 +274,7 @@ class smart_crop {
         // divide by ten to put in similar range to entropy numbers
         return ($distance/10);
     }
-    
+
     /* RGBtoHSV - PROTECTED converts a given color in RGB to HSV
        (yes, I had to google this) */
     protected function RGBtoHSV($color) {
@@ -298,7 +298,7 @@ class smart_crop {
         $computedH = $h*60;
         return array('h'=>$computedH, 's'=>$computedS, 'v'=>$computedV);
     }
-    
+
     /* RGBtoLAB - PROTECTED converts a given color in RGB to LAB-X Color
        (yes, I had to google this) */
     protected function RGBtoLAB($color) {
@@ -334,7 +334,7 @@ class smart_crop {
         }
         return array('L'=>$l, 'A'=>$a, 'B'=>$b);
     }
-    
+
     /* get_entropy - PROTECTED gets the level of entropy present in a slice of an image */
     protected function get_entropy($img, $x=0, $y=0, $w=null, $h=null) {
         if($w == null) $w = imageSX($img)-$x;
@@ -366,7 +366,7 @@ class smart_crop {
         imagedestroy($temp);
         return($entropy);
     }
-    
+
     /* get_array_weight - PRIVATE tells you if the values to the
        left of the index average higher than the values to the
        right, or vice versa, or if they're equally balanced */

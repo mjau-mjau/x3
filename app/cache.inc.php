@@ -134,7 +134,7 @@ Class Cache {
     $cache_file = './content/auto-cache.json';
     $exists = @file_exists($cache_file);
     $writeable = ($exists && @is_writable($cache_file)) || (!$exists && @is_writable('./content'));
-    
+
     // not writeable or cache > 2mb
     if(!$writeable || @filesize($cache_file) > 2000000) return false;
 
@@ -148,12 +148,6 @@ Class Cache {
     $json_content .= ($is_empty ? '{"' : '},"') . $permalink . '":' . $data . '}';
     file_put_contents($cache_file, $json_content);
   }
-
-  /*function write_cache($data) {
-    $fp = fopen($this->cachefile, 'w');
-    fwrite($fp, $data);
-    fclose($fp);
-  }*/
 
 }
 ?>

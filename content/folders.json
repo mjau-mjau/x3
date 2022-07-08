@@ -1,15 +1,15 @@
 {
     "index": {
         "url": "index",
-        "index": 5
+        "index": 3
     },
     "galleries": {
         "url": "galleries",
-        "index": 6
+        "index": 4
     },
     "examples": {
         "url": "examples",
-        "index": 7
+        "index": 5
     },
     "examples\/assets": {
         "url": "examples\/assets",
@@ -18,7 +18,7 @@
     },
     "contact": {
         "url": "contact",
-        "index": 8
+        "index": 6
     },
     "galleries\/landscapes": {
         "url": "galleries\/landscapes",
@@ -73,12 +73,12 @@
     "examples\/plugins\/background-image": {
         "url": "examples\/plugins\/background-image",
         "hidden": true,
-        "index": 8
+        "index": 10
     },
     "examples\/plugins\/intro-pattern": {
         "url": "examples\/plugins\/intro-pattern",
         "hidden": true,
-        "index": 9
+        "index": 11
     },
     "examples\/plugins": {
         "url": "examples\/plugins",
@@ -198,37 +198,42 @@
     },
     "examples\/plugins\/intro-image": {
         "url": "examples\/plugins\/intro-image",
-        "index": 1
+        "index": 3
     },
     "examples\/plugins\/intro-gradient": {
         "url": "examples\/plugins\/intro-gradient",
-        "index": 2
+        "index": 4
     },
     "examples\/plugins\/slideshow-intro": {
         "url": "examples\/plugins\/slideshow-intro",
-        "index": 3
+        "index": 5
     },
     "examples\/plugins\/video-intro": {
         "url": "examples\/plugins\/video-intro",
-        "index": 4
+        "index": 6
     },
     "examples\/plugins\/comparison-slider": {
         "url": "examples\/plugins\/comparison-slider",
-        "index": 5
+        "index": 7
     },
     "examples\/plugins\/carousel": {
         "url": "examples\/plugins\/carousel",
-        "index": 6
+        "index": 8
     },
     "examples\/plugins\/popup": {
         "url": "examples\/plugins\/popup",
-        "index": 7
+        "index": 9
     },
     "examples\/gallery\/auto-popup": {
         "url": "examples\/gallery\/auto-popup",
         "index": 7
     },
     "examples\/plugins\/panorama": {
-        "url": "examples\/plugins\/panorama"
+        "url": "examples\/plugins\/panorama",
+        "index": 1
+    },
+    "examples\/plugins\/breadcrumbs": {
+        "url": "examples\/plugins\/breadcrumbs",
+        "index": 2
     }
 }

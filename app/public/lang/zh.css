@@ -3,9 +3,9 @@
 [data-lang="chat"]:after { content: '聊天'; }
 [data-lang="comments"]:after { content: '评论'; }
 [data-lang="folder"]:after { content: '文件夹'; }
-[data-lang="folders"]:after { content: '文件夹们'; }
+[data-lang="folders"]:after { content: '文件夹'; }
 [data-lang="image"]:after { content: '图片'; }
-[data-lang="images"]:after { content: '图片们'; }
+[data-lang="images"]:after { content: '图片'; }
 [data-lang="map"]:after { content: '地图'; }
 [data-lang="pause"]:after { content: '暂停'; }
 [data-lang="play"]:after { content: '播放'; }

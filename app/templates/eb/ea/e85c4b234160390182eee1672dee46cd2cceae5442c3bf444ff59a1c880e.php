@@ -52,13 +52,13 @@ class __TwigTemplate_ebeae85c4b234160390182eee1672dee46cd2cceae5442c3bf444ff59a1
 <feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:media=\"http://search.yahoo.com/mrss/\">
 <title>";
         // line 24
-        echo call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->getAttribute((isset($context["index"]) ? $context["index"] : null), "title"))), "html"));
+        echo call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, $this->getAttribute((isset($context["index"]) ? $context["index"] : null), "title"))), "html"));
         echo "</title>
 ";
         // line 25
         if ((!call_user_func_array($this->env->getTest('empty')->getCallable(), array($this->getAttribute((isset($context["index"]) ? $context["index"] : null), "description"))))) {
             echo "<subtitle>";
-            echo call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->getAttribute((isset($context["index"]) ? $context["index"] : null), "description"))), "html"));
+            echo call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, $this->getAttribute((isset($context["index"]) ? $context["index"] : null), "description"))), "html"));
             echo "</subtitle>";
         }
         // line 26
@@ -82,13 +82,13 @@ class __TwigTemplate_ebeae85c4b234160390182eee1672dee46cd2cceae5442c3bf444ff59a1
         // line 31
         if ((isset($context["favicon"]) ? $context["favicon"] : null)) {
             echo "<icon>";
-            echo ((isset($context["absolutepath"]) ? $context["absolutepath"] : null) . call_user_func_array($this->env->getFilter('trim')->getCallable(), array((isset($context["favicon"]) ? $context["favicon"] : null), ".")));
+            echo ((isset($context["absolutepath"]) ? $context["absolutepath"] : null) . call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, (isset($context["favicon"]) ? $context["favicon"] : null), ".")));
             echo "</icon>";
         }
         // line 32
         if ((isset($context["logo"]) ? $context["logo"] : null)) {
             echo "<logo>";
-            echo ((isset($context["absolutepath"]) ? $context["absolutepath"] : null) . call_user_func_array($this->env->getFilter('trim')->getCallable(), array((isset($context["logo"]) ? $context["logo"] : null), ".")));
+            echo ((isset($context["absolutepath"]) ? $context["absolutepath"] : null) . call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, (isset($context["logo"]) ? $context["logo"] : null), ".")));
             echo "</logo>";
         }
         // line 33

@@ -26,9 +26,9 @@ define('ABSOLUTE', (string)trim($server_protocol.$_SERVER['HTTP_HOST'].dirname($
 $x3_version = class_exists('X3') ? X3::$version : null;
 $x3_version_date = class_exists('X3') ? X3::$version_date : null;
 $x3_buster = $x3_version ? '?v=' . $x3_version : '';
-$posted = $_SERVER["REQUEST_METHOD"] == "POST" 
-	&& isset($_SERVER['HTTP_REFERER']) 
-	&& stripos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false 
+$posted = $_SERVER["REQUEST_METHOD"] == "POST"
+	&& isset($_SERVER['HTTP_REFERER'])
+	&& stripos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false
 	&& isset($_POST['get-x3-diagnostics']);
 
 // POST
@@ -282,7 +282,7 @@ if($posted){
 	}
 
 
-	### INITIALIZATION ###			
+	### INITIALIZATION ###
 
 	# Check that cache exists
 	if(!mkdir_if_missing(Config::$cache_folder)){
@@ -341,7 +341,7 @@ if($posted){
 			if($lc_items_remaining){
 				$success .= addItem('success', 'Convert legacy cache enabled', 'We detected that the outdated <code>_cache/images/rendered</code> dir has <strong>' . $lc_items_remaining . '</strong> potentially valid cache files. This dir will be kept for migrating cache into the new <code>render</code> dir, until it is empty or until all cache files have expired. If you want to disable legacy cache conversion, feel free to delete the <code>_cache/images/rendered</code> dir by FTP.');
 				if($lc_items_deleted) $success .= addItem('success', $lc_items_deleted . ' legacy cache files deleted', 'Deleted ' . $lc_items_deleted . ' image cache files from the <code>_cache/images/rendered</code> dir, because they had not been accessed for more than 1 month, and therefore safely considered expired.');
-				
+
 			// delete dir if empty
 			} else if(rmdir($lc_dir)) {
 				$success .= addItem('success', 'Legacy cache dir deleted', 'The outdated <code>_cache/images/rendered</code> dir has now been deleted because it ' . ($lc_items_deleted ? ' contained <strong>' . $lc_items_deleted .'</strong> expired cache files that had not been accessed for more than 1 month.' : 'was empty.'));
@@ -779,7 +779,7 @@ if($posted){
 	if(isset($_GET["diagnostics"]) && (!isset($_SERVER['X3_HIDE_DIAGNOSTICS']) || $x3_diagnostics)) {
 
 		# X3 Version
-		if($x3_version) $info .= addInfo('X3 Version', ($x3_version_date ? '<span style="float:right; color: #AAA;">' . date('d M Y H:i:s', $x3_version_date/1000) . '</span>' : '') . $x3_version, true);
+		if($x3_version) $info .= addInfo('X3 Version', ($x3_version_date ? '<span style="float:right; color: #AAA;">' . date('d M Y H:i:s', round($x3_version_date/1000)) . '</span>' : '') . $x3_version, true);
 
 		# PHPinfo
 		$info .= addInfo('PHP Version', phpversion(), phpversion() >= 5.3);

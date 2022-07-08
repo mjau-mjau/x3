@@ -101,7 +101,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
 
   function cleanData($value) {
   	// remove [none]
-  	$spaced = str_replace('[none]', '', $value);
+  	$spaced = str_replace('[none]', '', $value?:'');
   	// remove commas and multiple spaces
   	$spaced = trim(preg_replace(array('/,/', '!\s+!'), ' ', $spaced));
     // remove duplicates
@@ -138,7 +138,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
 
   // remove html comments
 	function removeComments($str){
-		return preg_replace('/<!--.*?-->/s', '', $str);
+		return $str ? preg_replace('/<!--.*?-->/s', '', $str) : '';
 	}
 
   function minify($value){
@@ -166,7 +166,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
   	return implode("|", $new);
   }
 
-  // Add $pre path from to permalink $value 
+  // Add $pre path from to permalink $value
   function setpath($value, $pre = null) {
   	return $pre.preg_replace('/(\/+)/','/',('/'.$value));
   }
@@ -399,7 +399,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
   // pano params
   function pano_params($image, $assetspath){
 
-    // vars 
+    // vars
     $width = intval($image['width']);
     $height = intval($image['height']);
     $file_name = strtolower($image['file_name']);
@@ -484,7 +484,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
 
       // flat url_format
       $url_format = isset($params['url_format']) ? trim($params['url_format'], './ ') : false;
-  
+
       // type flat
       if($type === 'flat' || $flat_config || $url_format || isset($params['width'])){
 
@@ -504,7 +504,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
           if($is_content_path){
             $url_array = explode('/', $new_url_format);
             $url_array_count = count($url_array);
-            for ($i=0; $i < $url_array_count; $i++) { 
+            for ($i=0; $i < $url_array_count; $i++) {
               $url_first = array_shift($url_array);
               if(preg_match('/\{[z|y|x]\}/', $url_first) || is_dir($path . '/' . $url_first)) {
                 $new_url_format = $url_first . '/' . join('/', $url_array);
@@ -816,7 +816,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
 		} else {
 			$val = $title;
 		}
-		return trim($val);
+		return $val ? trim($val) : '';
   }
 
 }

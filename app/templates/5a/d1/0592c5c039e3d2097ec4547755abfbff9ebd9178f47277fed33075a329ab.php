@@ -33,7 +33,7 @@ class __TwigTemplate_5ad10592c5c039e3d2097ec4547755abfbff9ebd9178f47277fed33075a
         }
         foreach ($context['_seq'] as $context["_key"] => $context["page"]) {
             // line 2
-            $context["title"] = call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "title")));
+            $context["title"] = call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "title")));
             // line 3
             $context["absolutepath_page"] = call_user_func_array($this->env->getFilter('setpath')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "permalink"), (isset($context["absolutepath"]) ? $context["absolutepath"] : null)));
             // line 4
@@ -52,7 +52,7 @@ class __TwigTemplate_5ad10592c5c039e3d2097ec4547755abfbff9ebd9178f47277fed33075a
             echo "</title>
 <summary>";
             // line 7
-            echo call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "description"))), "html")), (isset($context["title"]) ? $context["title"] : null)));
+            echo call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "description"))), "html")), (isset($context["title"]) ? $context["title"] : null)));
             echo "</summary>
 <updated>";
             // line 8
@@ -85,11 +85,11 @@ class __TwigTemplate_5ad10592c5c039e3d2097ec4547755abfbff9ebd9178f47277fed33075a
                 // line 18
                 echo "<media:thumbnail url=\"";
                 echo (isset($context["absolutepath"]) ? $context["absolutepath"] : null);
-                echo call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('trim')->getCallable(), array(call_user_func_array($this->env->getFunction('resize_path')->getCallable(), array(call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, (isset($context["preview_image"]) ? $context["preview_image"] : null))), "200", "200", "1:1", 90)), ".")), array(" " => "%20")));
+                echo call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, call_user_func_array($this->env->getFunction('resize_path')->getCallable(), array(call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, (isset($context["preview_image"]) ? $context["preview_image"] : null))), "200", "200", "1:1", 90)), ".")), array(" " => "%20")));
                 echo "\" width=\"200\" height=\"200\" />
 <media:content url=\"";
                 // line 19
-                echo ((isset($context["absolutepath"]) ? $context["absolutepath"] : null) . call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('trim')->getCallable(), array(call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, (isset($context["preview_image"]) ? $context["preview_image"] : null))), ".")), array(" " => "%20"))));
+                echo ((isset($context["absolutepath"]) ? $context["absolutepath"] : null) . call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('e')->getCallable(), array($this->env, (isset($context["preview_image"]) ? $context["preview_image"] : null))), ".")), array(" " => "%20"))));
                 echo "\" />
 ";
             }

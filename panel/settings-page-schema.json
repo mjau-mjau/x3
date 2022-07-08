@@ -1187,6 +1187,87 @@
       "type": "object",
       "title": "Plugins",
       "properties": {
+        "cart":{
+      		"type": "object",
+      		"properties": {
+      			"enabled": {
+		          "type": "boolean"
+		        },
+            "page_unique": {
+              "type": "boolean"
+            },
+            "hide_cart": {
+              "type": "boolean"
+            },
+            "checkbox": {
+              "type": "boolean"
+            },
+            "checkbox_hover": {
+              "type": "boolean"
+            },
+            "select_mode": {
+              "type": "boolean"
+            },
+            "popup_button": {
+              "type": "boolean"
+            },
+            "gallery_buttons": {
+              "type": "boolean"
+            },
+            "gallery_button_items": {
+              "type": "string"
+            },
+      			"limit": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999
+		        },
+            "cart_custom": {
+              "type": "boolean"
+            },
+            "cart_order": {
+              "type": "boolean"
+            },
+            "order_form": {
+              "type": "boolean"
+            },
+            "order_form_html": {
+              "type": "string"
+            },
+            "success_empty_cart": {
+              "type": "boolean"
+            },
+            "success_close_cart": {
+              "type": "boolean"
+            },
+            "cart_output": {
+              "type": "string",
+              "enum": [
+                "paths",
+                "names",
+                "comma",
+                "space"
+              ]
+            },
+            "cart_download": {
+              "type": "boolean"
+            },
+            "download_order_form": {
+              "type": "boolean"
+            },
+            "download_include_paths": {
+              "type": "boolean"
+            }
+		      }
+		    },
+        "breadcrumbs":{
+      		"type": "object",
+      		"properties": {
+      			"enabled": {
+		          "type": "boolean"
+		        }
+		      }
+		    },
         "image_background":{
           "type": "object",
           "properties": {
@@ -1770,7 +1851,7 @@
         {
           "key": "context.items",
           "htmlClass": "settings_selectize",
-          "title": "Items <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Context Items</h3><p>This setting is used to set items of the context layout, and in which order they display. The following items are available: <span class=code-inline-block><code>title</code><code>label</code><code>amount</code><code>folders_amount</code><code>date</code><code>preview</code><code>description</code><code>content</code></span></p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard</em></p><h3>Items</h3><p><code>title</code> displays the title of the page, normally included first.</p><p><code>label</code> Instead of displaying the page title, you can use the label for shorter titles. This requires populating the label field for pages obviously.</p><p><code>amount</code> displays the amount of images in the page gallery, useful for gallery pages. <em>* Will not display if the page has no images.</em></p><p><code>folders_amount</code> displays the amount of subfolders in the page. <em>* Will not display if the page has no subfolders.</em></p><p><code>date</code> displays the page date, useful for blog-like pages.</em></p><p><code>preview</code> displays the page preview image, useful for blog-like pages when you want to display a related image below the title.</p><p><code>description</code> Displays the page description, normally included below the title.</p><p><code>content</code> displays the main page content, normally included below title and description. <em>* Content will only display if the page has content.</em></p><h3>Examples</h3><p>Default context items.<span class=code-line><code>title</code><code>description</code><code>content</code></span></p><p>Blog-like page with preview-image and date example.<span class=code-line><code>title</code><code>date</code><code>description</code><code>preview</code><code>content</code></span></p><p>Alternative gallery-page, showing images-amount and excluding description.<span class=code-line><code>title</code><code>amount</code></span></p></div><span class='hidden selectize-items'>title,label,amount,folders_amount,date,preview,description,content</span>"
+          "title": "Items <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Context Items</h3><p>This setting is used to set items of the context layout, and in which order they display. The following items are available: <span class=code-inline-block><code>title</code><code>label</code><code>amount</code><code>folders_amount</code><code>date</code><code>preview</code><code>description</code><code>content</code></span></p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard</em></p><h3>Items</h3><p><code>title</code> displays the title of the page, normally included first.</p><p><code>label</code> Instead of displaying the page title, you can use the label for shorter titles. This requires populating the label field for pages obviously.</p><p><code>amount</code> displays the amount of images in the page gallery, useful for gallery pages. <em>* Will not display if the page has no images.</em></p><p><code>folders_amount</code> displays the amount of subfolders in the page. <em>* Will not display if the page has no subfolders.</em></p><p><code>date</code> displays the page date, useful for blog-like pages.</em></p><p><code>preview</code> displays the page preview image, useful for blog-like pages when you want to display a related image below the title.</p><p><code>description</code> Displays the page description, normally included below the title.</p><p><code>content</code> displays the main page content, normally included below title and description. <em>* Content will only display if the page has content.</em></p><h3>Examples</h3><p>Default context items.<span class=code-line><code>title</code><code>description</code><code>content</code></span></p><p>Blog-like page with preview-image and date example.<span class=code-line><code>title</code><code>date</code><code>description</code><code>preview</code><code>content</code></span></p><p>Alternative gallery-page, showing images-amount and excluding description.<span class=code-line><code>title</code><code>amount</code></span></p></div><span class='hidden selectize-items'>title,label,amount,folders_amount,date,preview,description,breadcrumbs,content</span>"
         },
         {
           "key": "context.width",
@@ -2728,7 +2809,7 @@
                 {
                   "key": "gallery.items",
                   "htmlClass": "settings_selectize",
-                  "title": "Inline Caption <a href=# class=show-help></a><div class=hidden><h3>Inline Caption Items</h3><p>This setting is used to set inline caption items for images in the gallery, and in which order the items display. The following items are available: <span class=code-inline-block><code>title</code><code>date</code><code>description</code><code>preview</code></span>.</p><p><code>Important!</code><br><em>Justified</em> and <em>Columns</em> layouts do not support inline captions, because they use a masonry-like layout that stacks images and does not support text. If you require captions for these layouts, you need to use <em>caption overlay</em> or <em>tooltip caption</em>.</p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard</em></p><h4>Items</h4><p><code>title</code> displays the title for each image.</p><p><code>date</code> displays the image date.</p><p><code>preview</code> displays a preview of the actual image.</p><p><code>description</code> displays the image description, if it exists.</p><p><code>maplink</code> creates a button to open Google maps if the image contains geo data.</p><h4>Examples</h4><p>Default gallery items, shows only a preview for each image (no caption).<span class=code-line><code>preview</code></span></p><p>You can add image title and description by adding these items before the preview. <span class=code-line><code>title</code><code>description</code><code>preview</code></span></p><p>Display date below the preview image.<span class=code-line><code>preview</code><code>date</code></span></p><p><em>* Items do not apply for the slideshow layout.</em></p></div><span class='hidden selectize-items'>title,filename,filename_ext,date,description,maplink,preview</span>",
+                  "title": "Inline Caption <a href=# class=show-help></a><div class=hidden><h3>Inline Caption Items</h3><p>This setting is used to set inline caption items for images in the gallery, and in which order the items display. The following items are available: <span class=code-inline-block><code>title</code><code>date</code><code>description</code><code>preview</code></span>.</p><p><code>Important!</code><br><em>Justified</em> and <em>Columns</em> layouts do not support inline captions, because they use a masonry-like layout that stacks images and does not support text. If you require captions for these layouts, you need to use <em>caption overlay</em> or <em>tooltip caption</em>.</p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard</em></p><h4>Items</h4><p><code>title</code> displays the title for each image.</p><p><code>date</code> displays the image date.</p><p><code>preview</code> displays a preview of the actual image.</p><p><code>description</code> displays the image description, if it exists.</p><p><code>maplink</code> creates a button to open Google maps if the image contains geo data.</p><h4>Examples</h4><p>Default gallery items, shows only a preview for each image (no caption).<span class=code-line><code>preview</code></span></p><p>You can add image title and description by adding these items before the preview. <span class=code-line><code>title</code><code>description</code><code>preview</code></span></p><p>Display date below the preview image.<span class=code-line><code>preview</code><code>date</code></span></p><p><em>* Items do not apply for the slideshow layout.</em></p></div><span class='hidden selectize-items'>title,filename,filename_ext,date,description,maplink,cart_button,preview</span>",
                   "description": "Add the caption items you want to display in addition to the preview image."
                 },
                 {
@@ -2761,7 +2842,7 @@
                 },
                 {
                   "key": "gallery.caption.items",
-                  "title": "Caption Items <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Caption Overlay Items</h3><p>Select default items to display in the caption overlay. The following items are available: <span class=code-inline-block><code>title</code><code>date</code><code>description</code><code>maplink</code></span></p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard.</em></p></div><span class='hidden selectize-items'>title,date,filename,filename_ext,description,maplink</span>",
+                  "title": "Caption Items <span>[tags]</span><a href=# class=show-help></a><div class=hidden><h3>Caption Overlay Items</h3><p>Select default items to display in the caption overlay. The following items are available: <span class=code-inline-block><code>title</code><code>date</code><code>description</code><code>maplink</code></span></p><p><em>* Add items by typing them in order, and hitting enter/return or comma on keyboard.</em></p></div><span class='hidden selectize-items'>title,date,filename,filename_ext,description,maplink,cart_button</span>",
                   "htmlClass": "settings_selectize"
                 },
                 {
@@ -3071,6 +3152,146 @@
         {
           "type": "help",
           "helpvalue": "<h2>Plugins</h2>Various page plugins.<a href=# class=show-help></a><div class=hidden><h3>Page Plugins</h3><p>Page plugins are special features that can be added to a page.</p><p><em>* You can't always use multiple plugins on the same page. Use common sense!</em></p></div>"
+        },
+        {
+          "type": "fieldset",
+          "title": "Cart",
+          "expandable": true,
+          "htmlClass": "group-bg",
+          "items": [
+            {
+              "type": "help",
+              "helpvalue": "The cart plugin allows visitors to select images and make orders or download. See&nbsp;<strong><a href=\"https://cart.photo.gallery\" target=\"_blank\">cart.photo.gallery</a></strong> for examples and documentation.<br><em>*&nbsp;Global cart options can be assigned from Settings &rsaquo; Plugins &rsaquo; Cart.</em>"
+            },
+            {
+              "key": "plugins.cart.hide_cart",
+              "inlinetitle": "Hide cart when disabled or inactive<a href=# class=show-help></a><div class=\"hidden\"><h3>Hide cart when inactive</h3><p>The cart will normally remain accessible on all pages after it's created, since the cart is global by default. This option will make sure to hide the cart and cart buttons if the cart is disabled or doesn't have a gallery. <em>* This behavior will always apply for <code>page cart</code> option.</em></p></div>"
+            },
+            {
+              "key": "plugins.cart.enabled",
+              "htmlClass": "x3-pro-only",
+              "inlinetitle": "Enabled<span class=\"x3-not-pro\"></span><a href=# class=show-help></a><div class=\"hidden\"><h3>Cart enabled</h3><p>Enable the cart plugin for all galleries. <em>* You can also enable cart globally from Settings › Plugins › Cart, in which case it will apply for all galleries unless specifically disabled for the page.</em></p></div>",
+              "toggleNext": 4
+            },
+            {
+              "key": "plugins.cart.page_unique",
+              "inlinetitle": "Page cart<a href=# class=show-help></a><div class=\"hidden\"><h3>Page cart</h3><p>When enabled, the cart will become unique for the current page, and can only contain items from the current page. Once you navigate away, selected items from current page will be removed, and the cart will revert to global cart or a page cart for a different page.</p></div>"
+            },
+            {
+              "type": "section",
+              "htmlClass": "group-bg",
+              "items": [
+                {
+                  "key": "plugins.cart.checkbox",
+                  "title": "Cart interface",
+                  "inlinetitle": "Cart checkboxes<a href=# class=show-help></a><div class=\"hidden\"><h3>Cart checkboxes</h3><p>Adds checkboxes to a gallery, allowing items to be added or removed from cart. You would only want to disable this if you have enforced <code>select mode</code> or if you are using gallery buttons specifically for download.</p></div>",
+                  "toggleNext": 1
+                },
+                {
+                  "key": "plugins.cart.checkbox_hover",
+                  "inlinetitle": "Checkbox hover<a href=# class=show-help></a><div class=\"hidden\"><h3>Checkbox hover</h3><p>For less distractions in the gallery, un-checked checkboxes will appear only on mouse hover. Items that are already checked will always show the checkbox to emphasize that they are selected.</p></div>"
+                },
+                {
+                  "key": "plugins.cart.select_mode",
+                  "inlinetitle": "Select mode<a href=# class=show-help></a><div class=\"hidden\"><h3>Cart select mode</h3><p>When enabled, clicking images will add or remove items to the cart without having to click the small checkbox. This option overrides the default popup event, and makes it easier to add items to cart. If you have the \"select mode\" gallery button enabled, visitors can toggle select mode themselves, while this option allows \"select mode\" to be enabled by default.</p></div>"
+                },
+                {
+                  "key": "plugins.cart.popup_button",
+                  "inlinetitle": "Popup cart button<a href=# class=show-help></a><div class=\"hidden\"><h3>Popup cart button</h3><p>Adds a cart add/remove button to the gallery popup interface, so that items can be added or removed directly from the image popup.</p></div>"
+                },
+                {
+                  "key": "plugins.cart.gallery_buttons",
+                  "inlinetitle": "Gallery buttons<a href=# class=show-help></a><div class=\"hidden\"><h3>Cart gallery buttons</h3><p>Adds various cart utility buttons above the gallery for direct interaction with the cart.</p></div>",
+                  "toggleNext": 1
+                },
+                {
+                  "key": "plugins.cart.gallery_button_items",
+                  "htmlClass": "settings_selectize",
+                  "title": "<span class='hidden selectize-items'>select-mode,select-all,download-selected,download-all,download-cart,empty-cart,cart</span>"
+                },
+                {
+                  "key": "plugins.cart.limit",
+                  "title": "Cart limit<a href=# class=show-help></a><div class=\"hidden\"><h3>Cart limit</h3><p>Limit the amount of items that can be added to cart <code>[0 = no limit]</code></p></div>"
+                },
+                {
+                  "key": "plugins.cart.cart_custom",
+                  "inlinetitle": "Cart custom button <span>[advanced]</span><a href=# class=show-help></a><div class=\"hidden\"><h3>Cart custom button</h3><p>Adds a custom button at the bottom of cart, that triggers custom function:<br><br><code>cart_custom_click(cart,&nbsp;current_page_items,&nbsp;elements,&nbsp;options)</code></p></div>"
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "group-bg",
+              "items": [
+                {
+                  "key": "plugins.cart.cart_order",
+                  "title": "Cart order",
+                  "inlinetitle": "Order button<a href=# class=show-help></a><div class=\"hidden\"><h3>Cart order button</h3><p>Adds an \"order\" button to the cart, which allows visitors to place orders for items selected. Orders are sent to the owners email, after visitor fills the optional order form.</p></div>"
+                },
+                {
+                  "key": "plugins.cart.order_form",
+                  "inlinetitle": "Order form<a href=# class=show-help></a><div class=\"hidden\"><h3>Order form</h3><p>Require visitor to fill an order form when placing an order. The form will usually contain information like \"name\" and \"email\", but you can add any html form elements.</p></div>",
+                  "toggleNext": 1
+                },
+                {
+                  "key": "plugins.cart.order_form_html",
+                  "type": "ace",
+                  "aceMode": "html",
+                  "aceTheme": "tomorrow_night",
+                  "width": "100%"
+                },
+                {
+                  "key": "plugins.cart.success_empty_cart",
+                  "inlinetitle": "Empty cart on success<a href=# class=show-help></a><div class=\"hidden\"><h3>Empty cart on success</h3><p>Empties the cart on successful order or download.</p></div>"
+                },
+                {
+                  "key": "plugins.cart.success_close_cart",
+                  "inlinetitle": "Close cart on success<a href=# class=show-help></a><div class=\"hidden\"><h3>Close cart on success</h3><p>Closes the cart on successful order or download.</p></div>"
+                },
+                {
+                  "key": "plugins.cart.cart_output",
+                  "inlinetitle": "inline",
+                  "title": "Email order output<a href=# class=show-help></a><div class=\"hidden\"><h3>Email order output</h3><p>Choose how cart items display in order emails.</p><p><code>paths</code><br>Items are listed with path relative to content. Useful for global carts when the cart contains items from multiple galleries.</p><p><code>names</code><br>Items are listed with file names only.</p><p><code>comma</code><br>Items are listed comma-separated with file names.</p><p><code>space</code><br>Items are listed space-separated with file names.</p></div>"
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "group-bg",
+              "items": [
+                {
+                  "key": "plugins.cart.cart_download",
+                  "title": "Cart download",
+                  "inlinetitle": "Download button<a href=# class=show-help></a><div class=\"hidden\"><h3>Cart download</h3><p>Adds an optional download button to the cart, which allows downloading all items.</p></div>",
+                  "toggleNext": 2
+                },
+                {
+                  "key": "plugins.cart.download_order_form",
+                  "inlinetitle": "Download use order form<a href=# class=show-help></a><div class=\"hidden\"><h3>Download use order form</h3><p>Requires the order form (from \"cart order\") to be filled by visitor before cart items can be downloaded.</p></div>"
+                },
+                {
+                  "key": "plugins.cart.download_include_paths",
+                  "inlinetitle": "Download use folder paths<a href=# class=show-help></a><div class=\"hidden\"><h3>Download use folder paths</h3><p>When enabled, downloaded zip files will include the relative folder structure of downloaded files. <em>* This option only applies when the cart contains images from multiple galleries.</em></div>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "fieldset",
+          "title": "Breadcrumbs",
+          "expandable": true,
+          "htmlClass": "group-bg",
+          "items": [
+            {
+              "type": "help",
+              "helpvalue": "The <a href=# class=text-help data-help=\"breadcrumbs\">breadcrumbs menu</a> shows the visitor's location on the website.<br><span class=\"vague\">*Global option available from Settings › Plugins › Breadcrumbs.</span>"
+            },
+            {
+              "key": "plugins.breadcrumbs.enabled",
+              "inlinetitle": "Enabled"
+            }
+          ]
         },
         {
           "type": "fieldset",

@@ -113,7 +113,7 @@ class resizer {
 		//$abs_path = $this->x3_root . $this->content_path;
 		$this->abs_path = realpath($this->x3_root . $this->content_path); // <- follows symlinks
 		if(!$this->abs_path || !is_file($this->abs_path) || strpos(dirname($this->rel_path), ':') || preg_match('/(\.\.|<|>)/', $this->rel_path)) $this->error('Invalid path or file does not exist <a href="' . $this->x3_url_path . $this->content_path . '" target="_blank">' . $this->rel_path . '</a>', 404);
-		// make sure path exists, is_file() and no mucking around with ../../paths 
+		// make sure path exists, is_file() and no mucking around with ../../paths
 		//$this->abs_path = $abs_path === realpath($abs_path) && is_file($abs_path) ? $abs_path : false;
 		// For security, directories may not contain ':' and images may not contain '..', '<', or '>'.
 		//if(!$this->abs_path || strpos(dirname($this->rel_path), ':') || preg_match('/(<|>)/', $this->rel_path)) $this->error('Invalid path or file does not exist <a href="' . $this->x3_url_path . $this->content_path . '" target="_blank">' . $this->rel_path . '</a>', 404);
@@ -191,7 +191,7 @@ class resizer {
 		$crop = $src_aspect != $request_aspect;
 		$crop_factor = $src_aspect / $request_aspect;
 		$crop_width = $crop_factor > 1 ? $src_width / $crop_factor : $src_width;
-		$crop_height = $crop_factor < 1 ? $src_height * $crop_factor : $src_height;		
+		$crop_height = $crop_factor < 1 ? $src_height * $crop_factor : $src_height;
 		$dst_w = $request_width > $crop_width * $this->min_resize_factor ? $crop_width : $request_width;
 		$dst_h = $dst_w / $request_aspect;
 		$resample = $crop_width > $dst_w;// && $crop_height > $dst_h;
@@ -209,7 +209,7 @@ class resizer {
 			'resize_width' => (int) round($resize_width),
 			'resize_height' => (int) round($resize_height),
 			'resample' => $resample,
-			'center_crop' => $crop && !$this->smart_crop ? array(
+			'center_crop' => $crop ? array(
 				$crop_factor > 1 ? (int) round(($resize_width - $dst_w) / 2) : 0,
 				$crop_factor < 1 ? (int) round(($resize_height - $dst_h) / 2) : 0
 			) : false
@@ -288,8 +288,8 @@ class resizer {
 			round(memory_get_peak_usage() / 1048576, 1) . 'M',
 			$request_time ? round((microtime(true) - $request_time) * 1000) . 'ms' : false
 		)));
-		header('X3-Resizer: ' . $msg . ' [' . $info . ']');		
-		if($data) { 
+		header('X3-Resizer: ' . $msg . ' [' . $info . ']');
+		if($data) {
 			echo $data;
 		} else if(!readfile($path)){
 			header('content-type: text/html');
@@ -429,8 +429,16 @@ class resizer {
 
 		// crop
 		if($this->render['crop']){
-	    if($this->smart_crop) require __DIR__ . '/smart_crop.php';
-	    list($crop_x, $crop_y) = $this->smart_crop ? (new smart_crop($image))->get_resized($this->render['dst_w'], $this->render['dst_h']) : $this->render['center_crop'];
+			// smart crop
+			if($this->smart_crop) {
+				require __DIR__ . '/smart_crop.php';
+				$cropxy = (new smart_crop($image))->get_resized($this->render['dst_w'], $this->render['dst_h']);
+				// fallback to center_crop if smart_crop fails (could be requested crop is same as aspect, or too small image)
+				list($crop_x, $crop_y) = $cropxy ?: $this->render['center_crop'];
+			} else {
+				list($crop_x, $crop_y) = $this->render['center_crop'];
+			}
+			// cropit!
 			$cropped_image = imagecreatetruecolor($this->render['dst_w'], $this->render['dst_h']);
 			if(!$cropped_image || !imagecopy($cropped_image, $image, 0, 0, $crop_x, $crop_y, $this->render['dst_w'], $this->render['dst_h'])) $this->error('Failed to crop image.', 500);
 			imagedestroy($image);
