@@ -90,7 +90,8 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 	  $aReturn = array();
 	  foreach ($aArray1 as $mKey => $mValue) {
 	    if (array_key_exists($mKey, $aArray2)) {
-	      if (is_array($mValue)) {
+				// if (is_array($mValue)) {
+				if (is_array($mValue) && !isset($mValue[0])) { // make sure item isn't single-dimensional array crop: [3, 2]
 	        $aRecursiveDiff = arrayRecursiveDiff($mValue, $aArray2[$mKey]);
 	        if (count($aRecursiveDiff)) { $aReturn[$mKey] = $aRecursiveDiff; }
 	      } else {
@@ -181,6 +182,7 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 					echo '{ "error": "Can\'t create ' . $save_path . '" }';
 				}
 			} else if(file_put_contents($save_path, $save)){
+				@touch(dirname($save_path));
 				echo '{ "success": true }';
 			} else {
 				echo '{ "error": "Can\'t save to file ' . $save_path . '." }';
@@ -337,4 +339,3 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
   	echo '{ "error": "No request parameters?" }';
 	}
 }
-

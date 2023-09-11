@@ -268,11 +268,12 @@ Class Menu {
 
 			// get page.json
 			$json_file = $dir . '/page.json';
-    	if(file_exists($json_file)) $json_content = @file_get_contents($json_file);
-    	$json = (isset($json_content) && !empty($json_content)) ? json_decode($json_content, TRUE) : array();
+      $json_content = file_exists($json_file) ? @file_get_contents($json_file) : false;
+      $json = !empty($json_content) ? json_decode($json_content, TRUE) : array();
 
     	// set dir to dir object
     	$dir_object[$dir] = $json;
+      $dir_object[$dir]['fileexists'] = file_exists($json_file);
 
     	// add sort date if required
     	if($sort === 'date') {

@@ -94,7 +94,9 @@ function cssFail(){
 
 	{# Google webfonts #}
 	{% if page.style.font.font is not empty and page.style.font.font != 'none' %}
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ page.style.font.font|default("Lato:400,700,900,400italic,700italic,900italic")|getfontstring }}">
+	{# https://fonts.googleapis.com #}
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link rel="stylesheet" href="https://fonts.bunny.net/css?family={{page.style.font.font|default("Lato:400,700,900,400italic,700italic,900italic")|getfontstring }}">
 	{% endif %}
 
 	{# Custom HEAD #}

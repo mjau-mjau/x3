@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 // CONFIG / https://www.files.gallery/docs/config/
 // Uncomment the parameters you want to edit.
@@ -15,7 +15,7 @@ return array (
   //'image_resize_dimensions' => 320,
   //'image_resize_dimensions_retina' => 480,
   //'image_resize_dimensions_allowed' => '',
-  //'image_resize_types' => 'jpeg, png, gif, webp, bmp',
+  //'image_resize_types' => 'jpeg, png, gif, webp, bmp, avif',
   //'image_resize_quality' => 85,
   //'image_resize_function' => 'imagecopyresampled',
   //'image_resize_sharpen' => true,
@@ -58,8 +58,9 @@ return array (
   //'license_key' => '',
   //'filter_live' => true,
   //'filter_props' => 'name, filetype, mime, features, title',
-  //'download_dir' => 'zip',
+  //'download_dir' => 'browser',
   //'download_dir_cache' => 'dir',
+  //'assets' => '',
   //'allow_upload' => false,
   //'allow_delete' => false,
   //'allow_rename' => false,
@@ -74,7 +75,6 @@ return array (
   //'popup_video' => true,
   //'video_thumbs' => true,
   //'video_ffmpeg_path' => 'ffmpeg',
-  //'video_autoplay' => true,
   //'lang_default' => 'en',
   //'lang_auto' => true,
 );

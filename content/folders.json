@@ -1,8 +1,4 @@
 {
-    "index": {
-        "url": "index",
-        "index": 3
-    },
     "galleries": {
         "url": "galleries",
         "index": 4
@@ -235,5 +231,9 @@
     "examples\/plugins\/breadcrumbs": {
         "url": "examples\/plugins\/breadcrumbs",
         "index": 2
+    },
+    "index": {
+        "url": "index",
+        "index": 3
     }
 }

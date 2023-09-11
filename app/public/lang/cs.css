@@ -1,0 +1,12 @@
+
+/* cs.css [Czech] */
+[data-lang="chat"]:after { content: 'chat'; }
+[data-lang="comments"]:after { content: 'komentáře'; }
+[data-lang="folder"]:after { content: 'galerie'; }
+[data-lang="folders"]:after { content: 'galerie'; }
+[data-lang="image"]:after { content: 'fotografie'; }
+[data-lang="images"]:after { content: 'fotografií'; }
+[data-lang="map"]:after { content: 'mapa'; }
+[data-lang="pause"]:after { content: 'zastavit'; }
+[data-lang="play"]:after { content: 'přehrát'; }
+[data-lang="styles"]:after { content: 'styly'; }

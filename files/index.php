@@ -1,6 +1,6 @@
 <?php
 
-/* Files app 0.5.5
+/* Files Gallery 0.8.4
 www.files.gallery | www.files.gallery/docs/ | www.files.gallery/docs/license/
 ---
 This PHP file is only 10% of the application, used only to connect with the file system. 90% of the codebase, including app logic, interface, design and layout is managed by the app Javascript and CSS files. */
@@ -33,7 +33,7 @@ class config {
     'image_resize_dimensions' => 320,
     'image_resize_dimensions_retina' => 480,
     'image_resize_dimensions_allowed' => '',
-    'image_resize_types' => 'jpeg, png, gif, webp, bmp',
+    'image_resize_types' => 'jpeg, png, gif, webp, bmp, avif',
     'image_resize_quality' => 85,
     'image_resize_function' => 'imagecopyresampled',
     'image_resize_sharpen' => true,
@@ -86,8 +86,9 @@ class config {
     'license_key' => '',
     'filter_live' => true,
     'filter_props' => 'name, filetype, mime, features, title',
-    'download_dir' => 'zip',
+    'download_dir' => 'browser',
     'download_dir_cache' => 'dir',
+    'assets' => '',
 
     // filemanager options
     'allow_upload' => false,
@@ -110,7 +111,6 @@ class config {
     // video
     'video_thumbs' => true,
     'video_ffmpeg_path' => 'ffmpeg',
-    'video_autoplay' => true,
 
     // language
     'lang_default' => 'en',
@@ -123,9 +123,7 @@ class config {
   // app vars
   static $__dir__ = __DIR__;
   static $__file__ = __FILE__;
-  static $assets;
-  static $prod = true;
-  static $version = '0.5.6';
+  static $version = '0.8.4';
   static $root;
   static $doc_root;
   static $has_login = false;
@@ -141,6 +139,7 @@ class config {
   static $username = false;
   static $password = false;
   static $x3_path = false;
+  static $assets;
 
   // get config
   private function get_config($path) {
@@ -160,7 +159,7 @@ class config {
     error_reporting(E_ALL);
 
     // BASIC DIAGNOSTICS
-    echo '<!doctype html><html><head><title>Files App check system and config.</title><meta name="robots" content="noindex,nofollow"><style>body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; color: #444;line-height:1.6;margin:0 auto;max-width:700px}.container{background-color:#F3F3F3;padding:.5vw 2vw 2vw;border-radius:3px;margin:1vw;overflow:scroll}.test:before{display:inline-block;width:18px;text-align:center;margin-right:5px}.neutral:before{color:#BBB}.success:before{color:#78a642}.success:before,.neutral:before{content:"\2713"}.fail:before{content:"\2716";color:firebrick}</style></head><body><div class="container"><h2>Files App ' . config::$version . '</h2><div style="margin:-1rem 0 .5rem">' . (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] . '<br>' : '') . 'PHP ' . phpversion() . '<br>' . (isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '') . '<p><i>* The following tests are only to help diagnose feature-specific issues.</i></p></div>';
+    echo '<!doctype html><html><head><title>Files Gallery check system and config.</title><meta name="robots" content="noindex,nofollow"><style>body{font-family:system-ui;color:#444;line-height:1.6;margin:0 auto;max-width:700px}.container{background-color:#F3F3F3;padding:.5vw 2vw 2vw;border-radius:3px;margin:1vw;overflow:scroll}.test:before{display:inline-block;width:18px;text-align:center;margin-right:5px}.neutral:before{color:#BBB}.success:before{color:#78a642}.success:before,.neutral:before{content:"\2713"}.fail:before{content:"\2716";color:firebrick}</style></head><body><div class="container"><h2>Files Gallery ' . config::$version . '</h2><div style="margin:-1rem 0 .5rem">' . (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] . '<br>' : '') . 'PHP ' . phpversion() . '<br>' . (isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '') . '<p><i>* The following tests are only to help diagnose feature-specific issues.</i></p></div>';
     // prop output helper
     function prop($name, $success = 'neutral', $val = false){
       return '<div class="test ' . (is_bool($success) ? ($success ? 'success' : 'fail') : $success) . '">'. $name . ($val ? ': <b>' . $val . '</b>' : '') . '</div>';
@@ -256,15 +255,8 @@ class config {
     $user_valid = array_intersect_key($user_config, self::$default);
     self::$config = array_replace(self::$default, $user_valid);
 
-    // CDN assets
-    self::$assets = self::$prod ? 'https://cdn.jsdelivr.net/npm/files.photo.gallery@' . self::$version . '/' : '';
-
     // root
     self::$root = real_path(self::$config['root']);
-
-    // files check with ?check=true
-    if(get('check')) self::files_check($local_config, $storage_path, self::$storage_config, $user_config, $user_valid);
-    // if(get('phpinfo')) { phpinfo(); exit; } // check system phpinfo with ?phpinfo=true / disabled for security
 
     // root does not exist
     if($is_doc && !self::$root) error('root dir "' . self::$config['root'] . '" does not exist.');
@@ -326,45 +318,68 @@ class config {
     // dirs hash
     self::$dirs_hash = substr(md5(self::$doc_root . self::$__dir__ . self::$root . self::$version .  self::$config['cache_key'] . self::$image_resize_cache_direct . self::$config['files_exclude'] . self::$config['dirs_exclude']), 0, 6);
 
+    // Assign assets url for plugins/JS/CSS/languages, defaults to CDN
+    if($is_doc) self::$assets = empty(self::$config['assets']) ? 'https://cdn.jsdelivr.net/npm/' : rtrim(self::$config['assets'], '/') . '/';
+
     // login
     if(self::$has_login) check_login($is_doc);
+
+    // files check with ?check=1 / can be commented out if not required
+    if(get('check')) self::files_check($local_config, $storage_path, self::$storage_config, $user_config, $user_valid);
+    // if(get('phpinfo')) { phpinfo(); exit; } // check system phpinfo with ?phpinfo=true / disabled for security
   }
 };
 
-// login page
-function login_page($is_login_attempt, $sidx, $is_logout, $client_hash){
+// get common header html for main document and login page
+function get_header($title, $class){
 ?>
-<!doctype html>
-<html>
+<!doctype html><!-- www.files.gallery -->
+<html class="<?php echo $class; ?>" data-theme="contrast">
+<script>
+let theme = (() => {
+  try {
+    return localStorage.getItem('files:theme');
+  } catch (e) {
+    return false;
+  };
+})() || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'contrast');
+if(theme !== 'contrast') document.documentElement.dataset.theme = theme;
+</script>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no, shrink-to-fit=no">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Login</title>
-    <link href="<?php echo config::$assets ?>css/files.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADABAMAAACg8nE0AAAAD1BMVEUui1f///9jqYHr9O+fyrIM/O8AAAABIklEQVR42u3awRGCQBBE0ZY1ABUCADQAoEwAzT8nz1CyLLszB6p+B8CrZuDWujtHAAAAAAAAAAAAAAAAAACOQPPp/2Y0AiZtJNgAjTYzmgDtNhAsgEkyrqDkApkVlsBDsq6wBIY4EIqBVuYVFkC98/ycCkr8CbIr6MCNsyosgJvsKxwFQhEw7APqY3mN5cBOnt6AZm/g6g2o8wYqb2B1BQcgeANXb0DuwOwNdKcHLgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeA20mArmB6Ugg0NsCcP/9JS8GAKSlVZMBk8p1GRgM2R4jMHu51a/2G1ju7wfoNrYHyCtUY3zpOthc4MgdNy3N/0PruC/JlVAwAAAAAAAAAAAAAAABwZuAHuVX4tWbMpKYAAAAASUVORK5CYII=">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title><?php echo $title; ?></title>
+    <?php get_include('include/head.html'); ?>
+    <link href="<?php echo config::$assets ?>files.photo.gallery@<?php echo config::$version ?>/css/files.css" rel="stylesheet">
     <?php get_include('css/custom.css'); ?>
   </head>
-  <body><div id="files-login-container"></div></body>
+<?php
+}
+
+// login page / block basic bots by injecting form via javascript
+function login_page($is_login_attempt, $sidx, $is_logout, $client_hash){
+  get_header('Login', 'page-login'); ?>
+  <body class="page-login-body"><article class="login-container"></article></body>
   <script>
-    document.getElementById('files-login-container').innerHTML = '\
-    <h1 class="header mb-5">Login</h1>\
+    document.querySelector('.login-container').innerHTML = '\
+    <h1>Login</h1>\
     <?php if($is_login_attempt && $_POST['sidx'] !== $sidx) { ?><div class="alert alert-danger" role="alert"><strong>PHP session ID mismatch</strong><br>If the error persists, your PHP is incorrectly creating new session ID for each request.</div><?php } else if($is_login_attempt) { ?>\
     <div class="alert alert-danger" role="alert">Incorrect login!</div><?php } else if($is_logout) { ?>\
     <div class="alert alert-warning" role="alert">You are now logged out.</div><?php } ?>\
-    <form>\
-      <div class="mylogin">\
-        <input type="text" name="username" placeholder="Username">\
-        <input type="password" name="password" placeholder="Password">\
-      </div>\
-        <input type="text" name="fusername" class="form-control form-control-lg mb-3" placeholder="Username" required autofocus spellcheck="false" autocorrect="off" autocapitalize="off">\
-        <input type="password" name="fpassword" class="form-control form-control-lg mb-3" placeholder="Password" required spellcheck="false">\
+    <form class="login-form">\
+      <input type="text" class="input" name="fusername" placeholder="Username" required autofocus spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off">\
+      <input type="password" class="input" name="fpassword" placeholder="Password" required spellcheck="false" autocomplete="off">\
       <input type="hidden" name="client_hash" value="<?php echo $client_hash; ?>">\
       <input type="hidden" name="sidx" value="<?php echo $sidx; ?>">\
-      <input type="submit" value="Login" class="btn btn-lg btn-files-light btn-login">\
+      <button type="submit" class="button">Login</button>\
     </form>';
-    document.getElementsByTagName('form')[0].addEventListener('submit', function(){
-      this.action = '<?php echo isset($_GET['logout']) ? strtok($_SERVER['REQUEST_URI'], '?') : $_SERVER['REQUEST_URI']; ?>';
-      this.method = 'post';
+    document.querySelector('.login-form').addEventListener('submit', (e) => {
+      document.body.classList.add('form-loading');
+      e.currentTarget.action = '<?php echo isset($_GET['logout']) ? strtok($_SERVER['REQUEST_URI'], '?') : $_SERVER['REQUEST_URI']; ?>';
+      e.currentTarget.method = 'post';
     }, false);
   </script>
 </html>
@@ -377,15 +392,12 @@ function check_login($is_doc){
   if($is_doc && empty(config::$password)) error('Password cannot be empty.');
   if(session_status() === PHP_SESSION_NONE && !session_start() && $is_doc) error('Failed to initiate PHP session_start();', 500);
 
-  function get_client_hash(){
-    foreach(array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR') as $key){
-      if(isset($_SERVER[$key]) && !empty($_SERVER[$key]) && filter_var($_SERVER[$key], FILTER_VALIDATE_IP)) return md5($_SERVER[$key] . $_SERVER['HTTP_USER_AGENT'] . __FILE__ . $_SERVER['HTTP_HOST']);
-    }
-    error('Invalid IP', 401);
+  // [security] client hash and login hash
+  foreach(['HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR'] as $key){
+    $ip = isset($_SERVER[$key]) && !empty($_SERVER[$key]) ? explode(',', $_SERVER[$key])[0] : '';
+    if($ip && filter_var($ip, FILTER_VALIDATE_IP)) break;
   }
-
-  // hash
-  $client_hash = get_client_hash();
+  $client_hash = md5($ip . (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '') . __FILE__ . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
   $login_hash = md5(config::$username . config::$password . $client_hash);
 
   // login status
@@ -404,9 +416,14 @@ function check_login($is_doc){
       $is_login_attempt = isset($_POST['fusername']) && isset($_POST['fpassword']) && isset($_POST['client_hash']) && isset($_POST['sidx']);
       $fpassword = $is_login_attempt ? trim($_POST['fpassword']) : false;
 
+      // compare login case-insensitive / use mb_strtolower() if available
+      function mbstrtolower($str){
+        return function_exists('mb_strtolower') ? mb_strtolower($str) : strtolower($str);
+      }
+
       // correct login set $_SESSION['login']
       if($is_login_attempt &&
-        trim($_POST['fusername']) == config::$username &&
+        mbstrtolower(trim($_POST['fusername'])) == mbstrtolower(config::$username) &&
         (phpversion() >= 5.5 && !password_needs_rehash(config::$password, PASSWORD_DEFAULT) ? password_verify($fpassword, config::$password) : ($fpassword == config::$password || md5($fpassword) == config::$password)) &&
         $_POST['client_hash'] === $client_hash &&
         $_POST['sidx'] === $sidx
@@ -446,7 +463,7 @@ function root_relative($dir){
   return ltrim(substr($dir, strlen(config::$root)), '\/');
 }
 function root_absolute($dir){
-  return config::$root . ($dir ? '/' . $dir : '');
+  return config::$root . ($dir || $dir === '0' ? '/' . $dir : '');
 }
 function is_within_path($path, $root){
   return strpos($path . '/', $root . '/') === 0;
@@ -591,7 +608,22 @@ function image_create_from($path, $type){
     if(version_compare(PHP_VERSION, '5.4.0') >= 0) return imagecreatefromwebp($path);
   } else if ($type === IMAGETYPE_BMP) {
     if(version_compare(PHP_VERSION, '7.2.0') >= 0) return imagecreatefrombmp($path);
+  } else if ($type === 19/*IMAGETYPE_AVIF*/) {
+    if(version_compare(PHP_VERSION, '8.2.0') >= 0) return imagecreatefromavif($path);
   }
+}
+
+// get supported image resize types
+function resize_image_types(){
+  $types = ['jpeg', 'jpg', 'png', 'gif']; // always compatible
+  if(version_compare(PHP_VERSION, '5.4.0') >= 0) {
+    $types[] = 'webp';
+    if(version_compare(PHP_VERSION, '7.2.0') >= 0) {
+      $types[] = 'bmp';
+      if(version_compare(PHP_VERSION, '8.2.0') >= 0) $types[] = 'avif';
+    }
+  }
+  return $types;
 }
 
 // get ffmpeg path / check required config items / check exec() / create "quoted" / check exec('ffmpeg -version')
@@ -604,8 +636,8 @@ function get_ffmpeg_path(){
   return @exec($path . ' -version') ? $path : false;
 }
 
-// get file (proxy or resize image)
-function get_file($path, $resize = false){
+// get file view preview, resized image or proxy
+function get_file($path, $resize = false, $clone = false){
 
   // validate
   if(!$path) error('Invalid file request.', 404);
@@ -622,7 +654,7 @@ function get_file($path, $resize = false){
     $cache = get_image_cache_path($path, 480, filesize($path), filemtime($path));
 
     // check for cached video thumbnail / $path, $mime, $msg, $props, $cache_headers
-    if($cache) read_file($cache, null, 'Video thumb served from cache', null, true);
+    if($cache) read_file($cache, null, 'Video thumb served from cache', null, true, $clone);
 
     // get FFmpeg path `video_ffmpeg_path` / checks `exec('ffmpeg -version')`
     $ffmpeg_path = get_ffmpeg_path();
@@ -638,10 +670,10 @@ function get_file($path, $resize = false){
     if($result_code) error("Error generating thumbnail for video (\$result_code $result_code)", 400);
 
     // fix for empty video previews that get created for extremely short videos (or other unknown errors)
-    if(file_exists($cache) && !filesize($cache) && imagejpeg(imagecreate(1, 1), $cache)) read_file($cache, 'image/jpeg', '1px placeholder image created and cached', null, true);
+    if(file_exists($cache) && !filesize($cache) && imagejpeg(imagecreate(1, 1), $cache)) read_file($cache, 'image/jpeg', '1px placeholder image created and cached', null, true, $clone);
 
     // output created video thumbnail
-    read_file($cache, null, 'Video thumb created', null, true);
+    read_file($cache, null, 'Video thumb created', null, true, $clone);
 
   // resize image
   } else if($resize){
@@ -651,7 +683,7 @@ function get_file($path, $resize = false){
     if(!$resize_dimensions) error("Invalid resize parameter <strong>$resize</strong>.", 400);
     $allowed = config::$config['image_resize_dimensions_allowed'] ?: [];
     if(!in_array($resize_dimensions, array_merge([config::$config['image_resize_dimensions'], config::$config['image_resize_dimensions_retina']], array_map('intval', is_array($allowed) ? $allowed : explode(',', $allowed))))) error("Resize parameter <strong>$resize_dimensions</strong> is not allowed.", 400);
-    resize_image($path, $resize_dimensions);
+    resize_image($path, $resize_dimensions, $clone);
 
   // proxy file
   } else {
@@ -709,7 +741,7 @@ function resize_image($path, $resize_dimensions, $clone = false){
   // header props
   $header_props .= ', ' . $info['mime'] . ', ' . $info[0] . 'x' . $info[1] . ', ratio:' . round($resize_ratio, 2);
 
-  // check if image type is in image_resize_types / jpeg, png, gif, webp, bmp
+  // check if image type is in image_resize_types / jpeg, png, gif, webp, bmp, avif
   $is_resize_type = in_array(image_type_to_extension($info[2], false), array_map(function($key){
     $type = trim(strtolower($key));
     return $type === 'jpg' ? 'jpeg' : $type;
@@ -742,6 +774,8 @@ function resize_image($path, $resize_dimensions, $clone = false){
 
   // Create final image with new dimensions.
   $new_image = imagecreatetruecolor($resize_width, $resize_height);
+  //$color = imagecolorallocate($new_image, 255, 255, 255); // replace transparency with white
+  //imagefill($new_image, 0, 0, $color); // replace transparency with white
   if(!call_user_func(config::$config['image_resize_function'], $new_image, $image, 0, 0, 0, 0, $resize_width, $resize_height, $info[0], $info[1])) error('Failed to resize image.', 500);
 
   // destroy original $image resource
@@ -805,10 +839,12 @@ function get_dir($path, $files = false, $json_url = false){
   $filemtime = filemtime($realpath);
   $url_path = get_url_path($realpath) ?: ($symlinked ? get_url_path($path) : false);
   $is_readable = is_readable($realpath);
+  $basename = _basename($realpath) ?: _basename($path);
 
   // array
   $arr = array(
-    'basename' => _basename($realpath) ?: _basename($path) ?: '',
+    //'basename' => _basename($realpath) ?: _basename($path) ?: '',
+    'basename' => $basename || $basename === '0' ? $basename : '',
     'fileperms' => substr(sprintf('%o', fileperms($realpath)), -4),
     'filetype' => 'dir',
     'is_readable' => $is_readable,
@@ -828,12 +864,6 @@ function get_dir($path, $files = false, $json_url = false){
 
     // files array
     $arr['files'] = get_files_data($path, $url_path, $arr['dirsize'], $arr['files_count'], $arr['images_count'], $arr['preview']);
-
-    // download_dir cache direct access to zip / better caching and no need to access PHP / only works when download_dir_cache === 'dir'
-    /*if($url_path && config::$config['download_dir'] === 'zip' && config::$config['download_dir_cache'] === 'dir') {
-      $zip = $realpath . '/_files.zip';
-      if(file_exists($zip) && filemtime($zip) >= $filemtime) $arr['zip'] = get_url_path($zip);
-    }*/
   }
 
 	// json cache path
@@ -858,6 +888,11 @@ function get_menu_sort($dirs){
   return substr(config::$config['menu_sort'], -4) === 'desc' ? array_reverse($dirs) : $dirs;
 }
 
+// escape [brackets] in folder names (it's complicated)
+function glob_escape($path){
+  return preg_match('/\[.+]/', $path) ? str_replace(['[',']', '\[', '\]'], ['\[','\]', '[[]', '[]]'], $path) : $path;
+}
+
 // recursive directory scan
 function get_dirs($path = false, &$arr = array(), $depth = 0) {
 
@@ -877,9 +912,11 @@ function get_dirs($path = false, &$arr = array(), $depth = 0) {
   }
 
   // get dirs from files array if $data['files'] or glob subdirs
-  $subdirs = isset($data['files']) ? array_filter(array_map(function($file){
+  // disabled, because symlink absolute paths will mess up the menu, and it's not worth it.
+  /*$subdirs = isset($data['files']) ? array_filter(array_map(function($file) use ($path){
     return $file['filetype'] === 'dir' ? root_absolute($file['path']) : false;
-  }, $data['files'])) : glob($path . '/*', GLOB_NOSORT|GLOB_ONLYDIR);
+  }, $data['files'])) : glob(glob_escape($path) . '/*', GLOB_NOSORT|GLOB_ONLYDIR);*/
+  $subdirs = glob(glob_escape($path) . '/*', GLOB_NOSORT|GLOB_ONLYDIR);
 
   // sort and loop subdirs
   if(!empty($subdirs)) foreach(get_menu_sort($subdirs) as $subdir) get_dirs($subdir, $arr, $depth + 1);
@@ -1067,7 +1104,7 @@ function get_files_data($dir, $url_path = false, &$dirsize = 0, &$files_count = 
     if($item_url_path) $item['url_path'] = $item_url_path;
 
     // image / check from mime, fallback to extension
-    $is_image = $is_dir ? false : ($mime ? (strtok($mime, '/') === 'image' && !strpos($mime, 'svg')) : in_array($ext, array('gif','jpg','jpeg','jpc','jp2','jpx','jb2','png','swf','psd','bmp','tiff','tif','wbmp','xbm','ico','webp')));
+    $is_image = $is_dir ? false : ($mime ? (strtok($mime, '/') === 'image' && !strpos($mime, 'svg')) : in_array($ext, array('gif','jpg','jpeg','jpc','jp2','jpx','jb2','png','swf','psd','bmp','tiff','tif','wbmp','xbm','ico','webp', 'avif')));
     if($is_image){
 
       // imagesize
@@ -1142,6 +1179,14 @@ function get_files_data($dir, $url_path = false, &$dirsize = 0, &$files_count = 
           }
         }
       }
+
+    // read .URL shortcut files and present as links / https://fileinfo.com/extension/url
+    } else if($is_readable && $ext === 'url'){
+      $url_lines = @file($realpath);
+      if(!empty($url_lines) && is_array($url_lines)) foreach ($url_lines as $str) if(preg_match('/^url\s*=\s*([\S\s]+)/i', trim($str), $url_matches) && !empty($url_matches) && isset($url_matches[1])){
+        $item['url'] = $url_matches[1];
+        break;
+      }
     }
 
     // add to items with basename as key
@@ -1155,7 +1200,6 @@ function get_files_data($dir, $url_path = false, &$dirsize = 0, &$files_count = 
   });
 
 	//
-  //var_dump($items); exit;
 	return $items;
 }
 
@@ -1374,7 +1418,7 @@ if(post('action')){
         }
         if(!$is_valid) json_error('invalid file type ' . $filename);
         // extra security: check if image is image
-        if(function_exists('exif_imagetype') && in_array($ext, ['.gif', '.jpeg', '.jpg', '.png', '.swf', '.psd', '.bmp', '.tif', '.tiff', 'webp']) && !@exif_imagetype($file['tmp_name'])) json_error('invalid image type ' . $filename);
+        if(function_exists('exif_imagetype') && in_array($ext, ['.gif', '.jpeg', '.jpg', '.png', '.swf', '.psd', '.bmp', '.tif', '.tiff', 'webp', 'avif']) && !@exif_imagetype($file['tmp_name'])) json_error('invalid image type ' . $filename);
       }
 
       // file naming if !overwrite and file exists
@@ -1491,6 +1535,7 @@ if(post('action')){
     header('content-type:text/plain;charset=utf-8');
     if(@readfile(real_path($file)) === false) error('failed to read file ' . post('file'), 500);
 
+
   // check login
   } else if($action === 'check_login'){
     json_success(true);
@@ -1566,7 +1611,7 @@ if(post('action')){
       if(!class_exists('ZipArchive')) error('Missing PHP ZipArchive class.', 500);
 
       // glob files / must be readable / is_file / !symlink / !is_exclude
-      $files = array_filter(glob($dir. '/*', GLOB_NOSORT), function($file){
+      $files = array_filter(glob(glob_escape($dir) . '/*', GLOB_NOSORT), function($file){
         return is_readable($file) && is_file($file) && !is_link($file) && !is_exclude($file, false);
       });
 
@@ -1640,7 +1685,6 @@ if(post('action')){
     $path = valid_root_path(get('preview'), true); // make sure is valid dir
     if(!$path) error('Invalid directory.', 404);
 
-
     // 1. first check for default '_filespreview.jpg' inside dir
     $default = config::$config['folder_preview_default'] ? $path . '/' . config::$config['folder_preview_default'] : false;
     if($default && file_exists($default)) {
@@ -1648,11 +1692,10 @@ if(post('action')){
       resize_image($default, config::$config['image_resize_dimensions']);
     }
 
-
     // 2. check preview cache
     $cache = config::$cache_path . '/images/preview.' . substr(md5($path), 0, 6) . '.jpg';
 
-    // cache file exists
+    // preview cache file exists / _files/cache/images/preview.HASH.jpg
     if(file_exists($cache)) {
 
       // make sure cache file is valid (must be newer than dir updated time)
@@ -1662,19 +1705,48 @@ if(post('action')){
       @unlink($cache);
     }
 
-
+    /* // now combined with new function that checks for both video and images
     // 3. glob images / GLOB_BRACE may fail on some non GNU systems, like Solaris.
-    $images = @glob($path . '/*.{jpg,JPG,jpeg,JPEG,png,PNG,gif,GIF}', GLOB_NOSORT|GLOB_BRACE);
+    $images = @glob(glob_escape($path) . '/*.{jpg,JPG,jpeg,JPEG,png,PNG,gif,GIF}', GLOB_NOSORT|GLOB_BRACE);
 
     // loop images to locate first match that is not excluded
     if(!empty($images)) foreach ($images as $image) {
-      if(!is_exclude($image, false)) {
-        header('files-preview: glob() found [' . _basename($image) . ']');
-        resize_image($image, config::$config['image_resize_dimensions'], $cache); // + clone into $cache
-        break; exit; // just in case
+      if(is_exclude($image, false) || !is_readable($image)) continue; // skip if is_exclude or !readable
+      header('files-preview: glob() found [' . _basename($image) . ']');
+      resize_image($image, config::$config['image_resize_dimensions'], $cache); // + clone into $cache
+      break; exit; // just in case, although resize_image will exit
+    }
+    */
+
+    // 3. glob files to look for images or video
+    $files = @glob(glob_escape($path) . '/*', GLOB_NOSORT);
+
+    // files found
+    if(!empty($files)) {
+
+      // prepare arrays of supported image and video formats
+      $image_types = resize_image_types();
+      $video_types = get_ffmpeg_path() ? ['mp4', 'm4v', 'm4p', 'webm', 'ogv', 'mkv', 'avi', 'mov', 'wmv'] : [];
+
+      // loop files to locate first match
+      foreach ($files as $file) {
+
+        // get extension lowercase
+        $ext = strtolower(substr(strrchr($file, '.'), 1));
+        if(empty($ext)) continue; // skip if no extension
+
+        // match image or video, return target resize_dimensions if image
+        $match = in_array($ext, $image_types) ? config::$config['image_resize_dimensions'] : (in_array($ext, $video_types) ? 'video' : false);
+        if(!$match) continue; // skip if extension not supported
+
+        // skip if is_exclude or !readable
+        if(is_exclude($file, false) || !is_readable($file)) continue;
+
+        // get preview and clone into preview $cache for faster access on next request for dir
+        get_file($file, $match, $cache);
+        break; exit; // just in case, although get_file() will exit
       }
     }
-
 
     // 4. nothing found (no images in dir)
     // create empty 1px in $cache, and output (so next check knows dir is empty or has no images, unless updated)
@@ -1777,13 +1849,6 @@ if($query_path){
   $dirs[$start_path] = get_dir_init($real_start_path);
 }
 
-// resize image types
-$resize_image_types = array('jpeg', 'jpg', 'png', 'gif');
-if(version_compare(PHP_VERSION, '5.4.0') >= 0) {
-  $resize_image_types[] = 'webp';
-  if(version_compare(PHP_VERSION, '7.2.0') >= 0) $resize_image_types[] = 'bmp';
-}
-
 // image resize memory limit / for Javascript detection
 $image_resize_memory_limit = config::$config['image_resize_enabled'] && config::$config['image_resize_memory_limit'] && function_exists('ini_get') ? (int) @ini_get('memory_limit') : 0;
 if($image_resize_memory_limit && function_exists('ini_set')) $image_resize_memory_limit = max($image_resize_memory_limit, config::$config['image_resize_memory_limit']);
@@ -1805,6 +1870,14 @@ function lang_custom() {
   return !empty($langs) ? $langs : false;
 }
 
+// get watermark files (font, image) from _files/watermark/*
+function get_watermark_files() {
+  if(!config::$config['allow_upload'] || !config::$storage_path) return false;
+  $path = config::$config['storage_path'] . '/watermark'; // use relative path
+  if(!file_exists($path) || !is_readable($path)) return false;
+  return @glob($path . '/*', GLOB_NOSORT); // grab all files (fonts, images) to load into upload Compressor
+}
+
 // exclude some user settings from frontend
 $exclude = array_diff_key(config::$config, array_flip(array('root', 'start_path', 'image_resize_cache', 'image_resize_quality', 'image_resize_function', 'image_resize_cache_direct', 'menu_sort', 'menu_load_all', 'cache_key', 'storage_path', 'files_exclude', 'dirs_exclude', 'username', 'password', 'allow_tasks', 'allow_symlinks', 'menu_recursive_symlinks', 'image_resize_sharpen', 'get_mime_type', 'license_key', 'video_thumbs', 'video_ffmpeg_path', 'folder_preview_default', 'image_resize_dimensions_allowed', 'download_dir_cache')));
 
@@ -1819,7 +1892,7 @@ $json_config = array_replace($exclude, array(
   'init_path' => $init_path,
   'dirs' => $dirs,
   'dirs_hash' => config::$dirs_hash,
-  'resize_image_types' => $resize_image_types,
+  'resize_image_types' => resize_image_types(),
   'image_cache_hash' => config::$config['load_images'] ? substr(md5(config::$doc_root . config::$root . config::$config['image_resize_function'] . config::$config['image_resize_quality']), 0, 6) : false,
   'image_resize_dimensions_retina' => config::$image_resize_dimensions_retina,
   'location_hash' => md5(config::$root),
@@ -1832,8 +1905,9 @@ $json_config = array_replace($exclude, array(
   'video_thumbs_enabled' => !!get_ffmpeg_path(),
   'lang_custom' => lang_custom(),
   'x3_path' => config::$x3_path ? get_url_path(config::$x3_path) : false,
-  'assets' => config::$assets,
-  'userx' => isset($_SERVER['USERX']) ? $_SERVER['USERX'] : false
+  'userx' => isset($_SERVER['USERX']) ? $_SERVER['USERX'] : false,
+  'assets' => config::$assets, // computed assets path
+  'watermark_files' => get_watermark_files() // get upload watermark files (font, image) from _files/watermark/*
 ));
 
 // calculate bytes from PHP ini settings
@@ -1841,6 +1915,7 @@ function php_directive_value_to_bytes($directive) {
   $val = function_exists('ini_get') ? @ini_get($directive) : false;
   if (empty($val) || !is_string($val)) return 0;
   preg_match('/^(?<value>\d+)(?<option>[K|M|G]*)$/i', $val, $matches);
+  if(!isset($matches['value']) || !isset($matches['option'])) return 0;
   $value = (int) $matches['value'];
   $option = strtoupper($matches['option']);
   if ($option === 'K') {
@@ -1865,24 +1940,13 @@ if(config::$config['allow_upload']) {
 // memory and time
 header('files-msg: [' . header_memory_time() . ']');
 
-// htmlstart
-?>
-<!doctype html><!-- www.files.gallery -->
-<html<?php echo ' class="menu-' . ($menu_exists ? 'enabled' : 'disabled sidebar-closed') . '"'; ?>>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="robots" content="noindex,nofollow">
-    <title><?php echo $init_path ? _basename($init_path) : '/'; ?></title>
-    <?php get_include('include/head.html'); ?>
-    <link href="<?php echo config::$assets ?>css/files.css" rel="stylesheet">
-    <?php get_include('css/custom.css'); ?>
-  </head>
-  <body class="body-loading"><svg viewBox="0 0 18 18" class="svg-preloader svg-preloader-active preloader-body"><circle cx="9" cy="9" r="8" pathLength="100" class="svg-preloader-circle"></svg>
+// main document html start
+get_header($init_path ? _basename($init_path) : '/', 'menu-' . ($menu_exists ? 'enabled' : 'disabled sidebar-closed')); ?>
+  <body class="body-loading">
     <main id="main">
       <nav id="topbar"<?php if(!empty(config::$config['topbar_sticky'])) echo ' class="topbar-sticky"'; ?>>
         <div id="topbar-top">
-          <div id="search-container"><input id="search" type="search" placeholder="search" size="1" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" disabled></div>
+          <div id="search-container"><input id="search" class="input" type="search" placeholder="search" size="1" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" disabled></div>
           <div id="change-layout" class="dropdown"></div>
           <div id="change-sort" class="dropdown"></div>
         </div>
@@ -1890,15 +1954,15 @@ header('files-msg: [' . header_memory_time() . ']');
           <div class="breadcrumbs-info"></div>
           <div id="breadcrumbs"></div>
         </div>
-        <div id="topbar-info" class="info-hidden"></div>
         <div id="files-sortbar"></div>
+        <div id="topbar-info" class="info-hidden"></div>
       </nav>
       <!-- files list container -->
       <div id="files-container"><div id="files" class="list files-<?php echo config::$config['layout']; ?>"></div></div>
     </main>
 <?php if($menu_exists) { ?>
     <aside id="sidebar">
-      <button id="sidebar-toggle" type="button" class="btn-icon"></button>
+      <button id="sidebar-toggle" type="button" class="button-icon"></button>
       <div id="sidebar-inner">
         <div id="sidebar-topbar"></div>
         <div id="sidebar-menu"></div>
@@ -1907,37 +1971,41 @@ header('files-msg: [' . header_memory_time() . ']');
     <div id="sidebar-bg"></div>
 <?php } ?>
 
-    <!-- modal -->
-    <div id="modal-bg"></div>
-    <div class="modal" id="files_modal" tabindex="-1" role="dialog" data-action="close"></div>
-
     <!-- context menu -->
-    <div id="contextmenu" class="dropdown-menu"></div>
+    <div id="contextmenu" class="dropdown-menu" tabindex="-1"></div>
 
     <!-- custom footer html -->
     <?php get_include('include/footer.html'); ?>
 
     <!-- Javascript -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.5/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@exeba/list.js@2.3.1/dist/list.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/yall-js@3.2.0/dist/yall.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/filesize@8.0.7/lib/filesize.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/screenfull@5.2.0/dist/screenfull.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.0/dayjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.0/plugin/localizedFormat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.0/plugin/relativeTime.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-file-downloader@1.1.24/dist/js-file-downloader.min.js"></script>
     <script>
-var _c = <?php echo json_encode($json_config, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_PARTIAL_OUTPUT_ON_ERROR); ?>;
+const _c = <?php echo json_encode($json_config, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_PARTIAL_OUTPUT_ON_ERROR); ?>;
 var CodeMirror = {};
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.2/mode/meta.js"></script>
-    <!-- custom -->
-    <?php get_include('js/custom.js'); ?>
-    <!-- files -->
-    <script src="<?php echo config::$assets ?>js/files.js"></script>
+    <?php
 
+    // load _files/js/custom.js if exists
+    get_include('js/custom.js');
+
+    // load all Javascript assets
+    foreach (array_filter([
+      'toastify-js@1.12.0/src/toastify.min.js',
+      'sweetalert2@11.7.20/dist/sweetalert2.min.js',
+      'animejs@3.2.1/lib/anime.min.js',
+      '@exeba/list.js@2.3.1/dist/list.min.js',
+      'yall-js@3.2.0/dist/yall.min.js',
+      'filesize@9.0.11/lib/filesize.min.js',
+      'screenfull@5.2.0/dist/screenfull.min.js',
+      'dayjs@1.11.9/dayjs.min.js',
+      'dayjs@1.11.9/plugin/localizedFormat.js',
+      'dayjs@1.11.9/plugin/relativeTime.js',
+      (in_array(config::$config['download_dir'], ['zip', 'files']) ? 'js-file-downloader@1.1.25/dist/js-file-downloader.min.js' : false),
+      (config::$config['download_dir'] === 'browser' ? 'jszip@3.10.1/dist/jszip.min.js' : false),
+      (config::$config['download_dir'] === 'browser' ? 'file-saver@2.0.5/dist/FileSaver.min.js' : false),
+      'codemirror@5.65.14/mode/meta.js',
+      'files.photo.gallery@' . config::$version . '/js/files.js'
+    ]) as $key) echo '<script src="' . config::$assets . $key . '"></script>';
+    ?>
   </body>
 </html>
 <?php }}

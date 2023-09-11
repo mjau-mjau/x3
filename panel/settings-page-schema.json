@@ -1217,6 +1217,13 @@
             "gallery_button_items": {
               "type": "string"
             },
+            "sort": {
+              "type": "string",
+              "enum": [
+                "added",
+		            "name"
+		          ]
+            },
       			"limit": {
               "type": "integer",
               "minimum": 0,
@@ -3208,6 +3215,16 @@
                   "key": "plugins.cart.gallery_button_items",
                   "htmlClass": "settings_selectize",
                   "title": "<span class='hidden selectize-items'>select-mode,select-all,download-selected,download-all,download-cart,empty-cart,cart</span>"
+                },
+                {
+                  "key": "plugins.cart.sort",
+                  "title": "Sort cart items<a href=# class=show-help></a><div class=\"hidden\"><h3>Sort cart items</h3><p>Decides how items added to the cart are sorted.</p><p><h4>Newest On Top</h4>Will always add items on top, which is most intuitive for the user, as they can see the latest items they added at the top of the cart. This is how traditional shopping carts work.</p><p><h4>By Name</h4>Will sort cart items alphabetically by path/name. This could be useful when viewing browsing items, although it's less intuitive because new items will get added in the middle or bottom of the list depending on their name.</p></div>",
+                  "type": "radios",
+                  "inline": true,
+                  "titleMap": {
+                    "added": "Newest on top",
+                    "name": "by name"
+                  }
                 },
                 {
                   "key": "plugins.cart.limit",

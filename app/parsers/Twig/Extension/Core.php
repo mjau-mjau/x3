@@ -463,11 +463,11 @@ function twig_trim_filter(Twig_Environment $env, $string, $characterMask = null)
     if (null === $characterMask) {
         $characterMask = " \t\n\r\0\x0B";
     }
-    return trim($string ?? '', $characterMask);
+    return trim(isset($string) && !empty($string) ? $string : '', $characterMask); //x3
 }
 function twig_striptags(Twig_Environment $env, $string, $allowable_tags = null)//x3
 {
-    return strip_tags($string ?? '', $allowable_tags);
+    return strip_tags(isset($string) && !empty($string) ? $string : '', $allowable_tags);
 }
 
 
@@ -618,7 +618,7 @@ function twig_urlencode_filter($url, $raw = false)
 
     if ($raw) {
         //return rawurlencode($url);
-        return rawurlencode($url ?? '');//x3
+        return rawurlencode(isset($url) && !empty($url) ? $url : '');//x3
     }
 
     return urlencode($url);
@@ -811,7 +811,7 @@ function twig_split_filter($value, $delimiter, $limit = null)
     if (empty($delimiter)) {
         return str_split($value, null === $limit ? 1 : $limit);
     }
-    $value = $value ?? '';
+    if(!isset($value) || empty($value)) $value = ''; // x3
     return null === $limit ? explode($delimiter, $value) : explode($delimiter, $value, $limit);
 }
 
@@ -1100,8 +1100,8 @@ if (function_exists('mb_convert_encoding')) {
     }
 } elseif (function_exists('iconv')) {
     function twig_convert_encoding($string, $to, $from)
-    {   
-        return iconv($from, $to, $string ?? '');//x3
+    {
+        return iconv($from, $to, isset($string) && !empty($string) ? $string : '');//x3
         //return iconv($from, $to, $string);
     }
 } else {
@@ -1253,7 +1253,7 @@ if (function_exists('mb_get_info')) {
     {
         if (null !== ($charset = $env->getCharset())) {
             //return mb_strtoupper($string, $charset);
-            return mb_strtoupper($string ?? '', $charset);//x3
+            return mb_strtoupper(isset($string) && !empty($string) ? $string : '', $charset);//x3
         }
 
         return strtoupper($string);
@@ -1271,7 +1271,7 @@ if (function_exists('mb_get_info')) {
     {
         if (null !== ($charset = $env->getCharset())) {
             //return mb_strtolower($string, $charset);
-            return mb_strtolower($string ?? '', $charset);//x3
+            return mb_strtolower(isset($string) && !empty($string) ? $string : '', $charset);//x3
         }
 
         return strtolower($string);
@@ -1289,11 +1289,11 @@ if (function_exists('mb_get_info')) {
     {
         if (null !== ($charset = $env->getCharset())) {
             //return mb_convert_case($string, MB_CASE_TITLE, $charset);
-            return mb_convert_case($string ?? '', MB_CASE_TITLE, $charset);//x3
+            return mb_convert_case(isset($string) && !empty($string) ? $string : '', MB_CASE_TITLE, $charset);//x3
         }
 
         //return ucwords(strtolower($string));
-        return ucwords(strtolower($string ?? ''));//x3
+        return ucwords(strtolower(isset($string) && !empty($string) ? $string : ''));//x3
     }
 
     /**
@@ -1307,9 +1307,8 @@ if (function_exists('mb_get_info')) {
     function twig_capitalize_string_filter(Twig_Environment $env, $string)
     {
         if (null !== ($charset = $env->getCharset())) {
-            //return mb_strtoupper(mb_substr($string, 0, 1, $charset), $charset).
-                         mb_strtolower(mb_substr($string, 1, mb_strlen($string, $charset), $charset), $charset);
-            return mb_strtoupper(mb_substr($string ?? '', 0, 1, $charset), $charset).mb_strtolower(mb_substr($string ?? '', 1, null, $charset), $charset);//x3
+            if(!isset($string) || empty($string)) $string = ''; // x3
+            return mb_strtoupper(mb_substr($string, 0, 1, $charset), $charset).mb_strtolower(mb_substr($string, 1, mb_strlen($string, $charset), $charset), $charset);
         }
 
         return ucfirst(strtolower($string));

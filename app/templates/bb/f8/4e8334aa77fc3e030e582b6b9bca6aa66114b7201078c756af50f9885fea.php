@@ -275,93 +275,97 @@ function cssFail(){
         echo "\t";
         if (((!call_user_func_array($this->env->getTest('empty')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style"), "font"), "font")))) && ($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style"), "font"), "font") != "none"))) {
             // line 97
-            echo "\t<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=";
+            echo "\t";
+            // line 98
+            echo "  <link rel=\"preconnect\" href=\"https://fonts.bunny.net\">
+  <link rel=\"stylesheet\" href=\"https://fonts.bunny.net/css?family=";
+            // line 99
             echo call_user_func_array($this->env->getFilter('getfontstring')->getCallable(), array((($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style", array(), "any", false, true), "font", array(), "any", false, true), "font", array(), "any", true, true)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style", array(), "any", false, true), "font", array(), "any", false, true), "font"), "Lato:400,700,900,400italic,700italic,900italic"))) : ("Lato:400,700,900,400italic,700italic,900italic"))));
             echo "\">
 \t";
         }
-        // line 99
+        // line 101
         echo "
 \t";
-        // line 101
+        // line 103
         echo "\t";
         echo call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('removeComments')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "head")))));
         echo "
 
 \t";
-        // line 104
+        // line 106
         echo "  <style id=\"default-fonts\"><!-- body,h1,h2,h3,h4,h5,h6 {font-family: \"Helvetica Neue\",Helvetica,Roboto,Arial,sans-serif;} --></style>
 
   ";
-        // line 107
+        // line 109
         echo "  ";
         if ((!call_user_func_array($this->env->getTest('empty')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "css"))))) {
-            // line 108
+            // line 110
             echo "  <style id=\"custom-css\"><!-- ";
             echo call_user_func_array($this->env->getFilter('minify')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "css")));
             echo " --></style>
   ";
         }
-        // line 110
+        // line 112
         echo "
   ";
-        // line 112
+        // line 114
         echo "  ";
         if ($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "page_css")) {
-            // line 113
+            // line 115
             echo "  <style id=\"custom-page-css\">";
             echo call_user_func_array($this->env->getFilter('minify')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "page_css")));
             echo "</style>
   ";
         }
-        // line 115
+        // line 117
         echo "
   ";
-        // line 117
+        // line 119
         echo "  ";
         if ((!call_user_func_array($this->env->getTest('empty')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "logo_css"))))) {
-            // line 118
+            // line 120
             echo "  <style id=\"logo\"><!-- ";
             echo call_user_func_array($this->env->getFilter('minify')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "back"), "custom"), "logo_css")));
             echo " --></style>
   ";
         }
-        // line 120
+        // line 122
         echo "
   ";
-        // line 122
+        // line 124
         echo "  ";
         $context["custom_css_files"] = call_user_func_array($this->env->getFunction('x3_glob')->getCallable(), array("./content/custom/files/css/*include*.css", (("<link rel=\"stylesheet\" id=\"custom_css_{{index}}\" href=\"" . (isset($context["assetspath"]) ? $context["assetspath"] : null)) . "/content/custom/files/css/{{basename}}\">")));
-        // line 123
+        // line 125
         echo "  ";
         if ((isset($context["custom_css_files"]) ? $context["custom_css_files"] : null)) {
             echo (isset($context["custom_css_files"]) ? $context["custom_css_files"] : null);
         }
-        // line 124
+        // line 126
         echo "
   ";
-        // line 126
+        // line 128
         echo "  <style id=\"x3app\"></style>
 
 </head>
 
 ";
-        // line 130
+        // line 132
         $context["layout"] = (($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style", array(), "any", false, true), "layout", array(), "any", false, true), "layout", array(), "any", true, true)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style", array(), "any", false, true), "layout", array(), "any", false, true), "layout"), "topbar-float"))) : ("topbar-float"));
-        // line 131
+        // line 133
         if (twig_in_filter("topbar", (isset($context["layout"]) ? $context["layout"] : null))) {
             $context["fixed"] = $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style"), "layout"), "fixed");
         }
-        // line 132
+        // line 134
         if ($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style"), "layout"), "wide")) {
             $context["wide"] = "wide";
         }
-        // line 133
+        // line 135
         $context["data_layout"] = call_user_func_array($this->env->getFilter('cleanData')->getCallable(), array((((((((((((((((((($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "include"), "body") . " ") . $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "body")) . " ") . (isset($context["layout"]) ? $context["layout"] : null)) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style"), "skin"), "skin")) . " ") . (isset($context["fixed"]) ? $context["fixed"] : null)) . " ") . (isset($context["wide"]) ? $context["wide"] : null)) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "style"), "skin"), "clear")) . " x3-") . $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "template_name")) . " slug-") . call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('attribute_friendly')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "slug"))), "index"))) . " page-") . call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('attribute_friendly')->getCallable(), array(call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "permalink"), "/")))), "index")))));
-        // line 134
+        // line 136
         echo "
 ";
-        // line 136
+        // line 138
         echo "<body class=\"fa-loading initializing ";
         echo (isset($context["data_layout"]) ? $context["data_layout"] : null);
         echo "\" data-include=\"";
@@ -372,12 +376,13 @@ function cssFail(){
   <div>
 
     ";
-        // line 142
+        // line 144
         echo "    ";
         $this->env->loadTemplate("partials/nav/header.html")->display($context);
-        // line 143
+        // line 145
         echo "
-  \t<main class=\"main\" id=\"content\">";
+  \t<main class=\"main\" id=\"content\">
+";
     }
 
     public function getTemplateName()
@@ -392,6 +397,6 @@ function cssFail(){
 
     public function getDebugInfo()
     {
-        return array (  379 => 143,  376 => 142,  365 => 136,  362 => 134,  360 => 133,  356 => 132,  352 => 131,  350 => 130,  344 => 126,  341 => 124,  336 => 123,  333 => 122,  330 => 120,  324 => 118,  321 => 117,  318 => 115,  312 => 113,  309 => 112,  306 => 110,  300 => 108,  297 => 107,  293 => 104,  278 => 97,  270 => 91,  258 => 88,  255 => 86,  247 => 81,  243 => 80,  227 => 68,  224 => 66,  212 => 61,  189 => 54,  175 => 52,  172 => 51,  166 => 48,  163 => 46,  156 => 45,  150 => 44,  146 => 43,  140 => 41,  129 => 39,  126 => 37,  109 => 33,  63 => 21,  53 => 19,  47 => 16,  32 => 8,  22 => 2,  108 => 45,  105 => 43,  101 => 41,  98 => 40,  95 => 39,  92 => 29,  88 => 28,  85 => 27,  81 => 31,  78 => 30,  74 => 27,  71 => 26,  67 => 23,  55 => 17,  52 => 16,  49 => 15,  40 => 11,  34 => 9,  31 => 8,  29 => 7,  26 => 4,  24 => 3,  21 => 2,  290 => 112,  287 => 101,  284 => 99,  282 => 108,  279 => 106,  275 => 96,  272 => 94,  269 => 102,  265 => 99,  262 => 97,  248 => 96,  245 => 95,  242 => 93,  239 => 92,  236 => 91,  233 => 90,  230 => 69,  223 => 87,  221 => 86,  218 => 64,  215 => 63,  213 => 82,  211 => 81,  208 => 79,  205 => 59,  202 => 58,  199 => 57,  196 => 55,  194 => 74,  191 => 73,  188 => 72,  182 => 53,  179 => 68,  176 => 66,  173 => 65,  170 => 63,  167 => 62,  164 => 61,  161 => 60,  158 => 59,  155 => 57,  137 => 56,  134 => 40,  131 => 53,  128 => 52,  125 => 51,  122 => 50,  119 => 36,  116 => 34,  113 => 46,  110 => 45,  107 => 44,  102 => 32,  99 => 30,  96 => 40,  94 => 39,  91 => 37,  89 => 36,  87 => 35,  84 => 33,  80 => 24,  77 => 23,  73 => 28,  70 => 22,  68 => 26,  66 => 25,  64 => 22,  62 => 21,  59 => 19,  57 => 20,  54 => 18,  50 => 18,  46 => 13,  43 => 12,  41 => 13,  39 => 12,  37 => 10,  35 => 10,  33 => 9,  30 => 7,  28 => 6,  25 => 4,  23 => 3,  19 => 1,);
+        return array (  383 => 145,  380 => 144,  369 => 138,  366 => 136,  364 => 135,  360 => 134,  356 => 133,  354 => 132,  348 => 128,  345 => 126,  340 => 125,  337 => 124,  334 => 122,  328 => 120,  325 => 119,  322 => 117,  316 => 115,  313 => 114,  310 => 112,  304 => 110,  301 => 109,  297 => 106,  291 => 103,  288 => 101,  283 => 99,  280 => 98,  278 => 97,  270 => 91,  258 => 88,  255 => 86,  247 => 81,  243 => 80,  227 => 68,  224 => 66,  212 => 61,  189 => 54,  175 => 52,  172 => 51,  166 => 48,  163 => 46,  156 => 45,  150 => 44,  146 => 43,  140 => 41,  129 => 39,  126 => 37,  109 => 33,  92 => 29,  88 => 28,  85 => 27,  63 => 21,  53 => 19,  47 => 16,  32 => 8,  26 => 4,  24 => 3,  22 => 2,  290 => 112,  287 => 110,  284 => 109,  282 => 108,  279 => 106,  275 => 96,  272 => 94,  269 => 102,  265 => 99,  262 => 97,  248 => 96,  245 => 95,  242 => 93,  239 => 92,  236 => 91,  233 => 90,  230 => 69,  223 => 87,  221 => 86,  218 => 64,  215 => 63,  213 => 82,  211 => 81,  208 => 79,  205 => 59,  202 => 58,  199 => 57,  196 => 55,  194 => 74,  191 => 73,  188 => 72,  182 => 53,  179 => 68,  176 => 66,  173 => 65,  170 => 63,  167 => 62,  164 => 61,  161 => 60,  158 => 59,  155 => 57,  137 => 56,  134 => 40,  131 => 53,  128 => 52,  125 => 51,  122 => 50,  119 => 36,  116 => 34,  113 => 46,  110 => 45,  107 => 44,  102 => 32,  99 => 30,  96 => 40,  94 => 39,  91 => 37,  89 => 36,  87 => 35,  84 => 33,  80 => 24,  77 => 23,  73 => 28,  70 => 22,  68 => 26,  66 => 25,  64 => 24,  62 => 23,  59 => 21,  57 => 20,  54 => 18,  50 => 18,  46 => 16,  43 => 14,  41 => 13,  39 => 12,  37 => 11,  35 => 10,  33 => 9,  30 => 7,  28 => 6,  25 => 4,  23 => 3,  19 => 1,);
     }
 }

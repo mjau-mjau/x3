@@ -10,6 +10,28 @@
 
 class resizer {
 
+	// vars
+	private $request;
+	private $x3_root;
+	private $x3_url_path;
+	private $rel_path;
+	private $content_path;
+	private $abs_path;
+	private $debug;
+	private $force;
+	private $cache_path;
+	private $info;
+	private $iptc;
+	private $source;
+	private $render;
+	private $cache_dir;
+	private $render_exists;
+	private $render_is_writeable;
+	private $cache_dir_exists;
+	private $cache_dir_is_writeable;
+	private $cache_file_exists;
+	private $cache_file_is_writeable;
+
 	// default vars available from X3 Panel > Settings > Advanced > Image Resizer
 	private $quality = 85; // default quality for jpeg/webp
 	private $sharpen = true; // sharpen images, only applies when resampling down
@@ -108,15 +130,13 @@ class resizer {
 		// set paths
 		$this->x3_root = PHP_MAJOR_VERSION >= 7 ? dirname(__DIR__, 3) : dirname(dirname(dirname(__DIR__)));
 		$this->x3_url_path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->x3_root);
-		$this->rel_path = trim(urldecode($request[1]), '/');
+		//$this->rel_path = trim(urldecode($request[1]), '/');
+		$this->rel_path = trim(rawurldecode($request[1]), '/');
 		$this->content_path = '/content/' . $this->rel_path;
 		//$abs_path = $this->x3_root . $this->content_path;
 		$this->abs_path = realpath($this->x3_root . $this->content_path); // <- follows symlinks
 		if(!$this->abs_path || !is_file($this->abs_path) || strpos(dirname($this->rel_path), ':') || preg_match('/(\.\.|<|>)/', $this->rel_path)) $this->error('Invalid path or file does not exist <a href="' . $this->x3_url_path . $this->content_path . '" target="_blank">' . $this->rel_path . '</a>', 404);
-		// make sure path exists, is_file() and no mucking around with ../../paths
-		//$this->abs_path = $abs_path === realpath($abs_path) && is_file($abs_path) ? $abs_path : false;
-		// For security, directories may not contain ':' and images may not contain '..', '<', or '>'.
-		//if(!$this->abs_path || strpos(dirname($this->rel_path), ':') || preg_match('/(<|>)/', $this->rel_path)) $this->error('Invalid path or file does not exist <a href="' . $this->x3_url_path . $this->content_path . '" target="_blank">' . $this->rel_path . '</a>', 404);
+
 	}
 
 	// set debug

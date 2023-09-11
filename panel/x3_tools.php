@@ -279,6 +279,7 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 		// vars
 		header($json_header);
 		$url = 'https://www.photo.gallery/download/?x3_updater';
+		//$url = 'https://www.flamepix.com/download/?x3_updater';
 		$file = '../x3_updater.php';
 
 		// process

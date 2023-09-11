@@ -1,8 +1,5 @@
 <?php
-if(session_id() == '')
-{
-    session_start();
-}
+if(!isset($_SESSION)) session_start();
 
 @ini_set('default_charset', 'UTF-8');
 ini_set( 'error_reporting', E_ALL ^ E_DEPRECATED );
@@ -1611,7 +1608,7 @@ class filemanager_show_from_root_user extends filemanager_user_core
     private $sort;
     private $search = "";
     public $loading_this_file;
-    function __construct($show_root, $path = '', $sort_with = 'date', $user_id, $search = '')
+    function __construct($show_root, $path = '', $sort_with = 'date', $user_id = 0, $search = '')
     {
         $this->sort = $sort_with;
         if( $this->is_db() ) {
