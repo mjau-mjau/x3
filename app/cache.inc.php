@@ -7,17 +7,20 @@ Class Cache {
   var $cachefile;
   var $cache_prefix = 'c-';
   var $is_protected = false;
+  var $update_hash;
 
   function __construct($file_path, $template_file, $is_protected = false) {
 
 		// prepare path for path_hash : /x3 + /content/4.contact + :page.html
-		$mypath = rtrim(str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])), '/') . trim($file_path, '.');
+    // we don't need this, because surely we can just use $file_path? Below creates a bug when /index.php/some/scheit/
+		//$mypath = rtrim(str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])), '/') . trim($file_path, '.');
 
   	# is protected
   	$this->is_protected = $is_protected;
 
     # generate an md5 hash from the file_path
-    $this->path_hash = $this->generate_hash($mypath.':'.basename($template_file));
+    //$this->path_hash = $this->generate_hash($mypath.':'.basename($template_file));
+    $this->path_hash = $this->generate_hash($file_path.':'.basename($template_file));
 
     # content touch
     $content = 'content:' . filemtime(Config::$content_folder);
@@ -41,10 +44,12 @@ Class Cache {
     }
 
     # unique updated hash
-    $update_hash = $this->generate_hash($content.$app.$touch_time.$global_parent_config_time.$global_parent_parent_config_time);
+    //$update_hash = $this->generate_hash($content.$app.$touch_time.$global_parent_config_time.$global_parent_parent_config_time);
+    $this->update_hash = $this->generate_hash($content.$app.$touch_time.$global_parent_config_time.$global_parent_parent_config_time);
 
     # store the hash
-    $this->hash = $this->cache_prefix.$this->path_hash.'-'.$update_hash;
+    //$this->hash = $this->cache_prefix.$this->path_hash.'-'.$update_hash;
+    $this->hash = $this->cache_prefix.$this->path_hash.'-'.$this->update_hash;
 
     # cachefile path
     $this->cachefile = Config::$cache_folder.'/pages/'.$this->hash;
@@ -63,11 +68,19 @@ Class Cache {
   }
 
   function delete_old_caches() {
+
+    // new delete all cache files that do not match current update_hash
+    $cache_files = glob(Config::$cache_folder . '/pages/' . $this->cache_prefix . '*', GLOB_NOSORT);
+    if(!empty($cache_files)) foreach ($cache_files as $path) {
+      if(substr($path, -strlen($this->update_hash)) !== $this->update_hash) @unlink($path);
+    }
+
     # collect a list of all cache files matching the same file_path hash and delete them
-    $old_caches = glob(Config::$cache_folder.'/pages/'.$this->cache_prefix.$this->path_hash.'-*', GLOB_NOSORT);
+    // this only deletes cache for current path / does not delete other paths or paths that don't exist any more (removed/deleted)
+    /*$old_caches = glob(Config::$cache_folder.'/pages/'.$this->cache_prefix.$this->path_hash.'-*', GLOB_NOSORT);
 		if($old_caches && count($old_caches)) {
 			foreach($old_caches as $file) @unlink($file);
-		}
+		}*/
   }
 
   function create($route, $file_path, $current_page = false, $include = true) {
@@ -102,7 +115,8 @@ Class Cache {
   	}
 
     # remove any unused caches for this route
-    $this->delete_old_caches();
+    // todo: should only need to run this if cacheable. Moved to inside cache condition below
+    //$this->delete_old_caches();
 
     # create page
     $page = new Page($route, false, $file_path, $current_page, $this->is_protected);
@@ -114,7 +128,9 @@ Class Cache {
     echo $data;
 
     # write to cache
-    if(!$page->data['bypass_cache']) {
+    //if(!$page->data['bypass_cache']) {
+    if(!$page->data['bypass_cache'] && $page->template_name !== 'file') {
+      $this->delete_old_caches(); // todo moved here, because we only need to delete cache if this page is cacheable
       file_put_contents($this->cachefile, $data);
       if($current_page && $route !== 'custom/404') $this->auto_cache($page, $data);
     }

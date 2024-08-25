@@ -210,7 +210,7 @@
 	{% if settings.layout != "slideshow" %}
 	<figure>
 			<div class="image-container" style="padding-bottom:{{ image_ratio }}%;">
-				<img data-src="{{ url_escaped }}" data-width="{{ image.width }}"{{ data_crop }} alt="{{ title_name|striptags|e('html') }}" itemprop="thumbnail">
+				<img data-src="{{ url_escaped }}{{ page.settings.image_cachebuster ? '?' ~ date : '' }}" data-width="{{ image.width }}"{{ data_crop }} alt="{{ title_name|striptags|e('html') }}" itemprop="thumbnail">
 			</div>
 
 		{# If captions enabled #}
@@ -269,7 +269,7 @@
 		{% set data_is_link = image_link ? ' data-is-link="true"' : '' %}
 
 		{# anchor #}
-		<{{link_tag}} class="{{ anchor_class }}"{{ data_exif }}{{ data_geo }} data-width="{{ image.width }}" data-height="{{ image.height }}" data-image="{{ url_escaped }}" data-title="{{ title|e('html') }}" data-name="{{ image.name }}" data-description="{{ description|e('html') }}" data-date="{{ date_formatted }}"{{ data_is_link }} href="{{ link_href|e }}"{{link_target}} id="image-{{ image.id|default(loop.index) }}"{{ link_title }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"{{ nofollow }}{{ data_pano }}>
+		<{{link_tag}} class="{{ anchor_class }}"{{ data_exif }}{{ data_geo }} data-width="{{ image.width }}" data-height="{{ image.height }}" data-image="{{ url_escaped }}{{ page.settings.image_cachebuster ? '?' ~ date : '' }}" data-title="{{ title|e('html') }}" data-name="{{ image.name }}" data-description="{{ description|e('html') }}" data-date="{{ date_formatted }}"{{ data_is_link }} href="{{ link_href|e }}"{{link_target}} id="image-{{ image.id|default(loop.index) }}"{{ link_title }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"{{ nofollow }}{{ data_pano }}>
 
 		{# Lets just set anchor text if slideshow #}
 		{% if settings.layout != "slideshow" %}

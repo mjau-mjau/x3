@@ -105,7 +105,7 @@
 		<a class="item img-link item-link{% if page.popup.enabled == true %} x3-popup{% endif %}"{{ data_exif }}{{ data_geo }} id="image-{{ page.slug|attribute_friendly|default('1') }}" data-width="{{ myimage.width }}" data-height="{{ myimage.height }}" href="{{ image_page }}" data-image="{{ preview_image_url|e }}" data-title="{{ page_title|e('html') }}" data-description="{{ image_description|e('html') }}" data-date="{{ date|date("d F Y") }}">
 			<figure>
 				<div class="image-container" style="padding-bottom:{{ image_ratio }}%;">
-					<img data-src="{{ preview_image_url|e }}" alt="{{ page_title|striptags|e }}">
+					<img data-src="{{ preview_image_url|e }}{{ page.settings.image_cachebuster ? '?' ~ myimage.date : '' }}" alt="{{ page_title|striptags|e }}">
 				</div>
 			</figure>
 		</a>

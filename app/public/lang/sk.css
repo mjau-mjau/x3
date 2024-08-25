@@ -1,0 +1,12 @@
+
+/* slovak.css [Slovak] */
+[data-lang="chat"]:after { content: 'chat'; }
+[data-lang="comments"]:after { content: 'komentáre'; }
+[data-lang="folder"]:after { content: 'adresár'; }
+[data-lang="folders"]:after { content: 'adresáre'; }
+[data-lang="image"]:after { content: 'fotografie'; }
+[data-lang="images"]:after { content: 'fotografií'; }
+[data-lang="map"]:after { content: 'mapa'; }
+[data-lang="pause"]:after { content: 'zastaviť'; }
+[data-lang="play"]:after { content: 'prehrať'; }
+[data-lang="styles"]:after { content: 'štýly'; }

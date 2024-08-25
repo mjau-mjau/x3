@@ -235,5 +235,8 @@
     "index": {
         "url": "index",
         "index": 3
+    },
+    "cart": {
+        "url": "cart"
     }
 }
