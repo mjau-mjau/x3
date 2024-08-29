@@ -3,9 +3,9 @@
 # X3
 Class X3 {
 
-  static $version = '3.33.0';
-  static $version_date = 1724209259581;
-  
+  static $version = '3.33.1';
+  static $version_date = 1724902874483;
+
   static $server_protocol = 'http://';
 
   var $route;
@@ -36,7 +36,7 @@ Class X3 {
 
 	  			// match
 	  			} else if(stripos($request, $enforce_url) !== 0){
-		  			$root_path = str_replace("\\", '', dirname($_SERVER['PHP_SELF']));
+		  			$root_path = str_replace("\\", '', dirname(Helpers::script_name()));
 		  			$redirect_path = $enforce_url . ($root_path === '/' ? $_SERVER['REQUEST_URI'] : substr($_SERVER['REQUEST_URI'], strlen($root_path)));
 		  		}
 

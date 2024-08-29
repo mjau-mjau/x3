@@ -61,6 +61,13 @@ function get_json($file){
   return !empty($array) ? $array : []; // always return array, because value could be FALSE
 }
 
+// get SCRIPT_NAME with fallback to PHP_SELF (which could be formatted like index.php/some/path
+function script_name(){
+  if(isset($_SERVER['SCRIPT_NAME'])) return $_SERVER['SCRIPT_NAME'];
+  $arr = explode('index.php', $_SERVER['PHP_SELF']); // remove index.php/trailing/junk
+  return $arr[0] . 'index.php';
+}
+
 // get protected urls
 function get_protected_urls(){
   $array = get_json('../config/protect.json');
@@ -283,13 +290,13 @@ $xml_preview = false;
 if(get_query('create') || get_query('preview')) {
   $time_start = microtime(true);
   $xml_urlset = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . get_root($root_dir) . '</urlset>';
-  $xml_preview = '<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="' . $_SERVER['PHP_SELF'] . '?xsl=1&amp;time=' . (microtime(true) - $time_start) . (get_query('create') ? '&amp;created=1' : '&amp;preview=1') . '" type="text/xsl"?>' . $xml_urlset;
+  $xml_preview = '<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="' . script_name() . '?xsl=1&amp;time=' . (microtime(true) - $time_start) . (get_query('create') ? '&amp;created=1' : '&amp;preview=1') . '" type="text/xsl"?>' . $xml_urlset;
   $xml_write = '<?xml version="1.0" encoding="UTF-8"?>' . $xml_urlset;
 
 //
 } else if(file_exists('../sitemap.xml') && is_readable('../sitemap.xml')) {
   $xml_preview = @file_get_contents('../sitemap.xml');
-  $xml_preview = !empty($xml_preview) && stripos($xml_preview, 'xml-stylesheet') === false && strpos($xml_preview, '<?xml version="1.0" encoding="UTF-8"?>') === 0 ? str_replace('<?xml version="1.0" encoding="UTF-8"?>', '<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="' . $_SERVER['PHP_SELF'] . '?xsl=1&amp;current=1" type="text/xsl"?>', $xml_preview) : false;
+  $xml_preview = !empty($xml_preview) && stripos($xml_preview, 'xml-stylesheet') === false && strpos($xml_preview, '<?xml version="1.0" encoding="UTF-8"?>') === 0 ? str_replace('<?xml version="1.0" encoding="UTF-8"?>', '<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="' . script_name() . '?xsl=1&amp;current=1" type="text/xsl"?>', $xml_preview) : false;
 }
 
 // store in website root as sitempa.xml

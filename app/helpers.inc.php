@@ -9,6 +9,13 @@ Class Helpers {
   static $urls = array();
   static $site_updated = false;
 
+  // get SCRIPT_NAME with fallback to PHP_SELF (which could be formatted like index.php/some/path
+  public static function script_name(){
+    if(isset($_SERVER['SCRIPT_NAME'])) return $_SERVER['SCRIPT_NAME'];
+    $arr = explode('index.php', $_SERVER['PHP_SELF']); // remove index.php/trailing/junk
+    return $arr[0] . 'index.php';
+  }
+
   // refresh folders
   public static function refresh_folders(){
   	if(!file_exists(self::$folders_path) && !is_writable('./content')) return;

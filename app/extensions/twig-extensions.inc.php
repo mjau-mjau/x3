@@ -134,7 +134,7 @@ class X3_Twig_Extension extends Twig_Extension {
       );
       if(isset($page_data->title) && $page_data->title != $label) $result['next']['title'] = $page_data->title;
   	}
-    
+
   	return $result;
   }
 
@@ -306,7 +306,7 @@ class X3_Twig_Extension extends Twig_Extension {
   function absolute($relative_path) {
     $server_name = (($_SERVER['HTTPS'] ? 'https://' : 'http://')).$_SERVER['HTTP_HOST'];
     $relative_path = preg_replace(array('/^\/content/', '/^(\.+\/)*/'), '', $relative_path);
-    return $server_name.str_replace('/index.php', $relative_path, $_SERVER['SCRIPT_NAME']);
+    return $server_name.str_replace('/index.php', $relative_path, Helpers::script_name());
   }
 
   function truncate($value, $length = 30, $preserve = false, $separator = '...') {

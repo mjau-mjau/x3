@@ -1,11 +1,11 @@
 {
     "galleries": {
         "url": "galleries",
-        "index": 4
+        "index": 2
     },
     "examples": {
         "url": "examples",
-        "index": 5
+        "index": 4
     },
     "examples\/assets": {
         "url": "examples\/assets",
@@ -14,7 +14,7 @@
     },
     "contact": {
         "url": "contact",
-        "index": 6
+        "index": 5
     },
     "galleries\/landscapes": {
         "url": "galleries\/landscapes",
@@ -234,9 +234,19 @@
     },
     "index": {
         "url": "index",
+        "index": 1
+    },
+    "test": {
+        "url": "test",
         "index": 3
     },
-    "cart": {
-        "url": "cart"
+    "test\/hehe": {
+        "url": "test\/hehe"
+    },
+    "test\/hehe\/haha": {
+        "url": "test\/hehe\/haha"
+    },
+    "test\/hoho": {
+        "url": "test\/hoho"
     }
 }

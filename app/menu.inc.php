@@ -61,7 +61,7 @@ Class Menu {
   static function check_menu($content){
 
   	# set $root
-  	if(!isset(self::$root)) self::$root = rtrim(dirname($_SERVER['PHP_SELF']), '/') . '/';
+    if(!isset(self::$root)) self::$root = rtrim(dirname(Helpers::script_name()), '/') . '/';
   	if(!isset(self::$win)) self::$win = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? true : false;
 
   	$menu = X3Config::$config["settings"]["menu_super"] ? self::simple_dir_tree($content) : self::dir_tree($content);
@@ -71,7 +71,7 @@ Class Menu {
   static function write_menu($root = false){
 
   	# set $root
-  	self::$root = !$root ? rtrim(dirname($_SERVER['PHP_SELF']), '/') . '/' : $root;
+    self::$root = !$root ? rtrim(dirname(Helpers::script_name()), '/') . '/' : $root;
 
   	# vars
   	$cache_dir = './_cache/pages';
@@ -91,7 +91,7 @@ Class Menu {
   static function get_menu(){
 
   	# set $root
-  	if(!isset(self::$root)) self::$root = rtrim(dirname($_SERVER['PHP_SELF']), '/') . '/';
+    if(!isset(self::$root)) self::$root = rtrim(dirname(Helpers::script_name()), '/') . '/';
   	if(!isset(self::$win)) self::$win = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? true : false;
 
   	# vars

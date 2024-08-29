@@ -737,8 +737,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
     $front["site_json"] = ($front["settings"]["preload"] === 'create' || $front["settings"]["preload"] === true) && file_exists('./content/site.json');
 
 		// set path
-		//$path = dirname($_SERVER['PHP_SELF']);
-		$path = str_replace("\\", '', dirname($_SERVER['PHP_SELF']));
+		$path = str_replace("\\", '', dirname(Helpers::script_name()));
 		$front["path"] = ($path == '/') ? '' : $path;
 
 		// Json encode
@@ -749,8 +748,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
 	function pageJson($title, $description, $content, $template, $id, $preview, $permalink, $file_path){
 
 		// Some url vars
-		//$base = (string)$_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
-		$base = (string)$_SERVER['HTTP_HOST'] . str_replace("\\", '', dirname($_SERVER['PHP_SELF']));
+		$base = (string)$_SERVER['HTTP_HOST'] . str_replace("\\", '', dirname(Helpers::script_name()));
 		$path = ($permalink == '/') ? '' : $permalink;
 		$url = rtrim($base, '/') . '/' . ltrim($path, '/');
 

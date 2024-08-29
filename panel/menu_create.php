@@ -33,9 +33,6 @@ if($core->isLogin()){
   	$error = $error_msg;
   }
 
-  # $dir
-  $dir = rtrim(dirname(dirname($_SERVER['PHP_SELF'])), '/') . '/';
-
   # touch
 	if(!touch('content')) {
 		echo $core->touchme_error();
@@ -45,6 +42,7 @@ if($core->isLogin()){
 
 		// include helpers and create folders ob
 		include './app/helpers.inc.php';
+	  $dir = rtrim(dirname(dirname(Helpers::script_name())), '/') . '/';
 		Helpers::get_folders();
 
 		# json

@@ -22,7 +22,7 @@ if(version_compare(PHP_VERSION, '5.3.0', '<')){
 
 // vars
 $server_protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443 || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? "https://" : "http://";
-define('ABSOLUTE', (string)trim($server_protocol.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']),'/'));
+define('ABSOLUTE', (string)trim($server_protocol.$_SERVER['HTTP_HOST'].dirname(Helpers::script_name()),'/'));
 $x3_version = class_exists('X3') ? X3::$version : null;
 $x3_version_date = class_exists('X3') ? X3::$version_date : null;
 $x3_buster = $x3_version ? '?v=' . $x3_version : '';
@@ -36,9 +36,9 @@ if($posted){
 
 	# Vars
 	$file_path = dirname(__DIR__);
-	$link_path = dirname($_SERVER['PHP_SELF']) == '/' ? '' : dirname($_SERVER['PHP_SELF']);
+	$link_path = dirname(Helpers::script_name()) == '/' ? '' : dirname(Helpers::script_name());
 	$custom_dir_path = './content/custom';
-	$rewrite_base = dirname($_SERVER["SCRIPT_NAME"]);
+	$rewrite_base = dirname(Helpers::script_name());
 	$critical = (string)"";
 	$success = (string)"";
 	$warning = (string)"";

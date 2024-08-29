@@ -98,9 +98,8 @@ Class PageData {
     $page->domain_name = $_SERVER['HTTP_HOST'];
 
     # page.base_url
-    if(empty(self::$base_url)) self::$base_url = $_SERVER['HTTP_HOST'].str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
+    if(empty(self::$base_url)) self::$base_url = $_SERVER['HTTP_HOST'].str_replace('/index.php', '', Helpers::script_name());
     $page->base_url = self::$base_url;
-	  //$page->base_url = $_SERVER['HTTP_HOST'].str_replace('/index.php', '', $_SERVER['PHP_SELF']);
 
 	  # page.id
     $page->id = "p" . substr(md5($_SERVER['HTTP_HOST'] . $page->data['permalink']), 0, 6);
@@ -272,7 +271,7 @@ Class PageData {
 	    $markdown_compatible = preg_match('/\.(xml|html?|rss|rdf|atom|js|json)$/', $current_page_template_file);
 	    //$relative_path = preg_replace('/^\.\//', Helpers::relative_root_path(), $page->file_path);
 	    # x3 fix rootpath
-	    $root_path = preg_replace('/(\/+)/','/', str_replace('/index.php','',$_SERVER['PHP_SELF'])) . str_replace('./','/',(string)$page->file_path);
+	    $root_path = preg_replace('/(\/+)/','/', str_replace('/index.php','',Helpers::script_name())) . str_replace('./','/',(string)$page->file_path);
 
 	    $vars = self::parse_vars($vars, $markdown_compatible, $root_path);
   	}

@@ -13,7 +13,7 @@ if($login_required){
 	if(!$core->isLogin()) exit('<strong>Forbidden</strong><br>You need to <a href=".">login</a> to use the X3 DB checker.');
 }
 
-$css_path = dirname(dirname($_SERVER['PHP_SELF']));
+$css_path = dirname(dirname($_SERVER['SCRIPT_NAME']));
 if(substr($css_path, -1) !== '/') $css_path .= '/';
 
 # Check if POSTED data from ajax

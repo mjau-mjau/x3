@@ -11,10 +11,6 @@ Class Cache {
 
   function __construct($file_path, $template_file, $is_protected = false) {
 
-		// prepare path for path_hash : /x3 + /content/4.contact + :page.html
-    // we don't need this, because surely we can just use $file_path? Below creates a bug when /index.php/some/scheit/
-		//$mypath = rtrim(str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])), '/') . trim($file_path, '.');
-
   	# is protected
   	$this->is_protected = $is_protected;
 
@@ -155,8 +151,7 @@ Class Cache {
     if(!$writeable || @filesize($cache_file) > 2000000) return false;
 
     // append page json fragment
-    $permalink = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/' . ltrim($page->data['permalink'], '/');
-    //$permalink = '/' . ltrim($page->data['permalink'], '/');
+    $permalink = rtrim(dirname(Helpers::script_name()), '/') . '/' . ltrim($page->data['permalink'], '/');
     $outdated = $exists && (filemtime($cache_file) < $page->data['site_updated']);
     $json_content = $exists && !$outdated ? @file_get_contents($cache_file) : false;
     $is_empty = empty($json_content);
