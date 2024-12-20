@@ -55,6 +55,7 @@ class Imagevue_Twig_Extension extends Twig_Extension {
       'pageJson' => new Twig_Function_Method($this, 'pageJson'),
       'getDefault' => new Twig_Function_Method($this, 'getDefault'),
       'getSibling' => new Twig_Function_Method($this, 'getSibling'),
+      'get_sibling_landing_pages' => new Twig_Function_Method($this, 'get_sibling_landing_pages'),
       'x3_glob' => new Twig_Function_Method($this, 'x3_glob'),
       'get_default_preview_image' => new Twig_Function_Method($this, 'get_default_preview_image'),
       'pano_params' => new Twig_Function_Method($this, 'pano_params')
@@ -106,6 +107,20 @@ class Imagevue_Twig_Extension extends Twig_Extension {
   	$spaced = trim(preg_replace(array('/,/', '!\s+!'), ' ', $spaced));
     // remove duplicates
     return implode(' ', array_unique(explode(' ', $spaced)));
+  }
+
+  // get previous/next image for image landing pages from array of images in parent dir
+  function get_sibling_landing_pages($arr, $current){
+    if(empty($arr)) return false; // array must be populated
+    $keys = array_keys($arr); // get keys from associative array
+    $count = count($keys); // images count
+    if($count < 2) return false; // only navigation on >= 2 images
+    $index = array_search($current, $keys); // get index of current image
+    if($index === false) return false; // can't find current image
+    return [
+      $arr[$keys[($index === 0 ? $count : $index) - 1]], // previous image or last (loop)
+      $arr[$keys[($index === $count - 1 ? 0 : $index + 1)]] // next image or first (loop)
+    ];
   }
 
   function getSibling($path){

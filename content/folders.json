@@ -235,18 +235,5 @@
     "index": {
         "url": "index",
         "index": 1
-    },
-    "test": {
-        "url": "test",
-        "index": 3
-    },
-    "test\/hehe": {
-        "url": "test\/hehe"
-    },
-    "test\/hehe\/haha": {
-        "url": "test\/hehe\/haha"
-    },
-    "test\/hoho": {
-        "url": "test\/hoho"
     }
 }

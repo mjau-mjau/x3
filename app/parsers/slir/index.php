@@ -163,6 +163,7 @@ class resizer {
 		$types = array(1 => 'gif', 2 => 'jpeg', 3 => 'png');
 		if(defined('IMAGETYPE_WEBP')) $types[IMAGETYPE_WEBP] = 'webp';
 		$this->info = getimagesize($this->abs_path, $extra);
+		if(!$this->info) $this->error('Image is corrupt. Invalid PHP `getimagesize()`');
 		$this->iptc = is_array($extra) && isset($extra['APP13']) ? iptcparse($extra['APP13']) : null;
 		$this->source = !empty($this->info) && is_array($this->info) && count($this->info) > 3 ? array_filter(array(
 			'width' => (int) $this->info[0],

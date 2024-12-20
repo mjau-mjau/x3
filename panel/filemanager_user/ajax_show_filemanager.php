@@ -282,7 +282,8 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND strtolower($_SERVER['HTTP_X_REQ
                                                     if($ext == "jpg" or $ext == "png" or $ext == "gif" or $ext == "jpeg" or $ext == "webp")
                                                     {
                                                         $is_img = 1;
-                                                        list($image_width, $image_height) = getimagesize($fileAddress[$i], $file_info);
+                                                        //list($image_width, $image_height) = getimagesize($fileAddress[$i], $file_info);
+                                                        list($image_width, $image_height) = @getimagesize($fileAddress[$i], $file_info) ?: [0, 0];
 
                                                         // IPTC
                                                         if(isset($file_info["APP13"])){

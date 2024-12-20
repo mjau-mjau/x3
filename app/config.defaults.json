@@ -464,6 +464,7 @@
         "menu_manual": false,
         "menu_super": false,
         "menu_disabled": false,
+        "image_extended": false,
         "image_noindex": false,
         "image_cachebuster": false
 	  },

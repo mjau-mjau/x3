@@ -35,6 +35,7 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $path);
 				curl_setopt($ch, CURLOPT_HEADER, 0);
+				curl_setopt($ch, CURLOPT_USERAGENT, 'x3-curl');
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				curl_setopt($ch, CURLOPT_FRESH_CONNECT, TRUE);
 				$site = curl_exec($ch);
@@ -266,6 +267,7 @@ if($core->isLogin() and isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower(
 		      //if(!curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true)) return "FAIL: curl_setopt(CURLOPT_FOLLOWLOCATION)";
 		      if(!curl_setopt($ch, CURLOPT_FILE, $fp)) return "FAIL: curl_setopt(CURLOPT_FILE)";
 		      if(!curl_setopt($ch, CURLOPT_HEADER, 0)) return "FAIL: curl_setopt(CURLOPT_HEADER)";
+					@curl_setopt($ch, CURLOPT_USERAGENT, 'x3-curl');
 		      if(!curl_exec($ch) ) return "FAIL: curl_exec()";
 		      curl_close($ch);
 		      fclose($fp);

@@ -187,7 +187,7 @@
 	{% set cart_button = '<button class="button small toggle-cart-button caption-cart-button" data-action="toggle-cart-item"></button>' %}
 
 	{# Set image ratio for responsive layout #}
-	{% set image_ratio = crop_ratio|default(image.height / image.width * 100) %}
+	{% set image_ratio = crop_ratio|default(image.height ? image.height / image.width * 100 : 1) %}
 
 	{# Set link_title attr if tooltip #}
 	{% if settings.tooltip.enabled %}

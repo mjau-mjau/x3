@@ -1,4 +1,4 @@
-# Photo Gallery X3.33.1
+# Photo Gallery X3.34.0
 
 ![X3 Photo Gallery](https://www.photo.gallery/content/custom/files/images/x3-styles-2x.jpg)
 

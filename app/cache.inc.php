@@ -125,8 +125,8 @@ Class Cache {
 
     # write to cache
     //if(!$page->data['bypass_cache']) {
-    if(!$page->data['bypass_cache'] && $page->template_name !== 'file') {
-      $this->delete_old_caches(); // todo moved here, because we only need to delete cache if this page is cacheable
+    if(!$page->data['bypass_cache']/* && $page->template_name !== 'file'*/) {
+      if($page->template_name !== 'file') $this->delete_old_caches(); // delete old caches, don't bother check for image landing pages
       file_put_contents($this->cachefile, $data);
       if($current_page && $route !== 'custom/404') $this->auto_cache($page, $data);
     }

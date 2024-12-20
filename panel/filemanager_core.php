@@ -770,6 +770,7 @@ class filemanager_core extends Services_JSON
 
 	public function copy_directory( $source, $destination, $check = false )
     {
+			var_dump('sucker'); exit;
         if ( is_dir( $source ) )
         {
             @mkdir( $destination );

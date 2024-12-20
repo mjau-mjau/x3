@@ -1,47 +1,62 @@
 
+{# TESTING #}
+
+
+{% set dirname = page.permalink|dirname %}
+{% if dirname == '.' or dirname is empty %}{% set dirname = '/' %}{% endif %}
+{% set parent = get(dirname) %}
+{% set parent_images = sortby(parent.images, parent.gallery.sortby, (parent.gallery.sort == 'desc' ? true : false)) %}
+
+{# current image match #}
+{#{% if this == image.url %}#}
+
+{{ pebug(get_sibling_landing_pages(parent_images, myimage)) }}
+
+{#
+PARENT USED FOR
+1. nav
+2. fotomoto (plugin settings)
+3. parent.popup.caption.exif
+4. parent.popup.caption.map
+#}
+
+
+
 {# vars #}
 {% set image_page = page.permalink|setpath(rootpath)|e('html') %}
 {% set preview_image_url = assetspath ~ preview_image|trim('.') %}
 {% set image_ratio = (myimage.height/myimage.width * 100) %}
 {% set date = myimage.exif["date_taken"] %}
 
-
-
 {# Image nav #}
-{% if parent and parent.images and parent.images|length > 1 %}
-	{% set parent_images = sortby(parent.images, parent.gallery.sortby, (parent.gallery.sort == 'desc' ? true : false)) %}
+{% if parent_images|length > 1 %}
+<div class="pagenav pagenav-static">
 
-
-
-	{% set siblings = get_sibling_landing_pages(parent_images, myimage) %}
-
-
-	{% if siblings is not empty %}
-	<div class="pagenav pagenav-static">
-
-		{# previous #}
-		{% set url = '../' ~ getSibling(siblings[0].file_name|removeExtension) ~ '/' %}
-			<a href="{{ url }}" class="pagenav-link pagenav-prev"><span class="pagenav-text">{{ siblings[0].title|default(siblings[0].name) }}</span></a>
-
-		{# next #}
-		{% set url = '../' ~ getSibling(siblings[1].file_name|removeExtension) ~ '/' %}
-		<a href="{{ url }}" class="pagenav-link pagenav-next"><span class="pagenav-text">{{ siblings[1].title|default(siblings[1].name) }}</span></a>
-	</div>
+	{# previous #}
+	{% if prev_image %}
+		{% set url = '../' ~ getSibling(prev_image.file_name|removeExtension) ~ '/' %}
+		<a href="{{ url }}" class="pagenav-link pagenav-prev"><span class="pagenav-text">{{ prev_image.title|default(prev_image.name) }}</span></a>
 	{% endif %}
-{% endif %}
 
+	{# next #}
+	{% if next_image %}
+		{% set url = '../' ~ getSibling(next_image.file_name|removeExtension) ~ '/' %}
+		<a href="{{ url }}" class="pagenav-link pagenav-next"><span class="pagenav-text">{{ next_image.title|default(next_image.name) }}</span></a>
+	{% endif %}
+</div>
+{% endif %}
 
 {# Fotomoto #}
 {% set fotomoto = '' %}
 {% set fotomoto_collection = '' %}
-{% if settings.plugins.fotomoto.enabled and settings.plugins.fotomoto.store_id and settings.plugins.fotomoto.enabled_page %}
-	{% if settings.plugins.fotomoto.buy_button %}
+{% if parent.plugins.fotomoto.enabled and parent.plugins.fotomoto.store_id and parent.plugins.fotomoto.enabled_page %}
+	{% if parent.plugins.fotomoto.buy_button %}
 		{% set fotomoto = ' file-fotomoto file-fotomoto-buybutton' %}
 	{% else %}
 		{% set fotomoto = ' file-fotomoto' %}
 	{% endif %}
-	{% if settings.plugins.fotomoto.collection|trim %}
-		{% set fotomoto_collection = ' data-fotomoto-collection="' ~ settings.plugins.fotomoto.collection|trim ~ '"' %}
+	{% if parent.plugins.fotomoto.collection|trim %}
+		{% set fotomoto_collection = ' data-fotomoto-collection="' ~ parent.plugins.fotomoto.collection|trim ~ '"' %}
 	{% endif %}
 {% endif %}
 
@@ -52,8 +67,8 @@
 {% if myimage.exif %}
 
 	{# caption and meta EXIF #}
-	{% if settings.popup.caption.exif %}
-		{% set exif_items = settings.popup.caption.exif_items|split(',') %}
+	{% if parent.popup.caption.exif %}
+		{% set exif_items = parent.popup.caption.exif_items|split(',') %}
 		{% if exif_items|length > 0 %}
 
 			{% set exif_array = [] %}
@@ -77,7 +92,7 @@
 		{% set map_link_popup = '<a href="' ~ map_link_src ~ '" data-embed-modal="' ~ map_embed_src ~ '" class="link-map" target="_blank" data-lang="map"></a>' %}
 		{% set map_button = '<a href="' ~ map_link_src ~ '" class="button small button-map" target="_blank" data-lang="map"></a>' %}
 		{% set map_link = '<a href="' ~ map_link_src ~ '" class="link-map" target="_blank" data-lang="map"></a>' %}
-		{% if settings.popup.caption.map %}{% set data_geo = ' data-geo="' ~ geo ~ '"' %}{% endif %}
+		{% if parent.popup.caption.map %}{% set data_geo = ' data-geo="' ~ geo ~ '"' %}{% endif %}
 	{% endif %}
 {% endif %}
 
@@ -99,6 +114,7 @@
   {% if date is not empty %}<h6 class="date"><time itemprop="dateCreated" datetime="{{ date|date('c') }}">{{ date|date('d F Y') }}</time></h6>{% endif %}
 
   {# close (back) button #}
+	{#	<a href="{{ parent.permalink|replace({' ':'_'})|e|setpath(rootpath) }}" class="file-back"></a> #}
 	<a href="{{ (page.permalink|dirname|replace({' ':'_'}) ~ '/')|e|setpath(rootpath)|replace({'/.':'/'}) }}" class="file-back"></a>
 
 	{# Image element #}

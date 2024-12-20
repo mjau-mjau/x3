@@ -14,7 +14,7 @@ function set_new_name_for_file($path, $name)
     $new_ext = explode(".", $name);
     $ext = end($new_ext);
     unset($new_ext[count($new_ext) - 1]);
-    $new_name = implode($new_ext, ".");
+    $new_name = implode(".", $new_ext);
     $new_name .= $extra_num.".".$ext;
     if(file_exists($path.$new_name))
     {
@@ -59,7 +59,7 @@ function check_orientation($path, $ext) {
 
 //
 if ($core->isLogin())
-{   
+{
     // exit if guest
     if($core->is_guest()) exit();
 
@@ -194,7 +194,8 @@ if ($core->isLogin())
             $ext = strtolower($ext);
             if(in_array($ext, array('png', 'jpg', 'jpeg', 'gif'))) {
                 $thumbnail_url = $url;
-                list($image_width, $image_height) = getimagesize($url);
+                //list($image_width, $image_height) = getimagesize($url);
+								list($image_width, $image_height) = getimagesize($_POST["uploadDir"].$name); // use internal path, not url
             } else {
                 $thumbnail_url = "filemanager_assets/file.png";
                 $image_width = false;

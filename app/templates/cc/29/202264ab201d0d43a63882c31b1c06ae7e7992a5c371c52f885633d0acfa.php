@@ -97,198 +97,98 @@ class __TwigTemplate_cc29202264ab201d0d43a63882c31b1c06ae7e7992a5c371c52f885633d
 \t";
             // line 42
             echo "\t";
-            $context["dirname"] = call_user_func_array($this->env->getFilter('dirname')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "permalink")));
+            $context["myimage"] = $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "file_path");
             // line 43
-            echo "\t";
-            if ((((isset($context["dirname"]) ? $context["dirname"] : null) == ".") || call_user_func_array($this->env->getTest('empty')->getCallable(), array((isset($context["dirname"]) ? $context["dirname"] : null))))) {
-                $context["dirname"] = "/";
-            }
-            // line 44
-            echo "\t";
-            $context["parent"] = call_user_func_array($this->env->getFunction('get')->getCallable(), array((isset($context["dirname"]) ? $context["dirname"] : null)));
+            echo "
+\t";
             // line 45
             echo "\t";
-            $context["parent_images"] = call_user_func_array($this->env->getFunction('sortby')->getCallable(), array($this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "images"), $this->getAttribute($this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "gallery"), "sortby"), ((($this->getAttribute($this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "gallery"), "sort") == "desc")) ? (true) : (false))));
-            // line 46
+            if ($this->getAttribute($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "settings"), "image_extended")) {
+                // line 46
+                echo "\t\t";
+                $context["dirname"] = call_user_func_array($this->env->getFilter('dirname')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "permalink")));
+                // line 47
+                echo "\t\t";
+                if ((((isset($context["dirname"]) ? $context["dirname"] : null) == ".") || call_user_func_array($this->env->getTest('empty')->getCallable(), array((isset($context["dirname"]) ? $context["dirname"] : null))))) {
+                    $context["dirname"] = "/";
+                }
+                // line 48
+                echo "\t\t";
+                $context["parent"] = call_user_func_array($this->env->getFunction('get')->getCallable(), array((isset($context["dirname"]) ? $context["dirname"] : null)));
+                // line 49
+                echo "\t";
+            }
+            // line 50
             echo "
 \t";
-            // line 48
-            echo "\t";
-            $context["this"] = $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "file_path");
-            // line 49
-            echo "\t";
-            $context["image_description"] = "";
-            // line 50
-            echo "\t";
-            $context["file_index"] = 0;
-            // line 51
-            echo "\t";
-            $context["myimage"] = "";
             // line 52
             echo "\t";
-            $context["next_image"] = false;
+            $context["settings"] = ((array_key_exists("parent", $context)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array((isset($context["parent"]) ? $context["parent"] : null), (isset($context["page"]) ? $context["page"] : null)))) : ((isset($context["page"]) ? $context["page"] : null)));
             // line 53
-            echo "\t";
-            $context["prev_image"] = false;
-            // line 54
             echo "
 \t";
-            // line 56
+            // line 55
             echo "\t";
-            $context['_parent'] = (array) $context;
-            $context['_seq'] = twig_ensure_traversable((isset($context["parent_images"]) ? $context["parent_images"] : null));
-            $context['loop'] = array(
-              'parent' => $context['_parent'],
-              'index0' => 0,
-              'index'  => 1,
-              'first'  => true,
-            );
-            if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
-                $length = count($context['_seq']);
-                $context['loop']['revindex0'] = $length - 1;
-                $context['loop']['revindex'] = $length;
-                $context['loop']['length'] = $length;
-                $context['loop']['last'] = 1 === $length;
-            }
-            foreach ($context['_seq'] as $context["_key"] => $context["image"]) {
-                // line 57
-                echo "
-\t\t";
-                // line 59
+            if ($this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "link")) {
+                // line 56
                 echo "\t\t";
-                if ((isset($context["get_next_image"]) ? $context["get_next_image"] : null)) {
-                    // line 60
-                    echo "\t\t\t";
-                    $context["next_image"] = (isset($context["image"]) ? $context["image"] : null);
-                    // line 61
-                    echo "\t\t\t";
-                    $context["get_next_image"] = false;
-                    // line 62
-                    echo "\t\t";
-                }
-                // line 63
+                echo call_user_func_array($this->env->getFunction('redirect')->getCallable(), array($this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "link")));
                 echo "
-\t\t";
-                // line 65
-                echo "\t\t";
-                if (((isset($context["this"]) ? $context["this"] : null) == $this->getAttribute((isset($context["image"]) ? $context["image"] : null), "url"))) {
-                    // line 66
-                    echo "
-\t\t\t";
-                    // line 68
-                    echo "\t\t\t";
-                    if ($this->getAttribute((isset($context["image"]) ? $context["image"] : null), "link")) {
-                        // line 69
-                        echo "\t\t\t\t";
-                        echo call_user_func_array($this->env->getFunction('redirect')->getCallable(), array($this->getAttribute((isset($context["image"]) ? $context["image"] : null), "link")));
-                        echo "
 
-\t\t\t";
-                        // line 72
-                        echo "\t\t\t";
-                    } else {
-                        // line 73
-                        echo "
-\t\t\t\t";
-                        // line 74
-                        $context["folder_path"] = (((isset($context["assetspath"]) ? $context["assetspath"] : null) . call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, $this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "file_path"), "."))) . "/");
-                        // line 75
-                        echo "\t      ";
-                        $context["page_title"] = call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, call_user_func_array($this->env->getFunction('getDefault')->getCallable(), array($this->getAttribute((isset($context["image"]) ? $context["image"] : null), "title"), $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "gallery"), "image"), "title"), $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "gallery"), "image"), "title_include"), $this->getAttribute((isset($context["image"]) ? $context["image"] : null), "name"))), "<a><span><em><i><b><strong><small><s><mark>")), array("{file_name}" => call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["image"]) ? $context["image"] : null), "file_name"))), "{file_name_ext}" => $this->getAttribute((isset($context["image"]) ? $context["image"] : null), "file_name"), "{path}" => (isset($context["folder_path"]) ? $context["folder_path"] : null), "{image_path}" => ((isset($context["folder_path"]) ? $context["folder_path"] : null) . $this->getAttribute((isset($context["image"]) ? $context["image"] : null), "file_name"))))), $this->getAttribute((isset($context["image"]) ? $context["image"] : null), "name")));
-                        // line 76
-                        echo "\t\t\t\t";
-                        $context["image_description"] = call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, call_user_func_array($this->env->getFunction('getDefault')->getCallable(), array($this->getAttribute((isset($context["image"]) ? $context["image"] : null), "description"), $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "gallery"), "image"), "description"), $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "gallery"), "image"), "description_include"), $this->getAttribute((isset($context["image"]) ? $context["image"] : null), "name"))), "<a><span><em><i><b><strong><small><s><br><mark><img><kbd><code><button>")), array("{file_name}" => call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["image"]) ? $context["image"] : null), "file_name"))), "{file_name_ext}" => $this->getAttribute((isset($context["image"]) ? $context["image"] : null), "file_name"), "{path}" => (isset($context["folder_path"]) ? $context["folder_path"] : null), "{image_path}" => ((isset($context["folder_path"]) ? $context["folder_path"] : null) . $this->getAttribute((isset($context["image"]) ? $context["image"] : null), "file_name")))));
-                        // line 77
-                        echo "\t\t\t\t";
-                        $context["page_description"] = ((array_key_exists("image_description", $context)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array((isset($context["image_description"]) ? $context["image_description"] : null), (((isset($context["page_title"]) ? $context["page_title"] : null) . " | ") . $this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "title"))))) : ((((isset($context["page_title"]) ? $context["page_title"] : null) . " | ") . $this->getAttribute((isset($context["parent"]) ? $context["parent"] : null), "title"))));
-                        // line 78
-                        echo "\t\t\t\t";
-                        $context["file_index"] = $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index0");
-                        // line 79
-                        echo "
-\t\t\t\t";
-                        // line 81
-                        echo "\t\t\t\t";
-                        // line 82
-                        echo "\t\t\t\t";
-                        // line 83
-                        echo "\t\t\t\t";
-                        $context["prev_image"] = ((array_key_exists("current_image", $context)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array((isset($context["current_image"]) ? $context["current_image"] : null), call_user_func_array($this->env->getFilter('last')->getCallable(), array($this->env, (isset($context["parent_images"]) ? $context["parent_images"] : null)))))) : (call_user_func_array($this->env->getFilter('last')->getCallable(), array($this->env, (isset($context["parent_images"]) ? $context["parent_images"] : null)))));
-                        // line 84
-                        echo "
-\t\t\t\t";
-                        // line 86
-                        echo "\t\t\t\t";
-                        // line 87
-                        echo "\t\t\t\t";
-                        if ($this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "last")) {
-                            $context["next_image"] = call_user_func_array($this->env->getFilter('first')->getCallable(), array($this->env, (isset($context["parent_images"]) ? $context["parent_images"] : null)));
-                        } else {
-                            $context["get_next_image"] = true;
-                        }
-                        // line 88
-                        echo "
-\t\t\t\t";
-                        // line 90
-                        echo "\t\t\t\t";
-                        $context["myimage"] = (isset($context["image"]) ? $context["image"] : null);
-                        // line 91
-                        echo "\t\t\t";
-                    }
-                    // line 92
-                    echo "\t\t";
-                }
-                // line 93
+\t";
+                // line 59
+                echo "\t";
+            } else {
+                // line 60
                 echo "
 \t\t";
-                // line 95
+                // line 61
+                $context["folder_path"] = (((isset($context["assetspath"]) ? $context["assetspath"] : null) . call_user_func_array($this->env->getFilter('trim')->getCallable(), array($this->env, call_user_func_array($this->env->getFilter('dirname')->getCallable(), array($this->getAttribute((isset($context["page"]) ? $context["page"] : null), "file_path"))), "."))) . "/");
+                // line 62
                 echo "\t\t";
-                $context["current_image"] = (isset($context["image"]) ? $context["image"] : null);
-                // line 96
+                $context["page_title"] = call_user_func_array($this->env->getFilter('default')->getCallable(), array(call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, call_user_func_array($this->env->getFunction('getDefault')->getCallable(), array($this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "title"), $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "gallery"), "image"), "title"), $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "gallery"), "image"), "title_include"), $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "name"))), "<a><span><em><i><b><strong><small><s><mark>")), array("{file_name}" => call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "file_name"))), "{file_name_ext}" => $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "file_name"), "{path}" => (isset($context["folder_path"]) ? $context["folder_path"] : null), "{image_path}" => ((isset($context["folder_path"]) ? $context["folder_path"] : null) . $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "file_name"))))), $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "name")));
+                // line 63
+                echo "\t\t";
+                $context["image_description"] = call_user_func_array($this->env->getFilter('replace')->getCallable(), array(call_user_func_array($this->env->getFilter('striptags')->getCallable(), array($this->env, call_user_func_array($this->env->getFunction('getDefault')->getCallable(), array($this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "description"), $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "gallery"), "image"), "description"), $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "gallery"), "image"), "description_include"), $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "name"))), "<a><span><em><i><b><strong><small><s><br><mark><img><kbd><code><button>")), array("{file_name}" => call_user_func_array($this->env->getFilter('removeExtension')->getCallable(), array($this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "file_name"))), "{file_name_ext}" => $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "file_name"), "{path}" => (isset($context["folder_path"]) ? $context["folder_path"] : null), "{image_path}" => ((isset($context["folder_path"]) ? $context["folder_path"] : null) . $this->getAttribute((isset($context["myimage"]) ? $context["myimage"] : null), "file_name")))));
+                // line 64
+                echo "\t\t";
+                $context["page_description"] = ((array_key_exists("image_description", $context)) ? (call_user_func_array($this->env->getFilter('default')->getCallable(), array((isset($context["image_description"]) ? $context["image_description"] : null), (((isset($context["page_title"]) ? $context["page_title"] : null) . " | ") . $this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "title"))))) : ((((isset($context["page_title"]) ? $context["page_title"] : null) . " | ") . $this->getAttribute((isset($context["settings"]) ? $context["settings"] : null), "title"))));
+                // line 65
                 echo "\t";
-                ++$context['loop']['index0'];
-                ++$context['loop']['index'];
-                $context['loop']['first'] = false;
-                if (isset($context['loop']['length'])) {
-                    --$context['loop']['revindex0'];
-                    --$context['loop']['revindex'];
-                    $context['loop']['last'] = 0 === $context['loop']['revindex0'];
-                }
             }
-            $_parent = $context['_parent'];
-            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['image'], $context['_parent'], $context['loop']);
-            $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 97
+            // line 66
             echo "
+
 \t";
-            // line 99
+            // line 69
             echo "\t";
             $context["template"] = "partials/file.html";
         } else {
-            // line 102
+            // line 72
             echo "\t";
             $context["page_title"] = $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "title");
-            // line 103
+            // line 73
             echo "\t";
             $context["page_description"] = $this->getAttribute((isset($context["page"]) ? $context["page"] : null), "description");
-            // line 104
+            // line 74
             echo "\t";
             $context["template"] = "partials/content.html";
         }
-        // line 106
+        // line 76
         echo "
 ";
-        // line 108
+        // line 78
         $this->env->loadTemplate("partials/head.html")->display($context);
-        // line 109
+        // line 79
         $template = $this->env->resolveTemplate((isset($context["template"]) ? $context["template"] : null));
         $template->display($context);
-        // line 110
+        // line 80
         $this->env->loadTemplate("partials/footer.html")->display($context);
         echo trim(preg_replace('/>\s+</', '><', ob_get_clean()));
-        // line 112
+        // line 82
         echo "
-<!-- X3 website by www.photo.gallery -->";
+<!-- X3 website by www.photo.gallery -->
+";
     }
 
     public function getTemplateName()
@@ -303,6 +203,6 @@ class __TwigTemplate_cc29202264ab201d0d43a63882c31b1c06ae7e7992a5c371c52f885633d
 
     public function getDebugInfo()
     {
-        return array (  290 => 112,  287 => 110,  284 => 109,  282 => 108,  279 => 106,  275 => 104,  272 => 103,  269 => 102,  265 => 99,  262 => 97,  248 => 96,  245 => 95,  242 => 93,  239 => 92,  236 => 91,  233 => 90,  230 => 88,  223 => 87,  221 => 86,  218 => 84,  215 => 83,  213 => 82,  211 => 81,  208 => 79,  205 => 78,  202 => 77,  199 => 76,  196 => 75,  194 => 74,  191 => 73,  188 => 72,  182 => 69,  179 => 68,  176 => 66,  173 => 65,  170 => 63,  167 => 62,  164 => 61,  161 => 60,  158 => 59,  155 => 57,  137 => 56,  134 => 54,  131 => 53,  128 => 52,  125 => 51,  122 => 50,  119 => 49,  116 => 48,  113 => 46,  110 => 45,  107 => 44,  102 => 43,  99 => 42,  96 => 40,  94 => 39,  91 => 37,  89 => 36,  87 => 35,  84 => 33,  80 => 31,  77 => 30,  73 => 28,  70 => 27,  68 => 26,  66 => 25,  64 => 24,  62 => 23,  59 => 21,  57 => 20,  54 => 18,  50 => 17,  46 => 16,  43 => 14,  41 => 13,  39 => 12,  37 => 11,  35 => 10,  33 => 9,  30 => 7,  28 => 6,  25 => 4,  23 => 3,  19 => 1,);
+        return array (  189 => 82,  186 => 80,  183 => 79,  181 => 78,  178 => 76,  174 => 74,  171 => 73,  168 => 72,  164 => 69,  160 => 66,  157 => 65,  154 => 64,  151 => 63,  148 => 62,  146 => 61,  143 => 60,  140 => 59,  134 => 56,  131 => 55,  128 => 53,  125 => 52,  122 => 50,  119 => 49,  116 => 48,  111 => 47,  108 => 46,  105 => 45,  102 => 43,  99 => 42,  96 => 40,  94 => 39,  91 => 37,  89 => 36,  87 => 35,  84 => 33,  80 => 31,  77 => 30,  73 => 28,  70 => 27,  68 => 26,  66 => 25,  64 => 24,  62 => 23,  59 => 21,  57 => 20,  54 => 18,  50 => 17,  46 => 16,  43 => 14,  41 => 13,  39 => 12,  37 => 11,  35 => 10,  33 => 9,  30 => 7,  28 => 6,  25 => 4,  23 => 3,  19 => 1,);
     }
 }

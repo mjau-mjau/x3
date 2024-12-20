@@ -257,7 +257,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND strtolower($_SERVER['HTTP_X_REQ
                                                             if($ext == "jpg" or $ext == "png" or $ext == "gif" or $ext == "jpeg" or $ext == "webp")
                                                             {
                                                                 $is_img = 1;
-                                                                list($image_width, $image_height) = getimagesize($fileAddress[$i], $file_info);
+                                                                list($image_width, $image_height) = @getimagesize($fileAddress[$i], $file_info) ?: [0, 0];
 
                                                                 // IPTC
                                                                 if(isset($file_info["APP13"])){
@@ -266,7 +266,7 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND strtolower($_SERVER['HTTP_X_REQ
 
 
                                                                     # image reference date
-          
+
 
                                                                 	// reference_date 047
                                                                 	if(isset($iptc["2#047"][0]) && is_numeric($iptc["2#047"][0])) $reference_date = $iptc["2#047"][0];

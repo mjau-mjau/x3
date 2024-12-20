@@ -221,6 +221,9 @@
         "menu_disabled": {
           "type": "boolean"
         },
+        "image_extended": {
+        	"type": "boolean"
+        },
         "image_noindex": {
         	"type": "boolean"
         },
@@ -5558,6 +5561,10 @@
         {
           "key": "settings.feed",
           "inlinetitle": "Enable feed xml <span>/feed/</span> <a href=# class=show-help></a><div class=hidden><h3>Enable Atom feed xml</h3><p>Enable the Atom feed xml for your X3 website. This can be used by RSS readers to stay updated with your website. When enabled, the feed can be accessed from<br><code>yourwebsite.com/feed/</code></p></div>"
+        },
+        {
+          "key": "settings.image_extended",
+          "inlinetitle": "Extended image pages <a href=# class=show-help></a><div class=hidden><h3>Extended Image Pages</h3><p>When enabled, image landing pages will display image navigation and options imported from the parent page for features like captions and Fotomoto. Only enable this option if you are actively using image landing pages for human visitors. This option requires much additional processing, and should only be enabled when strictly required.</p></div>"
         },
         {
           "key": "settings.image_noindex",
