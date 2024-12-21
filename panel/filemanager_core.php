@@ -52,7 +52,8 @@ class filemanager_core extends Services_JSON
 
     // check_pass
     private function check_pass($pass){
-        return phpversion() >= 5.5 && !password_needs_rehash(PASSWORD, PASSWORD_DEFAULT) ? password_verify($pass, PASSWORD) : PASSWORD == $pass;
+        //return phpversion() >= 5.5 && !password_needs_rehash(PASSWORD, PASSWORD_DEFAULT) ? password_verify($pass, PASSWORD) : PASSWORD == $pass;
+				return (function_exists('password_verify') ? password_verify($pass, PASSWORD) : false) || PASSWORD === $pass;
     }
 
     // is guest?
@@ -770,7 +771,6 @@ class filemanager_core extends Services_JSON
 
 	public function copy_directory( $source, $destination, $check = false )
     {
-			var_dump('sucker'); exit;
         if ( is_dir( $source ) )
         {
             @mkdir( $destination );
